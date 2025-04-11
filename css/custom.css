@@ -1,0 +1,31 @@
+/* 整体背景毛玻璃 */
+#body-wrap {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    background-image: none !important;
+  }
+  
+  /* 文章 & 页面内容 */
+  .post, .page, .layout_post {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* 侧边栏 */
+  #aside-content {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border-radius: 10px !important;
+  }
+  
+  /* 页脚 */
+  #footer {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+  
