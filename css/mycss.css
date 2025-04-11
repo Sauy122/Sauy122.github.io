@@ -1,30 +1,19 @@
-/* 整体背景毛玻璃 */
-#body-wrap {
-  background-color: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  background-image: none !important;
+/* 文章页背景 */
+.layout_post>#post {
+  /* 以下代表透明度为0.5 可以自行修改*/
+  background: rgba(255,255,255,0);
 }
 
-/* 文章 & 页面内容 */
-.post, .page, .layout_post {
-  background-color: rgba(255, 255, 255, 0.85) !important;
-  border-radius: 12px !important;
-  padding: 20px !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+/* 所有页面背景 */
+#aside_content .card-widget, #recent-posts>.recent-post-item, .layout_page>div:first-child:not(.recent-posts), .layout_post>#page, .layout_post>#post, .read-mode .layout_post>#post{
+  /* 以下代表透明度为0.5 */
+  background: rgba(255,255,255,.5);
 }
-
-/* 侧边栏 */
-#aside-content {
-  background-color: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  border-radius: 10px !important;
-}
-
-/* 页脚 */
-#footer {
-  background-color: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(6px) !important;
-  -webkit-backdrop-filter: blur(6px) !important;
+#web_bg {
+  /* 背景图像的地址（url括号里）  */
+  background: url(/img/122.png);
+  /* 背景图像不重复 */
+  background-repeat: no-repeat;
+  /* 背景图像大小 */
+  background-size: cover;
 }
