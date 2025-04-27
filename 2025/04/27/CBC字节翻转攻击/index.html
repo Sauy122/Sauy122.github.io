@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CBC字节翻转攻击 | Sauy's corner</title><meta name="author" content="Sauy"><meta name="copyright" content="Sauy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CBC加密和解密过程 加密过程CBC加密流程：  准备  将明文按固定长度（通常是块大小，比如AES是128位）分块。 如果最后一块不足长度，需要填充（padding）。 选一个初始化向量（IV），它的长度跟分块大小相同。   加密每一块（第 i 块）  第1步：用当前明文块 PiP_iPi 和前一块密文（或IV）做异或（XOR）。  第一个块是$$C_0&#x3D;Ek(P0⊕IV)$$   第">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CBC字节翻转攻击">
+<meta property="og:url" content="http://example.com/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="Sauy&#39;s corner">
+<meta property="og:description" content="CBC加密和解密过程 加密过程CBC加密流程：  准备  将明文按固定长度（通常是块大小，比如AES是128位）分块。 如果最后一块不足长度，需要填充（padding）。 选一个初始化向量（IV），它的长度跟分块大小相同。   加密每一块（第 i 块）  第1步：用当前明文块 PiP_iPi 和前一块密文（或IV）做异或（XOR）。  第一个块是$$C_0&#x3D;Ek(P0⊕IV)$$   第">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/2233.JPG">
+<meta property="article:published_time" content="2025-04-27T04:25:58.000Z">
+<meta property="article:modified_time" content="2025-04-27T04:25:56.135Z">
+<meta property="article:author" content="Sauy">
+<meta property="article:tag" content="CTF学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/2233.JPG"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CBC字节翻转攻击",
+  "url": "http://example.com/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/",
+  "image": "http://example.com/img/2233.JPG",
+  "datePublished": "2025-04-27T04:25:58.000Z",
+  "dateModified": "2025-04-27T04:25:56.135Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Sauy",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CBC字节翻转攻击',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/mycss.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: rgba(255, 255, 255, 0);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/2233.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/33.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Sauy's corner</span></a><a class="nav-page-title" href="/"><span class="site-name">CBC字节翻转攻击</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">CBC字节翻转攻击</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-27T04:25:58.000Z" title="发表于 2025-04-27 12:25:58">2025-04-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-27T04:25:56.135Z" title="更新于 2025-04-27 12:25:56">2025-04-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="CBC加密和解密过程"><a href="#CBC加密和解密过程" class="headerlink" title="CBC加密和解密过程"></a>CBC加密和解密过程</h2><p><img src="/images/f215609f354300598724de6ef2aeb364.png" alt="f215609f354300598724de6ef2aeb364"></p>
+<h3 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h3><p><strong>CBC加密流程：</strong></p>
+<ol>
+<li><p><strong>准备</strong></p>
+<ul>
+<li>将明文按固定长度（通常是块大小，比如AES是128位）<strong>分块</strong>。</li>
+<li>如果最后一块不足长度，需要<strong>填充（padding）</strong>。</li>
+<li>选一个<strong>初始化向量（IV）</strong>，它的长度跟分块大小相同。</li>
+</ul>
+</li>
+<li><p><strong>加密每一块（第 i 块）</strong></p>
+<ul>
+<li><p><strong>第1步</strong>：用当前明文块 PiP_iPi 和前一块密文（或IV）做<strong>异或（XOR）</strong>。</p>
+<ul>
+<li>第一个块是<br>$$<br>C_0&#x3D;Ek(P0⊕IV)<br>$$</li>
+</ul>
+</li>
+<li><p><strong>第2步</strong>：将异或后的结果送入<strong>加密算法（E_k）</strong>（比如AES）加密，得到当前块的密文 Ci。</p>
+</li>
+<li><p><strong>第3步</strong>：当前的密文块 CiC_iCi 会作为下一块明文的XOR对象。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>循环处理</strong>每一块，直到全部加密完成。</p>
+</li>
+</ol>
+<h3 id="解密过程"><a href="#解密过程" class="headerlink" title="解密过程"></a>解密过程</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">解密过程刚好相反，第一组密文在解密之后与初始向量IV异或得到第一组明文。第二组密文解密之后和第一组密文异或得到第二组明文。也就是说，解密一组明文需要本组和前一组的密文。</span><br></pre></td></tr></table></figure>
+
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>加密算法的输入是上一个密文分组和下一个明文分组的异或</p>
+<h3 id="EXB模式和CBC模式"><a href="#EXB模式和CBC模式" class="headerlink" title="EXB模式和CBC模式"></a>EXB模式和CBC模式</h3><p><img src="/images/image-20250426204537824.png" alt="image-20250426204537824"></p>
+<h3 id="CBC字节翻转攻击"><a href="#CBC字节翻转攻击" class="headerlink" title="CBC字节翻转攻击"></a>CBC字节翻转攻击</h3><p>CBC字节翻转攻击的核心原理是通过破坏一个比特的密文来篡改一个比特的明文。</p>
+<p><img src="/images/erwerwerwerwe.png" alt="erwerwerwerwe"><br>$$<br>由题目得 A⊕B&#x3D;C<br>$$<br>如果我们想要改变输出的明文C 那我们只需要改变秘钥A</p>
+<p>令改变后的A为A’ C为C’，于是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C&#x27;=C⊕C⊕C&#x27;</span><br><span class="line">  =A⊕B⊕C⊕C&#x27;</span><br><span class="line">  =B⊕A⊕C⊕C&#x27;</span><br><span class="line">令A&#x27;=A⊕C⊕C&#x27;</span><br><span class="line">--&gt;C&#x27;=B⊕A&#x27;--&gt;A&#x27;⊕B=C&#x27; 翻转成功啦！</span><br></pre></td></tr></table></figure>
+
+<p>所以把A改为A’&#x3D;A⊕C⊕C’ 我们就可以实现这个字节翻转攻击</p>
+<h3 id="测试攻击模拟代码"><a href="#测试攻击模拟代码" class="headerlink" title="测试攻击模拟代码"></a>测试攻击模拟代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line">BS = AES.block_size  <span class="comment"># 分组长度</span></span><br><span class="line">key = <span class="string">b&#x27;test&#x27;</span>  <span class="comment"># 密钥</span></span><br><span class="line">iv = uuid.uuid4().<span class="built_in">bytes</span>  <span class="comment"># 随机初始向量</span></span><br><span class="line">pad = <span class="keyword">lambda</span> s: s + ((BS - <span class="built_in">len</span>(s) % BS) * <span class="built_in">chr</span>(BS - <span class="built_in">len</span>(s) % BS)).encode()  <span class="comment"># Pkcs5Padding</span></span><br><span class="line">data = <span class="string">b&#x27;1234567890abcdefabcdef1234567890&#x27;</span>  <span class="comment"># 明文M</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">enc</span>(<span class="params">data</span>):</span><br><span class="line">    aes = AES.new(pad(key), AES.MODE_CBC, iv)</span><br><span class="line">    ciphertext = aes.encrypt(pad(data))</span><br><span class="line">    ciphertext = binascii.b2a_hex(ciphertext)</span><br><span class="line">    <span class="keyword">return</span> ciphertext</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dec</span>(<span class="params">c</span>):</span><br><span class="line">    c = binascii.a2b_hex(c)</span><br><span class="line">    aes = AES.new(pad(key), AES.MODE_CBC, iv)</span><br><span class="line">    data = aes.decrypt(c)</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试CBC翻转</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">CBC_test</span>(<span class="params">c</span>):</span><br><span class="line">    c = <span class="built_in">bytearray</span>(binascii.a2b_hex(c))</span><br><span class="line">    c[<span class="number">0</span>] = c[<span class="number">0</span>] ^ <span class="built_in">ord</span>(<span class="string">&#x27;a&#x27;</span>) ^ <span class="built_in">ord</span>(<span class="string">&#x27;A&#x27;</span>)  <span class="comment"># c[0]为第一组的密文字符，a为第二组相应位置的明文字符，A是我们想要的明文字符 这一步就是在做 A&#x27;=A⊕C⊕C&#x27;</span></span><br><span class="line">    c = binascii.b2a_hex(c)</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;ciphertext:&quot;</span>, enc(data))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;data:&quot;</span>, dec(enc(data)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;CBC Attack:&quot;</span>, dec(CBC_test(enc(data))))</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ciphertext: b&#x27;65518dfe77f7d677134f341c5b00c1674e7a87b231f852b63d35ee69dc60bcc7c5b7325b590c00d089b6ad312f21b043&#x27;</span><br><span class="line">data: b&#x27;1234567890abcdefabcdef1234567890\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10&#x27;</span><br><span class="line">CBC Attack: b&#x27;\xfe\xb4\x11n+\x1a\xb7\x90\x9c\x86TPvS\xd4\x9cAbcdef1234567890\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到第二组密文解密之后已经被我们更改成了A，而由于我们更改了第一组的密文，所以第一组解密的明文变成了乱码。如果我们想要更改第一组的明文，则需要修改初始向量IV的值。</p>
+<p>于是达到修改明文的内容的目的：解密出来的内容就会把 <code>&#39;a&#39;</code> 改成 <code>&#39;A&#39;</code></p>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><h4 id="bugku-login4"><a href="#bugku-login4" class="headerlink" title="bugku-login4"></a><em><strong>bugku-login4</strong></em></h4><p>题解链接：<a target="_blank" rel="noopener" href="https://cltheorem.github.io/2019/03/bugku-login/">https://cltheorem.github.io/2019/03/bugku-login/</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通过CBC字节翻转攻击，假如我们能够触发加解密过程，并且能够获得每次加密后的密文。那么我们就能够在不知道key的情况下，通过修改密文或IV，来控制输出明文为自己想要的内容，而且只能从最后一组开始修改，并且每改完一组，都需要重新获取一次解密后的数据，要根据解密后的数据来修改前一组密文的值。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/XL115715453/article/details/102442024?spm=1001.2014.3001.5506">https://blog.csdn.net/XL115715453/article/details/102442024?spm=1001.2014.3001.5506</a></p>
+<p><a target="_blank" rel="noopener" href="https://goodapple.top/archives/217">https://goodapple.top/archives/217</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/XiongSiqi_blog/article/details/131925246">https://blog.csdn.net/XiongSiqi_blog/article/details/131925246</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Sauy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/">http://example.com/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Sauy's corner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CTF%E5%AD%A6%E4%B9%A0/">CTF学习</a></div><div class="post-share"><div class="social-share" data-image="/img/2233.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/04/24/HTB-Practice/" title="HTB-Code"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">HTB-Code</div></div><div class="info-2"><div class="info-item-1">HTB-codeusernmap扫描 nmap 10.10.11.62 -sV -A 发现开放了5000端口 访问发现是个在线执行python代码的网页 可以进行命令执行 print(&#39;&#39;.__class__.__base__.__subclasses__()[317](&#39;ls /&#39;,shell=True,stdout=-1).communicate()[0].strip()) 然后直接在上层目录读到user.txt print(&#39;&#39;.__class__.__base__.__subclasses__()[317](&#39;cat ../user.txt&#39;,shell=True,stdout=-1).communicate()[0].strip()) root命令执行 123print(&#x27;&#x27;.__class__.__base__.__subclasses__()[317](&#x27;ls...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/04/10/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="pickle反序列化学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-10</div><div class="info-item-2">pickle反序列化学习</div></div><div class="info-2"><div class="info-item-1">前置知识详细前置知识可以看官方文档https://docs.python.org/zh-cn/3/library/pickle.html Pickle–Python对象反序列化Pickle1234pickle是python里一个可以对一个 Python 对象结构的二进制序列化和反序列化的模块。&quot;pickling&quot; 是将 Python 对象及其所拥有的层次结构转化为一个字节流的过程，而 &quot;unpickling&quot; 是相反的操作pickel可以看作一种独立的栈语言，其对opcode的编写可以进行python代码执行、变量覆盖等操作。  pickle序列化和反序列化对象 &lt;–&gt; 二进制字节流  12345678910111213import pickle class Person():    def __init__(self):        self.age=18        self.name=&quot;A&quot; p=Person()opcode=pickle.dumps(p)print(opcode)...</div></div></div></a><a class="pagination-related no-desc" href="/2025/04/10/python%E7%9B%B2%E6%B3%A8%E7%BB%93%E5%90%88%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%AD%A6%E4%B9%A0/" title="python盲注结合沙箱逃逸学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-10</div><div class="info-item-2">python盲注结合沙箱逃逸学习</div></div></div></a><a class="pagination-related" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" title="浅谈python内存马"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-20</div><div class="info-item-2">浅谈python内存马</div></div><div class="info-2"><div class="info-item-1">前言：想法来源于TGCTF的一道题 想具体学习下 内存马究竟是什么东西 Python内存马众所周知，python下有许多轻型框架，比如 flask Tornado pyramid等 每个框架都基本有其对应的内存马注入的方式 Flask内存马注入flask框架中使用 render_template_string() 进行渲染，但未对用户传输的代码进行过滤导致用户可以通过注入恶意代码来实现 python 内存马的注入。 老版flask内存马注入多存在ssti的场景中 如果想要在python中实现内存马 必须想是否能动态注册新路由  flask注册新路由用的是 app.route 实际调用的是add_url_ruel 注意：从下面一直到构造webshell 都是前言知识 为了让你更好理解 内存马的payloadadd_url_ruel介绍app.add_url_rule(&#39;/index/&#39;,endpoint=&#39;index&#39;,view_func=index) 三个参数： url:必须以&#x2F;开头 endpoint：(站点) view_func：方法...</div></div></div></a><a class="pagination-related" href="/2025/04/06/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="原型链污染学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-06</div><div class="info-item-2">原型链污染学习</div></div><div class="info-2"><div class="info-item-1">原型链污染学习链接：https://www.leavesongs.com/PENETRATION/javascript-prototype-pollution-attack.html?page=1 node.jsjs创建对象的形式1.普通创建12var name=&#123;name:&#x27;sauy&#x27;,&#x27;age&#x27;:&#x27;19&#x27;&#125;var person=&#123;&#125;  2.构造函数方法创建12345678910function person()&#123;    this.name=&#x27;sauy&#x27;;    this.test=function ()&#123;        return 23333;    &#125;&#125;person.prototype.a=3;web=new person();console.log(web.test());console.log(web.a)  3.通过object创建123var a=new...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/2233.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Sauy</div><div class="author-info-description">蓦然回首</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/415414982"><i class="/img/bilibili.ico"></i><span>Follow Me!</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">World belongs to us.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CBC%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">CBC加密和解密过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">加密过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%AF%86%E8%BF%87%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">解密过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-number">1.3.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EXB%E6%A8%A1%E5%BC%8F%E5%92%8CCBC%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">EXB模式和CBC模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB"><span class="toc-number">1.5.</span> <span class="toc-text">CBC字节翻转攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%94%BB%E5%87%BB%E6%A8%A1%E6%8B%9F%E4%BB%A3%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">测试攻击模拟代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-number">1.7.</span> <span class="toc-text">例题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#bugku-login4"><span class="toc-number">1.7.1.</span> <span class="toc-text">bugku-login4</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.8.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">1.9.</span> <span class="toc-text">参考文章</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/" title="CBC字节翻转攻击">CBC字节翻转攻击</a><time datetime="2025-04-27T04:25:58.000Z" title="发表于 2025-04-27 12:25:58">2025-04-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/24/HTB-Practice/" title="HTB-Code">HTB-Code</a><time datetime="2025-04-24T09:20:58.000Z" title="发表于 2025-04-24 17:20:58">2025-04-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" title="浅谈python内存马">浅谈python内存马</a><time datetime="2025-04-20T14:30:30.000Z" title="发表于 2025-04-20 22:30:30">2025-04-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/14/TGCTF2025-WEB/" title="TGCTF2025-WEB WP">TGCTF2025-WEB WP</a><time datetime="2025-04-13T16:00:00.000Z" title="发表于 2025-04-14 00:00:00">2025-04-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/10/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="pickle反序列化学习">pickle反序列化学习</a><time datetime="2025-04-10T08:10:58.000Z" title="发表于 2025-04-10 16:10:58">2025-04-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By Sauy</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.0-b1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
