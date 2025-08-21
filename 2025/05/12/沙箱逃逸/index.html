@@ -27,11 +27,13 @@
 <meta property="og:site_name" content="Sauy&#39;s corner">
 <meta property="og:description" content="前言Q1：什么是沙箱？沙箱是一种安全机制，在限制的环境中运行不受信任的代码。python中沙箱主要用于限制python，防止执行命令或者进行一些危险的行为。 Q2：什么是沙箱绕过？就是怎么绕过沙箱对我们的限制，拿到危险函数，最终来执行命令的过程。 目的对于python沙箱绕过，我们最终可能要实现的想法有如下: ·绕过限制 执行命令 ·写文件到指定位置 绕过方式import方式的绕过 import">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/sauy.jpg">
 <meta property="article:published_time" content="2025-05-12T05:50:58.000Z">
 <meta property="article:modified_time" content="2025-07-22T14:55:42.027Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="CTF学习">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/images/sauy.jpg">
   
   
   
@@ -47,7 +49,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[]},"dateCreated":"2025-05-12T13:50:58+08:00","dateModified":"2025-07-22T22:55:42+08:00","datePublished":"2025-05-12T13:50:58+08:00","description":"","headline":"python沙箱逃逸","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/05/12/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[]},"url":"http://example.com/2025/05/12/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/","keywords":"CTF学习","thumbnailUrl":"/images/2.JPG","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-05-12T13:50:58+08:00","dateModified":"2025-07-22T22:55:42+08:00","datePublished":"2025-05-12T13:50:58+08:00","description":"","headline":"python沙箱逃逸","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/05/12/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/05/12/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/","keywords":"CTF学习","thumbnailUrl":"/images/2.JPG","image":1}</script>
   
 </head>
 <body>
@@ -55,7 +57,7 @@
 <div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/sauy.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">记录与分享</div></a></div></header>
 
 <div class="nav-area">
 
