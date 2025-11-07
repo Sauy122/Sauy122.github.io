@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/sauy.jpg">
 <meta property="article:published_time" content="2025-11-06T14:30:30.000Z">
-<meta property="article:modified_time" content="2025-11-06T14:55:53.131Z">
+<meta property="article:modified_time" content="2025-11-07T10:21:18.758Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="CTF学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -49,7 +49,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-11-06T22:30:30+08:00","dateModified":"2025-11-06T22:55:53+08:00","datePublished":"2025-11-06T22:30:30+08:00","description":"","headline":"浅谈python原型链污染","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/11/06/python%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/11/06/python%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/","keywords":"CTF学习","thumbnailUrl":"/images/44.JPG","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-11-06T22:30:30+08:00","dateModified":"2025-11-07T18:21:18+08:00","datePublished":"2025-11-06T22:30:30+08:00","description":"","headline":"浅谈python原型链污染","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/11/06/python%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/11/06/python%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/","keywords":"CTF学习","thumbnailUrl":"/images/44.JPG","image":1}</script>
   
 </head>
 <body>
@@ -81,7 +81,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-11-06T14:30:30.000Z">2025-11-06</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-06T14:55:53.131Z">2025-11-06</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-11-06T14:30:30.000Z">2025-11-06</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-07T10:21:18.758Z">2025-11-07</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -111,16 +111,16 @@
 
 <p>跟着别人博客调试大概就懂这个过程了</p>
 <p>刚进入for循环 dst值还是son_b() src是<code>&#123;&quot;__class__&quot; : &#123;&quot;__base__&quot; : &#123;&quot;secret&quot; : &quot;world&quot;&#125;&#125;&#125;</code></p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251103202453882.png" alt="image-20251103202453882"></p>
+<p><img src="/images/image-20251103202453882.png" alt="image-20251103202453882"></p>
 <p>经过了merge(v, getattr(dst, k))后 dst变为了<code>son_b.__class__</code></p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251103202519251.png" alt="image-20251103202519251"></p>
+<p><img src="/images/image-20251103202519251.png" alt="image-20251103202519251"></p>
 <p>在经过一次merge(v, getattr(dst, k)) dst变为了father类也就是<code>son_b.__class__.__base__</code></p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251103202603294.png" alt="image-20251103202603294"></p>
+<p><img src="/images/image-20251103202603294.png" alt="image-20251103202603294"></p>
 <p>然后因为v不是字典而是world 于是进入了这个else分支</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setattr</span>(dst, k, v)</span><br></pre></td></tr></table></figure>
 
 <p>此时 dst为<code>son_b.__class__.__base__</code>也就是father类 k为secret v 为world</p>
-<p><img src="C:\Users\sauy\AppData\Local\Temp\QQ_1762172550271.png" alt="QQ_1762172550271"></p>
+<p><img src="/images/QQ_1762172550271.png" alt="QQ_1762172550271"></p>
 <p>那么就成功污染father类的secret属性，将其从hello污染成了world 自然son_b()作为father的子类同样收到影响。这就是污染的具体流程，自己跟着调试一遍会很清晰。我自己理解就是污染<code>instance.__class__.__base</code>__也就是代码里的father类的secret属性，把它的值变为world。</p>
 <h3 id="！注意"><a href="#！注意" class="headerlink" title="！注意"></a>！注意</h3><p>上述我们污染的是secret属性，并不是什么都能被污染，object类就不行。</p>
 <p>而且我们污染的是father类secret属性并不是son_b()的，father是son_b()的父类，father类受到影响，sob_b()随之也会受到影响。</p>
@@ -134,18 +134,18 @@
 
 <p>仿照上面的调试你也可以详细看到这个污染的过程。</p>
 <p>最开始dst是A()</p>
-<p><img src="C:\Users\sauy\AppData\Local\Temp\QQ_1762223158749.png" alt="QQ_1762223158749"></p>
+<p><img src="/images/QQ_1762223158749.png" alt="QQ_1762223158749"></p>
 <p>经过merge后变成了 <code>A.__init</code></p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251104102812992.png" alt="image-20251104102812992"></p>
+<p><img src="/images/image-20251104102812992.png" alt="image-20251104102812992"></p>
 <p>然后再经过一次merge变成了 <code>A.__class__.init.__globals__</code>看到了全局变量</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251104104445497.png" alt="image-20251104104445497"></p>
+<p><img src="/images/image-20251104104445497.png" alt="image-20251104104445497"></p>
 <p>然后因为dst当前是字典，因为不满足<code>if dst.get(k) and type(v) == dict:</code>进入else分支 将dst即全局变量里的a赋值为了4 v变成字典<code>&#123;&#39;classa&#39;:5&#125;</code></p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251104124554162.png" alt="image-20251104124554162"></p>
+<p><img src="/images/image-20251104124554162.png" alt="image-20251104124554162"></p>
 <p>接下来因为满足if分支 代码运行到merge(v, dst.get(k))</p>
-<p>此时<img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251106214813320.png" alt="image-20251106214813320"></p>
+<p>此时<img src="/images/image-20251106214813320.png" alt="image-20251106214813320"></p>
 <p>merge(v, dst.get(k)) 然后src&#x3D;v，dst&#x3D;B()</p>
 <p>经过判断直接进入了setattr(dst, k, v)</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251106215105005.png" alt="image-20251106215105005"></p>
+<p><img src="/images/image-20251106215105005.png" alt="image-20251106215105005"></p>
 <p>于是就把B里的classa的属性成功污染成了5</p>
 <h4 id="获取其他模块"><a href="#获取其他模块" class="headerlink" title="获取其他模块:"></a>获取其他模块:</h4><p>在全局变量的前提下，是我们都在入口文件中的类对象或者属性来进行操作的，但是如果我们操作的位置在入口文件中，而目标对象并不在入口文件当中，这时候我们就需要对其他加载过的模块来获取了</p>
 <h5 id="import："><a href="#import：" class="headerlink" title="import："></a>import：</h5><p>在简单的关系情况下，我们可以直接通过import来进行加载，在payload中我们只需要对对应的模块重新定位就可以：</p>
