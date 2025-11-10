@@ -17,27 +17,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>N1CTF Junior 2025 2/2 Web WriteUp - Sauy's corner</title>
+  <title>Sauy's corner</title>
 
   
-    <meta name="description" content="online_unzipperPingPeek a ForkUnfinished">
-<meta property="og:type" content="article">
-<meta property="og:title" content="N1CTF Junior 2025 2&#x2F;2 Web WriteUp">
-<meta property="og:url" content="http://example.com/2025/09/24/N1CTF%20Junior%202025%2022/">
+    <meta name="description" content="WEB做题情况WEB人员didongji91：邓洋旭 qi1010：赵江南 coffeepermanent：刘晋铭 线上情况: 线下情况:如假包换，sql注入：简单的union联合注入 union UNION select SELECT &#x3D; 超级简单的php：php特性(md5强弱比较 intval 正则%0a绕过)+php取反rce ez_ssti：ssti注入黑名单是[‘.’, ‘class’">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sauy&#39;s corner">
+<meta property="og:url" content="http://example.com/images/WEB%E5%81%9A%E9%A2%98%E6%83%85%E5%86%B5/">
 <meta property="og:site_name" content="Sauy&#39;s corner">
-<meta property="og:description" content="online_unzipperPingPeek a ForkUnfinished">
+<meta property="og:description" content="WEB做题情况WEB人员didongji91：邓洋旭 qi1010：赵江南 coffeepermanent：刘晋铭 线上情况: 线下情况:如假包换，sql注入：简单的union联合注入 union UNION select SELECT &#x3D; 超级简单的php：php特性(md5强弱比较 intval 正则%0a绕过)+php取反rce ez_ssti：ssti注入黑名单是[‘.’, ‘class’">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/sauy.jpg">
-<meta property="article:published_time" content="2025-09-24T11:10:58.000Z">
-<meta property="article:modified_time" content="2025-09-24T09:05:46.563Z">
+<meta property="article:published_time" content="2025-11-08T09:43:04.315Z">
+<meta property="article:modified_time" content="2025-11-08T09:43:04.315Z">
 <meta property="article:author" content="Sauy">
-<meta property="article:tag" content="CTF-wp">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/sauy.jpg">
   
   
   
-  <meta name="keywords" content="CTF-wp">
+  
 
   <!-- feed -->
   
@@ -49,12 +48,12 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-09-24T19:10:58+08:00","dateModified":"2025-09-24T17:05:46+08:00","datePublished":"2025-09-24T19:10:58+08:00","description":"","headline":"N1CTF Junior 2025 2/2 Web WriteUp","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/09/24/N1CTF%20Junior%202025%2022/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/09/24/N1CTF%20Junior%202025%2022/","keywords":"CTF-wp","thumbnailUrl":"/images/18.png","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com/images/WEB%E5%81%9A%E9%A2%98%E6%83%85%E5%86%B5","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"name":"Sauy's corner","description":"WEB做题情况WEB人员didongji91：邓洋旭\nqi1010：赵江南\ncoffeepermanent：刘晋铭\n线上情况:\n线下情况:如假包换，sql注入：简单的union联合注入 union UNION select SELECT =\n超级简单的php：php特性(md5强弱比较 intval 正则%0a绕过)+php取反rce\nez_ssti：ssti注入黑名单是[‘.’, ‘cla...","url":"http://example.com/images/WEB%E5%81%9A%E9%A2%98%E6%83%85%E5%86%B5"}</script>
   
 </head>
 <body>
 
-<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+<div class="l_body content" id="start" layout="page" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/sauy.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
@@ -66,9 +65,7 @@
 <div class="widgets">
 <div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
-
-
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/11/06/python%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"><span class="title">浅谈python原型链污染</span></a><a class="item title" href="/2025/08/03/AWD%E8%AE%B0%E5%BD%95/"><span class="title">AWD笔记</span></a><a class="item title" href="/2025/07/06/HTB-Practice/"><span class="title">HTB-wp</span></a><a class="item title" href="/2025/09/24/N1CTF%20Junior%202025%2022/"><span class="title">N1CTF Junior 2025 2/2 Web WriteUp</span></a><a class="item title" href="/2025/09/22/WMCTF2025/"><span class="title">WMCTF2025-WEB WP</span></a><a class="item title" href="/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/"><span class="title">蜀道山2024wp</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/07/09/BaseCTF2024-WEB/"><span class="title">Basectf2024-web</span></a><a class="item title" href="/2025/09/01/bypass-disablefunction/"><span class="title">Bypass disablefunction</span></a><a class="item title" href="/2025/08/24/NSS4th/"><span class="title">NSS4th-wp</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/11/06/python%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"><span class="title">浅谈python原型链污染</span></a><a class="item title" href="/2025/08/03/AWD%E8%AE%B0%E5%BD%95/"><span class="title">AWD笔记</span></a><a class="item title" href="/2025/07/06/HTB-Practice/"><span class="title">HTB-wp</span></a><a class="item title" href="/2025/09/22/WMCTF2025/"><span class="title">WMCTF2025-WEB WP</span></a><a class="item title" href="/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/"><span class="title">蜀道山2024wp</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/07/09/BaseCTF2024-WEB/"><span class="title">Basectf2024-web</span></a><a class="item title" href="/2025/09/01/bypass-disablefunction/"><span class="title">Bypass disablefunction</span></a><a class="item title" href="/2025/08/24/NSS4th/"><span class="title">NSS4th-wp</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -80,33 +77,23 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-09-24T11:10:58.000Z">2025-09-24</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-09-24T09:05:46.563Z">2025-09-24</time></span></div></div></div>
-    
-    <div class="bottom only-title">
-      
-      <div class="text-area">
-        <h1 class="text title"><span>N1CTF Junior 2025 2/2 Web WriteUp</span></h1>
-        
-      </div>
-    </div>
+
+  <span class="sep"></span>
+  <a class="cap breadcrumb" href="/images/WEB%E5%81%9A%E9%A2%98%E6%83%85%E5%86%B5/"></a>
+  </div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-11-08T09:43:04.315Z">2025-11-08</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-08T09:43:04.315Z">2025-11-08</time></span></div></div></div>
     
   </div>
-  </div><article class="md-text content"><h1 id="online-unzipper"><a href="#online-unzipper" class="headerlink" title="online_unzipper"></a>online_unzipper</h1><h1 id="Ping"><a href="#Ping" class="headerlink" title="Ping"></a>Ping</h1><h1 id="Peek-a-Fork"><a href="#Peek-a-Fork" class="headerlink" title="Peek a Fork"></a>Peek a Fork</h1><h1 id="Unfinished"><a href="#Unfinished" class="headerlink" title="Unfinished"></a>Unfinished</h1></article>
-<div class="article-footer">
-    <section id="license">
-      <div class="header"><span>许可协议</span></div>
-      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
-</div>
-    </section>
-    
-
-</div>
-
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/11/06/python%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/">浅谈python原型链污染</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/09/22/WMCTF2025/">WMCTF2025-WEB WP</a></div></section></div>
-
-
-
+  </div><article class="md-text content"><h1 id="WEB做题情况"><a href="#WEB做题情况" class="headerlink" title="WEB做题情况"></a>WEB做题情况</h1><h2 id="WEB人员"><a href="#WEB人员" class="headerlink" title="WEB人员"></a>WEB人员</h2><p><strong>didongji91：邓洋旭</strong></p>
+<p><strong>qi1010：赵江南</strong></p>
+<p><strong>coffeepermanent：刘晋铭</strong></p>
+<h3 id="线上情况"><a href="#线上情况" class="headerlink" title="线上情况:"></a>线上情况:</h3><p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251108173527958.png" alt="image-20251108173527958"></p>
+<h3 id="线下情况"><a href="#线下情况" class="headerlink" title="线下情况:"></a>线下情况:</h3><p>如假包换，sql注入：简单的union联合注入 <code>union UNION select SELECT =</code></p>
+<p>超级简单的php：php特性(md5强弱比较 intval 正则%0a绕过)+php取反rce</p>
+<p>ez_ssti：ssti注入黑名单是[‘.’, ‘class’,’import’, ‘globals’,”os”,”%”]</p>
+<p>A STORY：简单的反序列化 基本的魔术方法触发+一个正则<code>preg_match(&#39;/\b(?:system|shell|passthru|popen|proc_open|cat|ls|od|fopen)\b/i&#39;, $this-&gt;enviroment)</code></p>
+<p><img src="C:\Users\sauy\AppData\Local\Temp\QQ_1762594283445.png" alt="QQ_1762594283445"></p>
+</article>
 
 
 
@@ -115,9 +102,7 @@
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
 <div class="widgets">
 
-
-
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#online-unzipper"><span class="toc-text">online_unzipper</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Ping"><span class="toc-text">Ping</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Peek-a-Fork"><span class="toc-text">Peek a Fork</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Unfinished"><span class="toc-text">Unfinished</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB%E5%81%9A%E9%A2%98%E6%83%85%E5%86%B5"><span class="toc-text">WEB做题情况</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#WEB%E4%BA%BA%E5%91%98"><span class="toc-text">WEB人员</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E4%B8%8A%E6%83%85%E5%86%B5"><span class="toc-text">线上情况:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E4%B8%8B%E6%83%85%E5%86%B5"><span class="toc-text">线下情况:</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
