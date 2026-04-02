@@ -17,26 +17,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>Sauy's corner</title>
+  <title>ORDER by 注入 - Sauy's corner</title>
 
   
     <meta name="description" content="ORDER by 注入如果order by 后面的字段可控，那么就可能造成order by注入 漏洞示例源码 12345678910111213$sql &#x3D; &#x27;select * from admin where username&#x3D;&#x27;&quot;.$username.&quot;&#x27;&#x27;;$result &#x3D; mysql_query($sql);$row &#x3D; mys">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Sauy&#39;s corner">
+<meta property="og:title" content="ORDER by 注入">
 <meta property="og:url" content="http://example.com/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/">
 <meta property="og:site_name" content="Sauy&#39;s corner">
 <meta property="og:description" content="ORDER by 注入如果order by 后面的字段可控，那么就可能造成order by注入 漏洞示例源码 12345678910111213$sql &#x3D; &#x27;select * from admin where username&#x3D;&#x27;&quot;.$username.&quot;&#x27;&#x27;;$result &#x3D; mysql_query($sql);$row &#x3D; mys">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/images/sauy.jpg">
-<meta property="article:published_time" content="2026-04-01T11:20:04.491Z">
-<meta property="article:modified_time" content="2026-04-01T13:56:19.785Z">
+<meta property="article:published_time" content="2026-04-01T13:10:58.000Z">
+<meta property="article:modified_time" content="2026-04-02T12:12:16.456Z">
 <meta property="article:author" content="Sauy">
-<meta name="twitter:card" content="summary">
+<meta property="article:tag" content="CTF-wp">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/images/sauy.jpg">
   
   
   
-  
+  <meta name="keywords" content="CTF-wp">
 
   <!-- feed -->
   
@@ -48,7 +49,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2026-04-01T19:20:04+08:00","dateModified":"2026-04-01T21:56:19+08:00","datePublished":"2026-04-01T19:20:04+08:00","description":"","headline":"","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/","image":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2026-04-01T21:10:58+08:00","dateModified":"2026-04-02T20:12:16+08:00","datePublished":"2026-04-01T21:10:58+08:00","description":"","headline":"ORDER by 注入","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/","keywords":"CTF-wp","thumbnailUrl":"/images/maodie.jpg","image":1}</script>
   
 </head>
 <body>
@@ -67,7 +68,7 @@
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2100/01/22/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/03/20/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2026/03/08/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">java反射机制解析(含cc1解析)</span></a><a class="item title" href="/2025/12/18/SECCON%20CTF%2014%20Quals-%E5%A4%8D%E7%8E%B0/"><span class="title">SECCON CTF 14 Quals-broken-challenge</span></a><a class="item title" href="/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"><span class="title">施工ing-next.js之CVE-2025-55182代码审计</span></a><a class="item title" href="/2026/02/06/UniCTF2026/"><span class="title">UniCTF-WEB WP</span></a><a class="item title" href="/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/"><span class="title">BackdoorCTF2025之Trust Issues</span></a><a class="item title" href="/2025/12/04/HeroCTF%20v7-WEB/"><span class="title">HeroCTF v7-web</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/"><span class="title">ORDER by 注入</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2100/01/22/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/03/20/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2026/03/08/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">java反射机制解析(含cc1解析)</span></a><a class="item title" href="/2025/12/18/SECCON%20CTF%2014%20Quals-%E5%A4%8D%E7%8E%B0/"><span class="title">SECCON CTF 14 Quals-broken-challenge</span></a><a class="item title" href="/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"><span class="title">施工ing-next.js之CVE-2025-55182代码审计</span></a><a class="item title" href="/2026/02/06/UniCTF2026/"><span class="title">UniCTF-WEB WP</span></a><a class="item title" href="/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/"><span class="title">BackdoorCTF2025之Trust Issues</span></a><a class="item title" href="/2025/12/04/HeroCTF%20v7-WEB/"><span class="title">HeroCTF v7-web</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -80,7 +81,15 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2026-04-01T11:20:04.491Z">2026-04-01</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2026-04-01T13:56:19.785Z">2026-04-01</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2026-04-01T13:10:58.000Z">2026-04-01</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2026-04-02T12:12:16.456Z">2026-04-02</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>ORDER by 注入</span></h1>
+        
+      </div>
+    </div>
     
   </div>
   </div><article class="md-text content"><h1 id="ORDER-by-注入"><a href="#ORDER-by-注入" class="headerlink" title="ORDER by 注入"></a>ORDER by 注入</h1><p>如果order by 后面的字段可控，那么就可能造成order by注入</p>
