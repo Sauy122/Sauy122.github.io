@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1800" viewBox="0 0 1400 1800">
+<defs>
+<style>
+.title{font:700 34px Arial,"Microsoft YaHei",sans-serif;fill:#111}.h{font:700 24px Arial,"Microsoft YaHei",sans-serif;fill:#111}.body{font:18px Arial,"Microsoft YaHei",sans-serif;fill:#222}.small{font:16px Arial,"Microsoft YaHei",sans-serif;fill:#333}.bold{font-weight:700}.box{fill:#fff;stroke:#111;stroke-width:2}.fail{fill:#f7f7f7;stroke:#444;stroke-width:2}.diamond{fill:#fff;stroke:#111;stroke-width:2}.arrow{stroke:#111;stroke-width:2.5;fill:none;marker-end:url(#arrow)}.dash{stroke:#555;stroke-width:2;fill:none;stroke-dasharray:8 7;marker-end:url(#arrow)}
+</style>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#111111"/></marker>
+</defs>
+<path d="" transform="matrix(1,0,0,1,0,0)" x="32" y="6" width="1400" height="1800" fill="#ffffff"/>
+<!--start-->
+<rect class="box" x="572" y="112" width="260" height="55" rx="28"/>
+
+<text text-anchor="middle" class="h" x="700" y="150">
+        开始：发起交易
+    </text>
+<path d="M 700 170 L 700 205" class="arrow">
+        </path>
+<!--1-->
+<rect class="box" x="250" y="205" width="900" height="145" rx="12"/>
+
+<text class="h" x="280" y="240">
+        1. 交易创建与签名
+    </text>
+<text x="300" y="275" class="body">钱包选择可消费的 UTXO → 构造 inputs / outputs → 计算手续费 → 使用私钥进行数字签名</text>
+<text x="300" y="310" class="body">得到一笔已签名交易，准备发送到 Bitcoin P2P 网络。</text>
+<path d="M 700 350 L 700 390" class="arrow">
+        </path>
+<!--2-->
+<rect class="box" x="250" y="390" width="900" height="125" rx="12"/>
+
+<text class="h" x="280" y="425">
+        2. 交易广播
+    </text>
+<text x="300" y="460" class="body">钱包将已签名交易发送给 P2P 网络中的节点；节点收到后先独立验证。</text>
+<!--broadcast fail-->
+<path class="dash" d="M 1150 450 L 1230 450"/>
+<rect x="1230" y="395" width="150" height="125" rx="10" class="fail"/>
+<text text-anchor="middle" x="1305" y="425" class="bold small">
+        广播失败
+    </text>
+<text x="1245" y="452" class="small">网络/节点不可达</text>
+<text x="1245" y="475" class="small">交易格式异常</text>
+<text x="1245" y="503" class="small bold">处理：重试广播</text><path d="M 1305 520 L 1305 545 L 1150 545 L 1150 500" class="dash">
+        </path>
+<path d="M 700 515 L 700 555" class="arrow">
+        </path>
+<!--3-->
+<rect class="box" x="250" y="555" width="900" height="180" rx="12"/>
+
+<text class="h" x="280" y="590">
+        3. 节点验证交易
+    </text>
+<text x="300" y="625" class="body">① 交易格式是否合法　② 输入引用的 UTXO 是否存在且未被消费</text>
+<text x="300" y="655" class="body">③ 数字签名和脚本执行是否有效　④ 输入金额是否足够覆盖输出与手续费</text>
+<text x="300" y="685" class="body">⑤ 是否违反共识规则（例如双花）</text>
+<polygon points="700,735 800,775 700,815 600,775" class="diamond">
+        </polygon>
+<text text-anchor="middle" x="700" y="782" class="bold small">
+        验证通过？
+        </text>
+<path d="M 600 775 L 490 775 L 490 720" class="dash">
+        </path>
+<text x="505" y="765" class="small">
+        否
+        </text>
+<!--tx fail-->
+<rect class="fail" x="48" y="691" width="306" height="168" rx="10"/>
+<text class="h" x="75" y="722">
+        交易验证失败
+    </text>
+<text x="80" y="755" class="small">签名无效 / UTXO 不存在或已花费</text>
+<text x="80" y="780" class="small">手续费不足 / 违反共识规则</text>
+<text x="80" y="820" class="small bold">处理：交易被拒绝，不进入 Mempool</text>
+<text x="80" y="842" class="small">重新构造正确交易后再次广播</text>
+<!--yes-->
+<path class="arrow" d="M 700 815 L 700 850"/>
+<text x="715" y="840" class="small">
+        是
+    </text>
+<rect width="380" height="48" rx="8" x="510" y="850" class="box">
+        </rect><text text-anchor="middle" x="700" y="881" class="bold body">
+        加入 Mempool，并向其他节点转发
+        </text>
+<path d="M 700 898 L 700 930" class="arrow">
+        </path>
+<!--4-->
+<rect class="box" x="250" y="930" width="900" height="125" rx="12"/>
+
+<text class="h" x="280" y="965">
+        4. 矿工构造候选区块
+    </text>
+<text x="300" y="1000" class="body">矿工从自己的 Mempool 选择交易 → 组织交易集合 → 计算 Merkle Root → 构造区块头</text>
+<text x="300" y="1030" class="body">区块头包含：前一区块哈希、Merkle Root、时间戳、难度目标、Nonce 等。</text>
+<path d="M 700 1055 L 700 1090" class="arrow">
+        </path>
+<!--5-->
+<rect class="box" x="250" y="1090" width="900" height="125" rx="12"/>
+
+<text class="h" x="280" y="1125">
+        5. PoW 竞争
+    </text>
+<text x="300" y="1160" class="body">矿工不断修改 Nonce 等字段，对区块头执行双重 SHA-256，寻找满足当前难度目标的哈希。</text>
+<polygon points="700,1215 810,1255 700,1295 590,1255" class="diamond">
+        </polygon>
+<text text-anchor="middle" x="700" y="1262" class="bold small">
+        找到有效 PoW？
+        </text>
+<path d="M 810 1255 L 970 1255" class="dash">
+        </path>
+<text x="825" y="1245" class="small">
+        否
+        </text>
+<rect width="380" height="130" rx="10" x="970" y="1190" class="fail">
+        </rect><text x="990" y="1222" class="h">
+        暂未找到
+        </text>
+<text x="990" y="1255" class="small">继续修改 Nonce / 更新候选块</text>
+<text x="990" y="1283" class="small">持续进行 PoW 计算</text>
+<path d="M 970 1320 L 900 1320 L 900 1210 L 850 1210" class="dash">
+        </path>
+<path d="M 700 1295 L 700 1330" class="arrow">
+        </path>
+<text x="715" y="1320" class="small">
+        是
+    </text>
+<!--6--><rect class="box" x="250" y="1330" width="900" height="115" rx="12"/>
+
+<text class="h" x="280" y="1365">
+        6. 新区块广播
+    </text>
+<text x="300" y="1400" class="body">成功找到有效 PoW 的矿工广播新区块；其他节点收到后验证整个区块。</text>
+<!--block broadcast fail-->
+<path class="dash" d="M 1150 1385 L 1230 1385"/>
+<rect x="1232" y="1331" width="165" height="125" rx="10" class="fail"/>
+<text text-anchor="middle" x="1305" y="1360" class="bold small">
+        广播异常
+    </text>
+<text x="1245" y="1388" class="small">网络延迟</text>
+<text x="1245" y="1411" class="small">节点未接收</text>
+<text x="1245" y="1439" class="small bold">处理：重新广播/等待</text><path d="M 700 1445 L 700 1480" class="arrow">
+        </path>
+<!--7-->
+<rect class="box" x="250" y="1480" width="900" height="150" rx="12"/>
+
+<text class="h" x="280" y="1515">
+        7. 区块验证
+    </text>
+<text x="300" y="1548" class="body">节点检查：区块结构、前一区块哈希、PoW、Merkle Root、大小等共识规则。</text>
+<text x="300" y="1578" class="body">同时验证区块内交易、Coinbase 交易及区块奖励，并检查是否存在双花等违规。</text>
+<polygon points="700,1630 800,1665 700,1700 600,1665" class="diamond">
+        </polygon>
+<text text-anchor="middle" x="700" y="1672" class="bold small">
+        验证通过？
+        </text>
+<path d="M 800 1665 L 970 1665" class="dash">
+        </path>
+<text x="820" y="1655" class="small">
+        否
+        </text>
+<rect width="333" height="143" rx="10" x="973" y="1588" class="fail">
+        </rect><text x="990" y="1627" class="h">
+        区块验证失败
+        </text>
+<text x="990" y="1660" class="small">结构/哈希/Merkle/PoW 不匹配</text>
+<text x="990" y="1685" class="small">交易或 Coinbase 不合法</text>
+<text x="990" y="1715" class="small bold">处理：拒绝该区块，继续等待其他有效区块</text>
+<!--8 and 9 bottom-->
+<path class="arrow" d="M 700 1700 L 700 1740"/>
+
+<rect x="250" y="1740" width="430" height="45" rx="8" class="box"/>
+<text text-anchor="middle" x="465" y="1770" class="bold body">
+        8. 区块被接受 → 连接到区块链末端
+    </text>
+<rect width="430" height="45" rx="8" x="720" y="1740" class="box">
+        </rect>
+<text text-anchor="middle" x="935" y="1770" class="bold body">
+        9. 后续新区块产生 → 确认数不断增加
+        </text>
+<!--footer note-->
+</svg>
