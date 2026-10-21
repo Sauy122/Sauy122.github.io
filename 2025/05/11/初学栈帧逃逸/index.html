@@ -1,18 +1,15 @@
-
-<!DOCTYPE html><html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="zh-CN"><head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
-  
+  <link rel="canonical" href="https://sauy.top/2025/05/11/%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/">
   
   <meta name="generator" content="Hexo 7.3.0">
-  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <meta http-equiv="x-dns-prefetch-control" content="on">
   
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-  <meta name="HandheldFriendly" content="True" >
+  <meta name="HandheldFriendly" content="True">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
@@ -20,20 +17,20 @@
   <title>栈帧逃逸 - Sauy's corner</title>
 
   
-    <meta name="description" content="初学栈帧逃逸栈帧介绍在 Python 中，栈帧（Stack Frame） 是函数调用时在内存中分配的一个数据结构，用于存储函数的运行信息（如局部变量、参数、返回地址等）。它是 Python 解释器管理函数调用和执行流程的核心机制之一，尤其在递归、异常处理和调试时非常重要。 栈帧（stack frame），也称为帧（frame），是用于执行代码的数据结构。每当 Python 解释器执行一个函数或方法">
+    <meta name="description" content="从 Python 函数调用与栈帧结构出发，介绍生成器、帧属性和全局变量访问，并结合实验理解栈帧相关的沙箱边界。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="栈帧逃逸">
-<meta property="og:url" content="http://example.com/2025/05/11/%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/">
-<meta property="og:site_name" content="Sauy&#39;s corner">
-<meta property="og:description" content="初学栈帧逃逸栈帧介绍在 Python 中，栈帧（Stack Frame） 是函数调用时在内存中分配的一个数据结构，用于存储函数的运行信息（如局部变量、参数、返回地址等）。它是 Python 解释器管理函数调用和执行流程的核心机制之一，尤其在递归、异常处理和调试时非常重要。 栈帧（stack frame），也称为帧（frame），是用于执行代码的数据结构。每当 Python 解释器执行一个函数或方法">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/sauy.jpg">
+<meta property="og:url" content="https://sauy.top/2025/05/11/%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/">
+<meta property="og:site_name" content="Sauy's corner">
+<meta property="og:description" content="从 Python 函数调用与栈帧结构出发，介绍生成器、帧属性和全局变量访问，并结合实验理解栈帧相关的沙箱边界。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sauy.top/images/sauy.jpg">
 <meta property="article:published_time" content="2025-05-11T06:50:58.000Z">
 <meta property="article:modified_time" content="2025-07-22T14:55:22.834Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="CTF学习">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/sauy.jpg">
+<meta name="twitter:image" content="https://sauy.top/images/sauy.jpg">
   
   
   
@@ -41,36 +38,38 @@
 
   <!-- feed -->
   
+    <link rel="alternate" href="/atom.xml" title="Sauy's corner" type="application/atom+xml">
+  
 
   <link rel="stylesheet" href="/css/main.css?v=1.33.1">
 
 
   
-    <link rel="shortcut icon" href="/images/shengdan.png">
+    <link rel="shortcut icon" href="/images/optimized/bbd11a86c7b12224-32.png" type="image/png" sizes="32x32">
   
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-05-11T14:50:58+08:00","dateModified":"2025-07-22T22:55:22+08:00","datePublished":"2025-05-11T14:50:58+08:00","description":"","headline":"栈帧逃逸","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/05/11/%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/05/11/%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/","keywords":"CTF学习","thumbnailUrl":"/images/1.JPG","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-05-11T14:50:58+08:00","dateModified":"2025-07-22T22:55:22+08:00","datePublished":"2025-05-11T14:50:58+08:00","description":"","headline":"栈帧逃逸","mainEntityOfPage":{"@type":"WebPage","@id":"https://sauy.top/2025/05/11/%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"https://sauy.top/2025/05/11/%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/","keywords":"CTF学习","thumbnailUrl":"/images/1.JPG","image":1}</script>
   
 </head>
 <body>
 
-<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+<div class="l_body content" id="start" layout="post" type="tech"><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/sauy.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy="" class="avatar" src="/images/optimized/fad17cb6008e6c57-192.webp" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';" loading="eager" decoding="async" srcset="/images/optimized/b053d7b86e84b1be-96.webp 96w, /images/optimized/fad17cb6008e6c57-192.webp 192w" sizes="48px" width="192" height="192" alt="Sauy 的头像"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
 
 <div class="nav-area">
 
 <nav class="menu dis-select"></nav>
 </div>
 <div class="widgets">
-<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="Search"></form><div id="search-result"></div><div class="search-no-result">No Results!</div></div>
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/"><span class="title">BTC系统基础</span></a><a class="item title" href="/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/"><span class="title">区块链基础知识</span></a><a class="item title" href="/2026/09/15/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">反射机制解析</span></a><a class="item title" href="/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2025/04/06/Sql-labs%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/"><span class="title">Sql-labs部分题解</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/07/NSSCTF%20Round30%20Basic%E5%8F%8C%E4%BA%BA%E7%BB%84%E9%98%9F%E8%B5%9B/"><span class="title">NSSCTF Round30 Basic双人组队赛</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/"><span class="title">BTC系统基础</span></a><a class="item title" href="/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/"><span class="title">区块链基础知识</span></a><a class="item title" href="/2026/09/15/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">反射机制解析</span></a><a class="item title" href="/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2025/04/06/Sql-labs%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/"><span class="title">Sql-labs部分题解</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/07/NSSCTF%20Round30%20Basic%E5%8F%8C%E4%BA%BA%E7%BB%84%E9%98%9F%E8%B5%9B/"><span class="title">NSSCTF Round30 Basic双人组队赛</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -81,9 +80,9 @@
 
 <div class="article banner top">
   <div class="content">
-    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2025-05-11T06:50:58.000Z">2025-05-11</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2025-07-22T14:55:22.834Z">2025-07-22</time></span></div></div></div>
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/">漏洞研究</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-05-11T06:50:58.000Z">2025-05-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-22T14:55:22.834Z">2025-07-22</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -96,60 +95,60 @@
   </div>
   </div><article class="md-text content"><h1 id="初学栈帧逃逸"><a href="#初学栈帧逃逸" class="headerlink" title="初学栈帧逃逸"></a>初学栈帧逃逸</h1><h2 id="栈帧介绍"><a href="#栈帧介绍" class="headerlink" title="栈帧介绍"></a>栈帧介绍</h2><p>在 Python 中，<strong>栈帧（Stack Frame）</strong> 是函数调用时在内存中分配的一个数据结构，用于存储函数的运行信息（如局部变量、参数、返回地址等）。它是 Python 解释器管理函数调用和执行流程的核心机制之一，尤其在递归、异常处理和调试时非常重要。</p>
 <p>栈帧（stack frame），也称为帧（frame），是用于执行代码的数据结构。每当 Python 解释器执行一个函数或方法时，都会创建一个新的栈帧，用于存储该函数或方法的局部变量、参数、返回地址以及其他执行相关的信息。这些栈帧会按照调用顺序被组织成一个栈，称为调用栈。</p>
-<h2 id="栈帧运作原理"><a href="#栈帧运作原理" class="headerlink" title="栈帧运作原理"></a>栈帧运作原理</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">foo</span>(<span class="params">a, b</span>):</span><br><span class="line">    c = a + b</span><br><span class="line">    bar(c)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bar</span>(<span class="params">x</span>):</span><br><span class="line">    y = x * <span class="number">2</span></span><br><span class="line">    <span class="built_in">print</span>(y)</span><br><span class="line"></span><br><span class="line">foo(<span class="number">3</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="栈帧运作原理"><a href="#栈帧运作原理" class="headerlink" title="栈帧运作原理"></a>栈帧运作原理</h2><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">foo</span>(<span class="params">a, b</span>):</span><br><span class="line">    c = a + b</span><br><span class="line">    bar(c)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bar</span>(<span class="params">x</span>):</span><br><span class="line">    y = x * <span class="number">2</span></span><br><span class="line">    <span class="built_in">print</span>(y)</span><br><span class="line"></span><br><span class="line">foo(<span class="number">3</span>, <span class="number">4</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>栈帧变化：</p>
-<h3 id="1-调用-foo-3-4-："><a href="#1-调用-foo-3-4-：" class="headerlink" title="1.调用 foo(3, 4)："></a>1.调用 foo(3, 4)：</h3><p>创建 foo 函数的栈帧，压入调用栈。<br>foo 函数的局部变量表包含 a&#x3D;3, b&#x3D;4。</p>
-<h3 id="2-执行-c-a-b："><a href="#2-执行-c-a-b：" class="headerlink" title="2.执行 c &#x3D; a + b："></a>2.执行 c &#x3D; a + b：</h3><p>在 foo 的操作数栈上计算 a + b，将结果 7 存储在局部变量 c 中。</p>
-<h3 id="3-调用-bar-c-："><a href="#3-调用-bar-c-：" class="headerlink" title="3.调用 bar(c)："></a>3.调用 bar(c)：</h3><p>创建 bar 函数的栈帧，压入调用栈。<br>bar 函数的局部变量表包含 x&#x3D;7。</p>
-<h3 id="4-执行-y-x-2："><a href="#4-执行-y-x-2：" class="headerlink" title="4.执行 y &#x3D; x * 2："></a>4.执行 y &#x3D; x * 2：</h3><p>在 bar 的操作数栈上计算 x * 2，将结果 14 存储在局部变量 y 中。</p>
+<h3 id="1-调用-foo-3-4-："><a href="#1-调用-foo-3-4-：" class="headerlink" title="1.调用 foo(3, 4)："></a>1.调用 foo(3, 4)：</h3><p>创建 foo 函数的栈帧，压入调用栈。<br>foo 函数的局部变量表包含 a=3, b=4。</p>
+<h3 id="2-执行-c-a-b："><a href="#2-执行-c-a-b：" class="headerlink" title="2.执行 c = a + b："></a>2.执行 c = a + b：</h3><p>在 foo 的操作数栈上计算 a + b，将结果 7 存储在局部变量 c 中。</p>
+<h3 id="3-调用-bar-c-："><a href="#3-调用-bar-c-：" class="headerlink" title="3.调用 bar(c)："></a>3.调用 bar(c)：</h3><p>创建 bar 函数的栈帧，压入调用栈。<br>bar 函数的局部变量表包含 x=7。</p>
+<h3 id="4-执行-y-x-2："><a href="#4-执行-y-x-2：" class="headerlink" title="4.执行 y = x * 2："></a>4.执行 y = x * 2：</h3><p>在 bar 的操作数栈上计算 x * 2，将结果 14 存储在局部变量 y 中。</p>
 <h3 id="5-执行-print-y-："><a href="#5-执行-print-y-：" class="headerlink" title="5.执行 print(y)："></a>5.执行 print(y)：</h3><p>打印 y 的值 14。</p>
 <h3 id="6-bar-函数结束："><a href="#6-bar-函数结束：" class="headerlink" title="6.bar 函数结束："></a>6.bar 函数结束：</h3><p>从调用栈中弹出 bar 的栈帧，释放其内存。</p>
 <h3 id="7-foo-函数结束："><a href="#7-foo-函数结束：" class="headerlink" title="7.foo 函数结束："></a>7.foo 函数结束：</h3><p>从调用栈中弹出 foo 的栈帧，释放其内存。</p>
-<h2 id="栈帧属性方法介绍："><a href="#栈帧属性方法介绍：" class="headerlink" title="栈帧属性方法介绍："></a>栈帧属性方法介绍：</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">f_locals: 一个字典，包含了函数或方法的局部变量。键是变量名。</span><br><span class="line">f_globals: 一个字典，包含了函数或方法所在模块的全局变量。</span><br><span class="line">f_code: 一个代码对象（code object），包含了函数或方法的字节码指令、常量、变量名等信息。</span><br><span class="line">f_lasti: 整数，表示最后执行的字节码指令的索引。</span><br><span class="line">f_back: 指向上一级调用栈帧的引用，用于构建调用栈。</span><br></pre></td></tr></table></figure>
+<h2 id="栈帧属性方法介绍："><a href="#栈帧属性方法介绍：" class="headerlink" title="栈帧属性方法介绍："></a>栈帧属性方法介绍：</h2><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">f_locals: 一个字典，包含了函数或方法的局部变量。键是变量名。</span><br><span class="line">f_globals: 一个字典，包含了函数或方法所在模块的全局变量。</span><br><span class="line">f_code: 一个代码对象（code object），包含了函数或方法的字节码指令、常量、变量名等信息。</span><br><span class="line">f_lasti: 整数，表示最后执行的字节码指令的索引。</span><br><span class="line">f_back: 指向上一级调用栈帧的引用，用于构建调用栈。</span><br></pre></td></tr></tbody></table></figure>
 
 <h2 id="生成器介绍"><a href="#生成器介绍" class="headerlink" title="生成器介绍"></a>生成器介绍</h2><p>生成器（Generator）是Python中一种特殊的迭代器，它可以在迭代过程中动态生成值，而不需要一次性将所有值存储在内存中。</p>
 <p>其实生成器就是一种特殊的函数，一边运行一边生成值。</p>
 <p>[普通函数]</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_list</span>():</span><br><span class="line">    <span class="keyword">return</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">result = get_list()  <span class="comment"># 一次性返回整个列表 [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_list</span>():</span><br><span class="line">    <span class="keyword">return</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">result = get_list()  <span class="comment"># 一次性返回整个列表 [1, 2, 3]</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>[生成器] </p>
 <p>这种特殊的函数每次只“产出”一个值（yield），运行完一个再接着运行下一个，而不是一下子把所有结果返回。优点不言而喻，节省内存空间。</p>
 <p>生成器使用<code>yield</code>语句来产生值，每次调用生成器的<code>next()</code>方法时，生成器会执行直到遇到下一个<code>yield</code>语句为止，然后返回<code>yield</code>语句后面的值</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_gen</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">    </span><br><span class="line">gen = get_gen()  <span class="comment"># 不会立即执行，只是创建生成器对象</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出 2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出 3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_gen</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">    </span><br><span class="line">gen = get_gen()  <span class="comment"># 不会立即执行，只是创建生成器对象</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出 2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出 3</span></span><br></pre></td></tr></tbody></table></figure>
 
-<h2 id="生成器属性"><a href="#生成器属性" class="headerlink" title="生成器属性"></a>生成器属性</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gi_code: 生成器对应的code对象。</span><br><span class="line">gi_frame: 生成器对应的frame（栈帧）对象。</span><br><span class="line">gi_running: 生成器函数是否在执行。生成器函数在yield以后、执行yield的下一行代码前处于frozen状态，此时这个属性的值为0。</span><br><span class="line">gi_yieldfrom：如果生成器正在从另一个生成器中 yield 值，则为该生成器对象的引用；否则为 None。</span><br><span class="line">gi_frame.f_locals：一个字典，包含生成器当前帧的本地变量。</span><br></pre></td></tr></table></figure>
+<h2 id="生成器属性"><a href="#生成器属性" class="headerlink" title="生成器属性"></a>生成器属性</h2><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gi_code: 生成器对应的code对象。</span><br><span class="line">gi_frame: 生成器对应的frame（栈帧）对象。</span><br><span class="line">gi_running: 生成器函数是否在执行。生成器函数在yield以后、执行yield的下一行代码前处于frozen状态，此时这个属性的值为0。</span><br><span class="line">gi_yieldfrom：如果生成器正在从另一个生成器中 yield 值，则为该生成器对象的引用；否则为 None。</span><br><span class="line">gi_frame.f_locals：一个字典，包含生成器当前帧的本地变量。</span><br></pre></td></tr></tbody></table></figure>
 
 <h2 id="生成器表达式"><a href="#生成器表达式" class="headerlink" title="生成器表达式"></a>生成器表达式</h2><p>使用类似列表推导式的语法，但使用圆括号而不是方括号，可以用来创建生成器对象。生成器表达式会逐个生成值，而不是一次性生成整个序列，这样可以节省内存空间，特别是在处理大型数据集时非常有用（依然符合每次生成值后保留当前的状态，以便下次调用时可以继续生成值）。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gen = (x * x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(gen))  <span class="comment"># 输出 [0, 1, 4, 9, 16]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gen = (x * x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(gen))  <span class="comment"># 输出 [0, 1, 4, 9, 16]</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 
 <h2 id="和栈帧的结合"><a href="#和栈帧的结合" class="headerlink" title="和栈帧的结合"></a>和栈帧的结合</h2><p>接下来我给你看一个脚本 你就知道为什么我要介绍生成器这个东西了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">my_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">gen = my_generator()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取生成器的当前帧信息</span></span><br><span class="line">frame = gen.gi_frame</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出生成器的当前帧信息</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Local Variables:&quot;</span>, frame.f_locals)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Global Variables:&quot;</span>, frame.f_globals)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Code Object:&quot;</span>, frame.f_code)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Instruction Pointer:&quot;</span>, frame.f_lasti)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">my_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">gen = my_generator()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取生成器的当前帧信息</span></span><br><span class="line">frame = gen.gi_frame</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出生成器的当前帧信息</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Local Variables:"</span>, frame.f_locals)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Global Variables:"</span>, frame.f_globals)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Code Object:"</span>, frame.f_code)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Instruction Pointer:"</span>, frame.f_lasti)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>这个脚本并不难以理解，首先是定义一个生成器，然后我们调用生成器并且使用gi_frame获取了当前生成器栈帧，然后我们又访问栈帧对象的几个属性：</p>
 <p>f_locals是查看栈帧的存储的局部变量名，f_globals是查看全局变量名，f_code是查看函数或方法的字节码指令、常量、变量名等信息，f_lasti是查看最后执行的字节码指令的索引。</p>
 <p>也许这些话语又变得很抽象，但是运行出来的结果将会很清晰的展示获取到的生成器的帧信息：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Local Variables: &#123;&#125;</span><br><span class="line"></span><br><span class="line">Global Variables: &#123;<span class="string">&#x27;__name__&#x27;</span>: <span class="string">&#x27;__main__&#x27;</span>, <span class="string">&#x27;__doc__&#x27;</span>: <span class="literal">None</span>, <span class="string">&#x27;__package__&#x27;</span>: <span class="literal">None</span>, <span class="string">&#x27;__loader__&#x27;</span>: &lt;_frozen_importlib_external.SourceFileLoader <span class="built_in">object</span> at <span class="number">0x0000024A3485C260</span>&gt;, <span class="string">&#x27;__spec__&#x27;</span>: <span class="literal">None</span>, <span class="string">&#x27;__annotations__&#x27;</span>: &#123;&#125;, <span class="string">&#x27;__builtins__&#x27;</span>: &lt;module <span class="string">&#x27;builtins&#x27;</span> (built-<span class="keyword">in</span>)&gt;, <span class="string">&#x27;__file__&#x27;</span>: <span class="string">&#x27;D:\\pycharm\\PythonProject\\12121212.py&#x27;</span>, <span class="string">&#x27;__cached__&#x27;</span>: <span class="literal">None</span>, <span class="string">&#x27;my_generator&#x27;</span>: &lt;function my_generator at <span class="number">0x0000024A346EA2A0</span>&gt;, <span class="string">&#x27;gen&#x27;</span>: &lt;generator <span class="built_in">object</span> my_generator at <span class="number">0x0000024A64CB1380</span>&gt;, <span class="string">&#x27;frame&#x27;</span>: &lt;frame at <span class="number">0x0000024A347E4E00</span>, file <span class="string">&#x27;D:\\pycharm\\PythonProject\\12121212.py&#x27;</span>, line <span class="number">1</span>, code my_generator&gt;&#125;</span><br><span class="line"></span><br><span class="line">Code Object: &lt;code <span class="built_in">object</span> my_generator at <span class="number">0x0000024A349F1200</span>, file <span class="string">&quot;D:\pycharm\PythonProject\12121212.py&quot;</span>, line <span class="number">1</span>&gt;</span><br><span class="line"></span><br><span class="line">Instruction Pointer: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Local Variables: {}</span><br><span class="line"></span><br><span class="line">Global Variables: {<span class="string">'__name__'</span>: <span class="string">'__main__'</span>, <span class="string">'__doc__'</span>: <span class="literal">None</span>, <span class="string">'__package__'</span>: <span class="literal">None</span>, <span class="string">'__loader__'</span>: &lt;_frozen_importlib_external.SourceFileLoader <span class="built_in">object</span> at <span class="number">0x0000024A3485C260</span>&gt;, <span class="string">'__spec__'</span>: <span class="literal">None</span>, <span class="string">'__annotations__'</span>: {}, <span class="string">'__builtins__'</span>: &lt;module <span class="string">'builtins'</span> (built-<span class="keyword">in</span>)&gt;, <span class="string">'__file__'</span>: <span class="string">'D:\\pycharm\\PythonProject\\12121212.py'</span>, <span class="string">'__cached__'</span>: <span class="literal">None</span>, <span class="string">'my_generator'</span>: &lt;function my_generator at <span class="number">0x0000024A346EA2A0</span>&gt;, <span class="string">'gen'</span>: &lt;generator <span class="built_in">object</span> my_generator at <span class="number">0x0000024A64CB1380</span>&gt;, <span class="string">'frame'</span>: &lt;frame at <span class="number">0x0000024A347E4E00</span>, file <span class="string">'D:\\pycharm\\PythonProject\\12121212.py'</span>, line <span class="number">1</span>, code my_generator&gt;}</span><br><span class="line"></span><br><span class="line">Code Object: &lt;code <span class="built_in">object</span> my_generator at <span class="number">0x0000024A349F1200</span>, file <span class="string">"D:\pycharm\PythonProject\12121212.py"</span>, line <span class="number">1</span>&gt;</span><br><span class="line"></span><br><span class="line">Instruction Pointer: <span class="number">0</span></span><br></pre></td></tr></tbody></table></figure>
 
 <h2 id="利用栈帧逃逸沙箱"><a href="#利用栈帧逃逸沙箱" class="headerlink" title="利用栈帧逃逸沙箱"></a>利用栈帧逃逸沙箱</h2><p>栈帧（stack frame）是函数调用时用来存储局部变量、返回地址等的一段内存空间。如果你能“逃逸”出这个栈帧的控制范围，你就能访问修改不该访问的内存（比如沙箱外的数据或指令），这就叫栈帧逃逸</p>
 <p>原理是：是通过生成器的栈帧对象通过f_back（返回前一帧）从而逃逸出去获取globals符号表，例如：</p>
 <p>frame0 (f 内部) –&gt; frame1 (waff 函数) –&gt; frame2 (exec 所在作用域)</p>
 <p>下面脚本就是通过栈帧一步一步拿到全局变量s3cret但是不直接引用 </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">s3cret=<span class="string">&quot;this is flag&quot;</span></span><br><span class="line"></span><br><span class="line">codes=<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">def waff():</span></span><br><span class="line"><span class="string">    def f():</span></span><br><span class="line"><span class="string">        yield g.gi_frame.f_back</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    g = f()  #生成器</span></span><br><span class="line"><span class="string">    frame = next(g) #获取到生成器的栈帧对象</span></span><br><span class="line"><span class="string">    print(frame)</span></span><br><span class="line"><span class="string">    print(frame.f_back)</span></span><br><span class="line"><span class="string">    print(frame.f_back.f_back)</span></span><br><span class="line"><span class="string">    b = frame.f_back.f_back.f_globals[&#x27;s3cret&#x27;] #返回并获取前一级栈帧的globals</span></span><br><span class="line"><span class="string">    return b</span></span><br><span class="line"><span class="string">b=waff()</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="built_in">locals</span>=&#123;&#125;</span><br><span class="line">code = <span class="built_in">compile</span>(codes, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;exec&quot;</span>)</span><br><span class="line"><span class="built_in">exec</span>(code,<span class="built_in">locals</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">locals</span>[<span class="string">&quot;b&quot;</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">s3cret=<span class="string">"this is flag"</span></span><br><span class="line"></span><br><span class="line">codes=<span class="string">'''</span></span><br><span class="line"><span class="string">def waff():</span></span><br><span class="line"><span class="string">    def f():</span></span><br><span class="line"><span class="string">        yield g.gi_frame.f_back</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    g = f()  #生成器</span></span><br><span class="line"><span class="string">    frame = next(g) #获取到生成器的栈帧对象</span></span><br><span class="line"><span class="string">    print(frame)</span></span><br><span class="line"><span class="string">    print(frame.f_back)</span></span><br><span class="line"><span class="string">    print(frame.f_back.f_back)</span></span><br><span class="line"><span class="string">    b = frame.f_back.f_back.f_globals['s3cret'] #返回并获取前一级栈帧的globals</span></span><br><span class="line"><span class="string">    return b</span></span><br><span class="line"><span class="string">b=waff()</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="built_in">locals</span>={}</span><br><span class="line">code = <span class="built_in">compile</span>(codes, <span class="string">"test"</span>, <span class="string">"exec"</span>)</span><br><span class="line"><span class="built_in">exec</span>(code,<span class="built_in">locals</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">locals</span>[<span class="string">"b"</span>])</span><br></pre></td></tr></tbody></table></figure>
 
 <h3 id="过滤绕过"><a href="#过滤绕过" class="headerlink" title="过滤绕过"></a>过滤绕过</h3><p>list send 生成器表达式绕过</p>
 <p><code>yield</code>过滤也可以用生成器表达式进行绕过</p>
 <h2 id="globals中的-builtins-字段"><a href="#globals中的-builtins-字段" class="headerlink" title="globals中的__builtins__字段"></a>globals中的__builtins__字段</h2><p>代码这么设计</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">key = <span class="string">&quot;this is flag&quot;</span></span><br><span class="line">codes=<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">def waff():</span></span><br><span class="line"><span class="string">    def f():</span></span><br><span class="line"><span class="string">        yield g.gi_frame.f_back</span></span><br><span class="line"><span class="string">    g = f()  #生成器</span></span><br><span class="line"><span class="string">    frame = next(g) #获取到生成器的栈帧对象</span></span><br><span class="line"><span class="string">    b = frame.f_back.f_back.f_globals[&#x27;key&#x27;] #返回并获取前一级栈帧的globals</span></span><br><span class="line"><span class="string">    return b</span></span><br><span class="line"><span class="string">b=waff()</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="built_in">locals</span>=&#123;<span class="string">&quot;__builtins__&quot;</span>: <span class="literal">None</span>&#125;</span><br><span class="line">code = <span class="built_in">compile</span>(codes, <span class="string">&quot;&quot;</span>, <span class="string">&quot;exec&quot;</span>)</span><br><span class="line"><span class="built_in">exec</span>(code, <span class="built_in">locals</span>, <span class="literal">None</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">locals</span>[<span class="string">&quot;b&quot;</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">key = <span class="string">"this is flag"</span></span><br><span class="line">codes=<span class="string">'''</span></span><br><span class="line"><span class="string">def waff():</span></span><br><span class="line"><span class="string">    def f():</span></span><br><span class="line"><span class="string">        yield g.gi_frame.f_back</span></span><br><span class="line"><span class="string">    g = f()  #生成器</span></span><br><span class="line"><span class="string">    frame = next(g) #获取到生成器的栈帧对象</span></span><br><span class="line"><span class="string">    b = frame.f_back.f_back.f_globals['key'] #返回并获取前一级栈帧的globals</span></span><br><span class="line"><span class="string">    return b</span></span><br><span class="line"><span class="string">b=waff()</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="built_in">locals</span>={<span class="string">"__builtins__"</span>: <span class="literal">None</span>}</span><br><span class="line">code = <span class="built_in">compile</span>(codes, <span class="string">""</span>, <span class="string">"exec"</span>)</span><br><span class="line"><span class="built_in">exec</span>(code, <span class="built_in">locals</span>, <span class="literal">None</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">locals</span>[<span class="string">"b"</span>])</span><br></pre></td></tr></tbody></table></figure>
 
 <p>这里将沙箱中的<code>__builtins__</code>置为空，也就是说沙箱中不能调用内置方法了，那我们这段代码运行就会报错了(next方法不能使用)，那么该如何代替next方法来拿到生成器的值，还记得上面说可以遍历的形式来获取生成器的值：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">key = <span class="string">&quot;this is flag&quot;</span></span><br><span class="line">codes=<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">def waff():</span></span><br><span class="line"><span class="string">    def f():</span></span><br><span class="line"><span class="string">        yield g.gi_frame.f_back</span></span><br><span class="line"><span class="string">    g = f()  #生成器</span></span><br><span class="line"><span class="string">    frame = [i for i in g][0] #获取到生成器的栈帧对象</span></span><br><span class="line"><span class="string">    b = frame.f_back.f_back.f_back.f_globals[&#x27;key&#x27;] #返回并获取前一级栈帧的globals</span></span><br><span class="line"><span class="string">    return b</span></span><br><span class="line"><span class="string">b=waff()</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="built_in">locals</span>=&#123;<span class="string">&quot;__builtins__&quot;</span>: <span class="literal">None</span>&#125;</span><br><span class="line">code = <span class="built_in">compile</span>(codes, <span class="string">&quot;&quot;</span>, <span class="string">&quot;exec&quot;</span>)</span><br><span class="line"><span class="built_in">exec</span>(code, <span class="built_in">locals</span>, <span class="literal">None</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">locals</span>[<span class="string">&quot;b&quot;</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">key = <span class="string">"this is flag"</span></span><br><span class="line">codes=<span class="string">'''</span></span><br><span class="line"><span class="string">def waff():</span></span><br><span class="line"><span class="string">    def f():</span></span><br><span class="line"><span class="string">        yield g.gi_frame.f_back</span></span><br><span class="line"><span class="string">    g = f()  #生成器</span></span><br><span class="line"><span class="string">    frame = [i for i in g][0] #获取到生成器的栈帧对象</span></span><br><span class="line"><span class="string">    b = frame.f_back.f_back.f_back.f_globals['key'] #返回并获取前一级栈帧的globals</span></span><br><span class="line"><span class="string">    return b</span></span><br><span class="line"><span class="string">b=waff()</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="built_in">locals</span>={<span class="string">"__builtins__"</span>: <span class="literal">None</span>}</span><br><span class="line">code = <span class="built_in">compile</span>(codes, <span class="string">""</span>, <span class="string">"exec"</span>)</span><br><span class="line"><span class="built_in">exec</span>(code, <span class="built_in">locals</span>, <span class="literal">None</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">locals</span>[<span class="string">"b"</span>])</span><br></pre></td></tr></tbody></table></figure>
 
 <p>​    </p>
 </article>
 <div class="article-footer">
     <section id="license">
-      <div class="header"><span>License</span></div>
+      <div class="header"><span>许可协议</span></div>
       <div class="body"><p>This article is licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Please include attribution when reposting.</p>
 </div>
     </section>
@@ -157,7 +156,7 @@
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2025/05/12/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/">python沙箱逃逸</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/">CBC字节翻转攻击</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/05/12/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/">python沙箱逃逸</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/04/27/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/">CBC字节翻转攻击</a></div></section></div>
 
 
 
@@ -171,26 +170,26 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">On This Page</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8"><span class="toc-text">初学栈帧逃逸</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E5%B8%A7%E4%BB%8B%E7%BB%8D"><span class="toc-text">栈帧介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E5%B8%A7%E8%BF%90%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">栈帧运作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%B0%83%E7%94%A8-foo-3-4-%EF%BC%9A"><span class="toc-text">1.调用 foo(3, 4)：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%A7%E8%A1%8C-c-a-b%EF%BC%9A"><span class="toc-text">2.执行 c &#x3D; a + b：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%B0%83%E7%94%A8-bar-c-%EF%BC%9A"><span class="toc-text">3.调用 bar(c)：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%89%A7%E8%A1%8C-y-x-2%EF%BC%9A"><span class="toc-text">4.执行 y &#x3D; x * 2：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%89%A7%E8%A1%8C-print-y-%EF%BC%9A"><span class="toc-text">5.执行 print(y)：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-bar-%E5%87%BD%E6%95%B0%E7%BB%93%E6%9D%9F%EF%BC%9A"><span class="toc-text">6.bar 函数结束：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-foo-%E5%87%BD%E6%95%B0%E7%BB%93%E6%9D%9F%EF%BC%9A"><span class="toc-text">7.foo 函数结束：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E5%B8%A7%E5%B1%9E%E6%80%A7%E6%96%B9%E6%B3%95%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="toc-text">栈帧属性方法介绍：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%99%A8%E4%BB%8B%E7%BB%8D"><span class="toc-text">生成器介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%99%A8%E5%B1%9E%E6%80%A7"><span class="toc-text">生成器属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%99%A8%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">生成器表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E6%A0%88%E5%B8%A7%E7%9A%84%E7%BB%93%E5%90%88"><span class="toc-text">和栈帧的结合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8%E6%B2%99%E7%AE%B1"><span class="toc-text">利用栈帧逃逸沙箱</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E7%BB%95%E8%BF%87"><span class="toc-text">过滤绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#globals%E4%B8%AD%E7%9A%84-builtins-%E5%AD%97%E6%AE%B5"><span class="toc-text">globals中的__builtins__字段</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>Scroll to Top</span></a></div></widget>
-</div></aside><div class='float-panel'>
-  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E5%AD%A6%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8"><span class="toc-text">初学栈帧逃逸</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E5%B8%A7%E4%BB%8B%E7%BB%8D"><span class="toc-text">栈帧介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E5%B8%A7%E8%BF%90%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">栈帧运作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%B0%83%E7%94%A8-foo-3-4-%EF%BC%9A"><span class="toc-text">1.调用 foo(3, 4)：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%A7%E8%A1%8C-c-a-b%EF%BC%9A"><span class="toc-text">2.执行 c = a + b：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%B0%83%E7%94%A8-bar-c-%EF%BC%9A"><span class="toc-text">3.调用 bar(c)：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%89%A7%E8%A1%8C-y-x-2%EF%BC%9A"><span class="toc-text">4.执行 y = x * 2：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%89%A7%E8%A1%8C-print-y-%EF%BC%9A"><span class="toc-text">5.执行 print(y)：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-bar-%E5%87%BD%E6%95%B0%E7%BB%93%E6%9D%9F%EF%BC%9A"><span class="toc-text">6.bar 函数结束：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-foo-%E5%87%BD%E6%95%B0%E7%BB%93%E6%9D%9F%EF%BC%9A"><span class="toc-text">7.foo 函数结束：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E5%B8%A7%E5%B1%9E%E6%80%A7%E6%96%B9%E6%B3%95%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="toc-text">栈帧属性方法介绍：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%99%A8%E4%BB%8B%E7%BB%8D"><span class="toc-text">生成器介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%99%A8%E5%B1%9E%E6%80%A7"><span class="toc-text">生成器属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%99%A8%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">生成器表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E6%A0%88%E5%B8%A7%E7%9A%84%E7%BB%93%E5%90%88"><span class="toc-text">和栈帧的结合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8%E6%B2%99%E7%AE%B1"><span class="toc-text">利用栈帧逃逸沙箱</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E7%BB%95%E8%BF%87"><span class="toc-text">过滤绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#globals%E4%B8%AD%E7%9A%84-builtins-%E5%AD%97%E6%AE%B5"><span class="toc-text">globals中的__builtins__字段</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"></path><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"></path></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class="float-panel">
+  <button type="button" style="display:none" class="laptop-only rightbar-toggle mobile" onclick="sidebar.rightbar()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>
   </button>
-  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  <button type="button" style="display:none" class="mobile-only leftbar-toggle mobile" onclick="sidebar.leftbar()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"></path><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"></path></g></svg>
   </button>
 </div>
 </div><div class="scripts">
 
 
 <script type="text/javascript">
-  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  window.canonical = {"originalHost":"sauy.top","officialHosts":["localhost","127.0.0.1"],"encoded":"c2F1eS50b3A="};
   const ctx = {
     date_suffix: {
-      just: `Just`,
-      min: `minutes ago`,
-      hour: `hours ago`,
-      day: `days ago`,
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
     },
     root : `/`,
     tag_plugins: {
@@ -263,6 +262,8 @@
     }
   }
 
+  const scriptLoads = new Map();
+
   const utils = {
     // 懒加载 css https://github.com/filamentgroup/loadCSS
     css: (href, before, media, attributes) => {
@@ -323,29 +324,40 @@
       return ss;
     },
 
-    js: (src, opt) => new Promise((resolve, reject) => {
-      var script = document.createElement('script');
+    js: (src, opt) => {
       if (src.startsWith('/')) {
         src = ctx.root + src.substring(1);
       }
-      script.src = src;
-      if (opt) {
-        for (let key of Object.keys(opt)) {
-          script[key] = opt[key]
+      const key = new URL(src, document.baseURI).href;
+      if (scriptLoads.has(key)) return scriptLoads.get(key);
+
+      const promise = new Promise((resolve, reject) => {
+        var script = document.createElement('script');
+        script.src = key;
+        if (opt) {
+          for (let key of Object.keys(opt)) {
+            script[key] = opt[key]
+          }
+        } else {
+          // 默认异步，如果需要同步，第二个参数传入 {} 即可
+          script.async = true
         }
-      } else {
-        // 默认异步，如果需要同步，第二个参数传入 {} 即可
-        script.async = true
-      }
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function () {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    }),
+        script.onerror = () => {
+          scriptLoads.delete(key);
+          script.remove();
+          reject(new Error(`脚本加载失败: ${key}`));
+        };
+        script.onload = script.onreadystatechange = function () {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(script)
+      });
+      scriptLoads.set(key, promise);
+      return promise;
+    },
 
     jq: (fn) => {
       if (typeof jQuery === 'undefined') {
@@ -472,6 +484,7 @@
     push: utils.dark.method.toggle.push,
   });
 </script>
+
 <script>
   const sidebar = {
     leftbar: () => {
@@ -525,7 +538,7 @@
   })()
 </script>
 
-<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script async="" src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
 <script>
   // https://www.npmjs.com/package/vanilla-lazyload
   // Set the options globally
@@ -594,7 +607,7 @@
 </script>
 
 <!-- required -->
-<script src="/js/main.js?v=1.33.1" defer></script>
+<script src="/js/main.js?v=1.33.1" defer=""></script>
 
 <script type="text/javascript">
   const applyTheme = (theme) => {
@@ -645,9 +658,9 @@
     utils.dark.method.toggle.start();
 
     const messages = {
-      light: `Switched to Light Mode`,
-      dark: `Switched to Dark Mode`,
-      auto: `Switched to Auto Mode`,
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
     }
     hud?.toast?.(messages[newTheme])
   }
@@ -669,7 +682,7 @@
 
 
 
-<script defer>
+<script defer="">
   window.addEventListener('DOMContentLoaded', (event) => {
     ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
     for (let id of Object.keys(ctx.services)) {
@@ -805,7 +818,7 @@
     hoverDelay: 25
   };
 </script>
-<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+<script defer="" src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
   ctx.fancybox = {
     selector: `.timenode p>img`,
     css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
@@ -884,4 +897,5 @@
 
 <!-- inject -->
 
-</div></body></html>
+</div>
+</body></html>

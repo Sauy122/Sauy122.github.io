@@ -9267,6 +9267,7 @@ body>.sitebg .siteblur:hover {
 .md-text img {
   margin: auto;
   display: block;
+  height: auto;
 }
 .md-text.content p>img,
 .md-text.content .tag-plugin.image .image-bg {

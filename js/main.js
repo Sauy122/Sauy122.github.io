@@ -231,7 +231,7 @@ const init = {
     if (!canonical.originalHost) return;
     const currentURL = new URL(window.location.href);
     const currentHost = currentURL.hostname.replace(/^www\./, '');
-    if (currentHost == 'localhost') return;
+    if (['localhost', '127.0.0.1', '[::1]'].includes(currentHost)) return;
     const encodedCurrentHost = window.btoa(currentHost);
     const isCurrentHostValid = canonical.encoded === encodedCurrentHost;
     const canonicalTag = document.querySelector('link[rel="canonical"]');

@@ -1,18 +1,15 @@
-
-<!DOCTYPE html><html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="zh-CN"><head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
-  
+  <link rel="canonical" href="https://sauy.top/2025/12/04/HeroCTF%20v7-WEB/">
   
   <meta name="generator" content="Hexo 7.3.0">
-  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <meta http-equiv="x-dns-prefetch-control" content="on">
   
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-  <meta name="HandheldFriendly" content="True" >
+  <meta name="HandheldFriendly" content="True">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
@@ -20,20 +17,20 @@
   <title>HeroCTF v7-web - Sauy's corner</title>
 
   
-    <meta name="description" content="HeroCTF v7-WEBRevoked进去就是注册登录登出路由 看源码 主要是下面这几个路由 123456789101112131415161718192021222324@app.route(&quot;&#x2F;employees&quot;, methods&#x3D;[&quot;GET&quot;])@token_requireddef employees():    query &#x3D; request.">
+    <meta name="description" content="整理 HeroCTF v7 的 Web 复现笔记，记录 Revoked、Revoked Revenge 与 Tomwhat 的源码分析、问题定位和解题过程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HeroCTF v7-web">
-<meta property="og:url" content="http://example.com/2025/12/04/HeroCTF%20v7-WEB/">
-<meta property="og:site_name" content="Sauy&#39;s corner">
-<meta property="og:description" content="HeroCTF v7-WEBRevoked进去就是注册登录登出路由 看源码 主要是下面这几个路由 123456789101112131415161718192021222324@app.route(&quot;&#x2F;employees&quot;, methods&#x3D;[&quot;GET&quot;])@token_requireddef employees():    query &#x3D; request.">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/sauy.jpg">
+<meta property="og:url" content="https://sauy.top/2025/12/04/HeroCTF%20v7-WEB/">
+<meta property="og:site_name" content="Sauy's corner">
+<meta property="og:description" content="整理 HeroCTF v7 的 Web 复现笔记，记录 Revoked、Revoked Revenge 与 Tomwhat 的源码分析、问题定位和解题过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sauy.top/images/sauy.jpg">
 <meta property="article:published_time" content="2025-12-04T04:20:58.000Z">
 <meta property="article:modified_time" content="2025-12-04T06:00:32.906Z">
 <meta property="article:author" content="Sauy">
 <meta property="article:tag" content="CTF-wp">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/sauy.jpg">
+<meta name="twitter:image" content="https://sauy.top/images/sauy.jpg">
   
   
   
@@ -41,36 +38,38 @@
 
   <!-- feed -->
   
+    <link rel="alternate" href="/atom.xml" title="Sauy's corner" type="application/atom+xml">
+  
 
   <link rel="stylesheet" href="/css/main.css?v=1.33.1">
 
 
   
-    <link rel="shortcut icon" href="/images/shengdan.png">
+    <link rel="shortcut icon" href="/images/optimized/bbd11a86c7b12224-32.png" type="image/png" sizes="32x32">
   
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-12-04T12:20:58+08:00","dateModified":"2025-12-04T14:00:32+08:00","datePublished":"2025-12-04T12:20:58+08:00","description":"","headline":"HeroCTF v7-web","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/12/04/HeroCTF%20v7-WEB/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"http://example.com/2025/12/04/HeroCTF%20v7-WEB/","keywords":"CTF-wp","thumbnailUrl":"/images/jkjk.png","image":1}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg"},"dateCreated":"2025-12-04T12:20:58+08:00","dateModified":"2025-12-04T14:00:32+08:00","datePublished":"2025-12-04T12:20:58+08:00","description":"","headline":"HeroCTF v7-web","mainEntityOfPage":{"@type":"WebPage","@id":"https://sauy.top/2025/12/04/HeroCTF%20v7-WEB/"},"publisher":{"@type":"Organization","name":"Sauy","sameAs":[],"image":"/images/sauy.jpg","logo":{"@type":"ImageObject","url":"/images/sauy.jpg"}},"url":"https://sauy.top/2025/12/04/HeroCTF%20v7-WEB/","keywords":"CTF-wp","thumbnailUrl":"/images/jkjk.png","image":1}</script>
   
 </head>
 <body>
 
-<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+<div class="l_body content" id="start" layout="post" type="tech"><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/sauy.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy="" class="avatar" src="/images/optimized/fad17cb6008e6c57-192.webp" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';" loading="eager" decoding="async" srcset="/images/optimized/b053d7b86e84b1be-96.webp 96w, /images/optimized/fad17cb6008e6c57-192.webp 192w" sizes="48px" width="192" height="192" alt="Sauy 的头像"></a><a class="title" href="/"><div class="main">Sauy's corner</div><div class="sub cap">Die With A Smile</div></a></div></header>
 
 <div class="nav-area">
 
 <nav class="menu dis-select"></nav>
 </div>
 <div class="widgets">
-<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="Search"></form><div id="search-result"></div><div class="search-no-result">No Results!</div></div>
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/"><span class="title">BTC系统基础</span></a><a class="item title" href="/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/"><span class="title">区块链基础知识</span></a><a class="item title" href="/2026/09/15/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">反射机制解析</span></a><a class="item title" href="/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2025/04/06/Sql-labs%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/"><span class="title">Sql-labs部分题解</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/07/NSSCTF%20Round30%20Basic%E5%8F%8C%E4%BA%BA%E7%BB%84%E9%98%9F%E8%B5%9B/"><span class="title">NSSCTF Round30 Basic双人组队赛</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/"><span class="title">BTC系统基础</span></a><a class="item title" href="/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/"><span class="title">区块链基础知识</span></a><a class="item title" href="/2026/09/15/HTB-Practice/"><span class="title">渗透靶机-wp-长期更新</span></a><a class="item title" href="/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">反射机制解析</span></a><a class="item title" href="/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"><span class="title">Kerberos协议及其攻击手法</span></a><a class="item title" href="/2025/04/06/Sql-labs%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/"><span class="title">Sql-labs部分题解</span></a><a class="item title" href="/2025/08/29/SSRF/"><span class="title">SSRF</span></a><a class="item title" href="/2025/04/20/python%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/"><span class="title">浅谈python内存马</span></a><a class="item title" href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"><span class="title">Redis主从复制RCE</span></a><a class="item title" href="/2025/04/07/NSSCTF%20Round30%20Basic%E5%8F%8C%E4%BA%BA%E7%BB%84%E9%98%9F%E8%B5%9B/"><span class="title">NSSCTF Round30 Basic双人组队赛</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -81,9 +80,9 @@
 
 <div class="article banner top">
   <div class="content">
-    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2025-12-04T04:20:58.000Z">2025-12-04</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2025-12-04T06:00:32.906Z">2025-12-04</time></span></div></div></div>
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/CTF/">CTF</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-12-04T04:20:58.000Z">2025-12-04</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-12-04T06:00:32.906Z">2025-12-04</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -96,14 +95,14 @@
   </div>
   </div><article class="md-text content"><h1 id="HeroCTF-v7-WEB"><a href="#HeroCTF-v7-WEB" class="headerlink" title="HeroCTF v7-WEB"></a>HeroCTF v7-WEB</h1><h2 id="Revoked"><a href="#Revoked" class="headerlink" title="Revoked"></a>Revoked</h2><p>进去就是注册登录登出路由</p>
 <p>看源码 主要是下面这几个路由</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/employees&quot;</span>, methods=[<span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="meta">@token_required</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">employees</span>():</span><br><span class="line">    query = request.args.get(<span class="string">&quot;query&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">    conn = get_db_connection()</span><br><span class="line">    cursor = conn.cursor()</span><br><span class="line">    cursor.execute(</span><br><span class="line">        <span class="string">f&quot;SELECT id, name, email, position FROM employees WHERE name LIKE &#x27;%<span class="subst">&#123;query&#125;</span>%&#x27;&quot;</span></span><br><span class="line">    )</span><br><span class="line">    results = cursor.fetchall()</span><br><span class="line">    conn.close()</span><br><span class="line">    <span class="built_in">print</span>(request.username)</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;employees.html&quot;</span>, username=request.username, employees=results, query=query)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/admin&quot;</span>, methods=[<span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="meta">@token_required</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">admin</span>():</span><br><span class="line">    is_admin = <span class="built_in">getattr</span>(request, <span class="string">&quot;is_admin&quot;</span>, <span class="literal">None</span>)</span><br><span class="line">    <span class="keyword">if</span> is_admin:</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">&quot;admin.html&quot;</span>, username=request.username, flag=FLAG)</span><br><span class="line"></span><br><span class="line">    flash(<span class="string">&quot;You don&#x27;t have the permission to access this area&quot;</span>, <span class="string">&quot;error&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">&quot;/employees&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">"/employees"</span>, methods=[<span class="string">"GET"</span>]</span>)</span></span><br><span class="line"><span class="meta">@token_required</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">employees</span>():</span><br><span class="line">    query = request.args.get(<span class="string">"query"</span>, <span class="string">""</span>)</span><br><span class="line">    conn = get_db_connection()</span><br><span class="line">    cursor = conn.cursor()</span><br><span class="line">    cursor.execute(</span><br><span class="line">        <span class="string">f"SELECT id, name, email, position FROM employees WHERE name LIKE '%<span class="subst">{query}</span>%'"</span></span><br><span class="line">    )</span><br><span class="line">    results = cursor.fetchall()</span><br><span class="line">    conn.close()</span><br><span class="line">    <span class="built_in">print</span>(request.username)</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">"employees.html"</span>, username=request.username, employees=results, query=query)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">"/admin"</span>, methods=[<span class="string">"GET"</span>]</span>)</span></span><br><span class="line"><span class="meta">@token_required</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">admin</span>():</span><br><span class="line">    is_admin = <span class="built_in">getattr</span>(request, <span class="string">"is_admin"</span>, <span class="literal">None</span>)</span><br><span class="line">    <span class="keyword">if</span> is_admin:</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">"admin.html"</span>, username=request.username, flag=FLAG)</span><br><span class="line"></span><br><span class="line">    flash(<span class="string">"You don't have the permission to access this area"</span>, <span class="string">"error"</span>)</span><br><span class="line">    <span class="keyword">return</span> redirect(<span class="string">"/employees"</span>)</span><br></pre></td></tr></tbody></table></figure>
 
-<p>在&#x2F;employee存在sql注入 union联合注入 看源码可以知道数据库的结构</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">def init_db():</span><br><span class="line">    conn = sqlite3.connect(&quot;database.db&quot;)</span><br><span class="line">    cursor = conn.cursor()</span><br><span class="line">    cursor.execute(&quot;&quot;&quot;DROP TABLE IF EXISTS employees;&quot;&quot;&quot;)</span><br><span class="line">    cursor.execute(&quot;&quot;&quot;DROP TABLE IF EXISTS revoked_tokens;&quot;&quot;&quot;)</span><br><span class="line">    cursor.execute(&quot;&quot;&quot;DROP TABLE IF EXISTS users;&quot;&quot;&quot;)</span><br><span class="line">    cursor.execute(&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS users (</span><br><span class="line">                        id INTEGER PRIMARY KEY AUTOINCREMENT,</span><br><span class="line">                        username TEXT UNIQUE NOT NULL,</span><br><span class="line">                        is_admin BOOL NOT NULL,</span><br><span class="line">                        password_hash TEXT NOT NULL)&quot;&quot;&quot;)</span><br><span class="line">    cursor.execute(&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS revoked_tokens (</span><br><span class="line">                        id INTEGER PRIMARY KEY AUTOINCREMENT,</span><br><span class="line">                        token TEXT NOT NULL)&quot;&quot;&quot;)</span><br><span class="line">    cursor.execute(&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS employees (</span><br><span class="line">                        id INTEGER PRIMARY KEY AUTOINCREMENT,</span><br><span class="line">                        name TEXT NOT NULL,</span><br><span class="line">                        email TEXT UNIQUE NOT NULL,</span><br><span class="line">                        position TEXT NOT NULL,</span><br><span class="line">                        phone TEXT NOT NULL,</span><br><span class="line">                        location TEXT NOT NULL)&quot;&quot;&quot;)</span><br><span class="line">    conn.commit()</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+<p>在/employee存在sql注入 union联合注入 看源码可以知道数据库的结构</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">def init_db():</span><br><span class="line">    conn = sqlite3.connect("database.db")</span><br><span class="line">    cursor = conn.cursor()</span><br><span class="line">    cursor.execute("""DROP TABLE IF EXISTS employees;""")</span><br><span class="line">    cursor.execute("""DROP TABLE IF EXISTS revoked_tokens;""")</span><br><span class="line">    cursor.execute("""DROP TABLE IF EXISTS users;""")</span><br><span class="line">    cursor.execute("""CREATE TABLE IF NOT EXISTS users (</span><br><span class="line">                        id INTEGER PRIMARY KEY AUTOINCREMENT,</span><br><span class="line">                        username TEXT UNIQUE NOT NULL,</span><br><span class="line">                        is_admin BOOL NOT NULL,</span><br><span class="line">                        password_hash TEXT NOT NULL)""")</span><br><span class="line">    cursor.execute("""CREATE TABLE IF NOT EXISTS revoked_tokens (</span><br><span class="line">                        id INTEGER PRIMARY KEY AUTOINCREMENT,</span><br><span class="line">                        token TEXT NOT NULL)""")</span><br><span class="line">    cursor.execute("""CREATE TABLE IF NOT EXISTS employees (</span><br><span class="line">                        id INTEGER PRIMARY KEY AUTOINCREMENT,</span><br><span class="line">                        name TEXT NOT NULL,</span><br><span class="line">                        email TEXT UNIQUE NOT NULL,</span><br><span class="line">                        position TEXT NOT NULL,</span><br><span class="line">                        phone TEXT NOT NULL,</span><br><span class="line">                        location TEXT NOT NULL)""")</span><br><span class="line">    conn.commit()</span><br><span class="line">    conn.close()</span><br></pre></td></tr></tbody></table></figure>
 
 <p>所以我们sql注入的语句写成</p>
 <p>1’ union select 1,id,3,username from users–+</p>
-<p>这样就可以查询到我们敏感信息 比如admin的password_hash 我们要拿到flag就需要以admin的身份访问&#x2F;admin</p>
+<p>这样就可以查询到我们敏感信息 比如admin的password_hash 我们要拿到flag就需要以admin的身份访问/admin</p>
 <p>那么这里有两种做法 官方给的做法 是使用已知hash爆破明文密码用rockyou (?)</p>
 <p>这道题其实还有两种解法 我放在revenge一起写</p>
 <h2 id="Revoked-Revenge"><a href="#Revoked-Revenge" class="headerlink" title="Revoked Revenge"></a>Revoked Revenge</h2><p>1’ union select 1,id,3,token from revoked_tokens–+</p>
@@ -112,10 +111,10 @@
 <p>原理参考文章:</p>
 <p><a target="_blank" rel="noopener" href="https://security.stackexchange.com/questions/272746/jwt-able-to-change-signature-and-its-still-verified">https://security.stackexchange.com/questions/272746/jwt-able-to-change-signature-and-its-still-verified</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/jwtk/jjwt/#base64-changing-characters">https://github.com/jwtk/jjwt/#base64-changing-characters</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1. 签名验证只关心字节数组</span><br><span class="line">加密操作（如签名验证）始终在原始二进制数据（字节数组）上执行。</span><br><span class="line">Base64 只是一种将该字节数组转换为文本格式以便在 JSON 或 HTTP 中传输的编码方式。</span><br><span class="line">只要解码器从修改后的 Base64 字符串中得到了完全相同的原始字节数组，验证就会通过。</span><br><span class="line"></span><br><span class="line">2. Base64 存在“冗余”字符 (填充/不关心位)</span><br><span class="line">Base64 将 3 个字节编码成 4 个字符。 当原始签名长度不是 3 的倍数时（这是 RSA 签名等常见情况），最后一个 Base64 块是不完整的。</span><br><span class="line">在这个不完整的块中，最后一个（或倒数第二个）Base64 字符的部分位不代表原始数据，而是填充或“不关心”（don&#x27;t care）的值。</span><br><span class="line">您可以更改这个字符，只要更改后的字符仍然保持那些“不关心”位，而不影响那些重要的、代表原始签名的位。</span><br><span class="line">结果： 不同的 Base64 字符串可以解码出相同的原始字节数组。</span><br><span class="line">示例： 更改一个字符为另一个具有相同前两位（有效数据位）的字符（例如 &#x27;A&#x27; 改为 &#x27;P&#x27;），不会改变解码后的签名。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1. 签名验证只关心字节数组</span><br><span class="line">加密操作（如签名验证）始终在原始二进制数据（字节数组）上执行。</span><br><span class="line">Base64 只是一种将该字节数组转换为文本格式以便在 JSON 或 HTTP 中传输的编码方式。</span><br><span class="line">只要解码器从修改后的 Base64 字符串中得到了完全相同的原始字节数组，验证就会通过。</span><br><span class="line"></span><br><span class="line">2. Base64 存在“冗余”字符 (填充/不关心位)</span><br><span class="line">Base64 将 3 个字节编码成 4 个字符。 当原始签名长度不是 3 的倍数时（这是 RSA 签名等常见情况），最后一个 Base64 块是不完整的。</span><br><span class="line">在这个不完整的块中，最后一个（或倒数第二个）Base64 字符的部分位不代表原始数据，而是填充或“不关心”（don't care）的值。</span><br><span class="line">您可以更改这个字符，只要更改后的字符仍然保持那些“不关心”位，而不影响那些重要的、代表原始签名的位。</span><br><span class="line">结果： 不同的 Base64 字符串可以解码出相同的原始字节数组。</span><br><span class="line">示例： 更改一个字符为另一个具有相同前两位（有效数据位）的字符（例如 'A' 改为 'P'），不会改变解码后的签名。</span><br></pre></td></tr></tbody></table></figure>
 
 <p>得到的admin的jwt</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOjEsImlzc3VlZCI6MTc2NDY2NjY4NS4zMjk5MTgxfQ.T_VUBWxtF0krNyTFYX7mgteeTfGcgqh-jVuhs8VMunY</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOjEsImlzc3VlZCI6MTc2NDY2NjY4NS4zMjk5MTgxfQ.T_VUBWxtF0krNyTFYX7mgteeTfGcgqh-jVuhs8VMunY</span><br></pre></td></tr></tbody></table></figure>
 
 <table>
 <thead>
@@ -157,34 +156,34 @@
 </tr>
 </tbody></table>
 <p>改为</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOjEsImlzc3VlZCI6MTc2NDY2NjY4NS4zMjk5MTgxfQ.T_VUBWxtF0krNyTFYX7mgteeTfGcgqh-jVuhs8VMunZ</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOjEsImlzc3VlZCI6MTc2NDY2NjY4NS4zMjk5MTgxfQ.T_VUBWxtF0krNyTFYX7mgteeTfGcgqh-jVuhs8VMunZ</span><br></pre></td></tr></tbody></table></figure>
 
 <h3 id="solution2"><a href="#solution2" class="headerlink" title="solution2"></a>solution2</h3><p>这里是因为处理输入的JWT时，对字符串形式和解码字节形式的处理不一致</p>
 <p>这里我们给我们得到的jwt末尾加一个<code>=</code>就可以绕过revoked_tokens的绕过</p>
 <p>因为这里判断是不是revoked_token是和数据库里的revoked_token字符串比较</p>
 <p>我们加一个<code>=</code>填充可以绕过这个比较并且被解析成正确的jwt</p>
 <p>得到</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOjEsImlzc3VlZCI6MTc2NDY2NjY4NS4zMjk5MTgxfQ.T_VUBWxtF0krNyTFYX7mgteeTfGcgqh-jVuhs8VMunY</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOjEsImlzc3VlZCI6MTc2NDY2NjY4NS4zMjk5MTgxfQ.T_VUBWxtF0krNyTFYX7mgteeTfGcgqh-jVuhs8VMunY</span><br></pre></td></tr></tbody></table></figure>
 
 <p>改为</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOjEsImlzc3VlZCI6MTc2NDY2NjY4NS4zMjk5MTgxfQ.T_VUBWxtF0krNyTFYX7mgteeTfGcgqh-jVuhs8VMunY=</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOjEsImlzc3VlZCI6MTc2NDY2NjY4NS4zMjk5MTgxfQ.T_VUBWxtF0krNyTFYX7mgteeTfGcgqh-jVuhs8VMunY=</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/image-20251202172432287.png" alt="image-20251202172432287"></p>
+<p><img src="/images/image-20251202172432287.png" alt="image-20251202172432287" loading="lazy" decoding="async" width="1474" height="849"></p>
 <h2 id="Tomwhat"><a href="#Tomwhat" class="headerlink" title="Tomwhat"></a>Tomwhat</h2><p>进去就是tomwaht的面板 虽然我们不知道帐号密码</p>
 <p>run.sh里面也写了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">files=&quot;$(grep -Rl &#x27;RemoteCIDRValve&#x27; $CATALINA_HOME/conf $CATALINA_HOME/webapps || true)&quot; &amp;&amp; \</span><br><span class="line">    for f in $files; do \</span><br><span class="line">      sed -i &#x27;s/allow=&quot;127.0.0.0\/8,::1\/128&quot;/allow=&quot;0.0.0.0\/0,::\/0&quot;/&#x27; &quot;$f&quot;; \</span><br><span class="line">    done</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">files="$(grep -Rl 'RemoteCIDRValve' $CATALINA_HOME/conf $CATALINA_HOME/webapps || true)" &amp;&amp; \</span><br><span class="line">    for f in $files; do \</span><br><span class="line">      sed -i 's/allow="127.0.0.0\/8,::1\/128"/allow="0.0.0.0\/0,::\/0"/' "$f"; \</span><br><span class="line">    done</span><br></pre></td></tr></tbody></table></figure>
 
 <p>这道题考点是tomwhat面板可以泄露session并且这里三个路由时共享session会话数据的</p>
 <p>admin要求username为darth_sidious</p>
-<p>但是&#x2F;light路由严禁输入darth_sidious 那么这样就可以刚刚我说的面板可以泄露session并且这里三个路由时共享session会话数据的点</p>
+<p>但是/light路由严禁输入darth_sidious 那么这样就可以刚刚我说的面板可以泄露session并且这里三个路由时共享session会话数据的点</p>
 <p>参考文章<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/247253.html">https://www.freebuf.com/articles/web/247253.html</a></p>
-<p>&#x2F;examples&#x2F;servlets&#x2F;servlet&#x2F;SessionExample 可以生成根目录的session</p>
-<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251202174101279.png" alt="image-20251202174101279"></p>
-<p>这样就可以得到username为darth_sidious 的会话数据 直接访问&#x2F;dark&#x2F;admin 就可以看到flag了</p>
+<p>/examples/servlets/servlet/SessionExample 可以生成根目录的session</p>
+<p><img src="C:\Users\sauy\AppData\Roaming\Typora\typora-user-images\image-20251202174101279.png" alt="image-20251202174101279" loading="lazy" decoding="async"></p>
+<p>这样就可以得到username为darth_sidious 的会话数据 直接访问/dark/admin 就可以看到flag了</p>
 </article>
 <div class="article-footer">
     <section id="license">
-      <div class="header"><span>License</span></div>
+      <div class="header"><span>许可协议</span></div>
       <div class="body"><p>This article is licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Please include attribution when reposting.</p>
 </div>
     </section>
@@ -192,7 +191,7 @@
 
 </div>
 
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/">BackdoorCTF2025之Trust Issues</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/">Redis主从复制RCE</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/">BackdoorCTF2025之Trust Issues</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/">Redis主从复制RCE</a></div></section></div>
 
 
 
@@ -206,26 +205,26 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">On This Page</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HeroCTF-v7-WEB"><span class="toc-text">HeroCTF v7-WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Revoked"><span class="toc-text">Revoked</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Revoked-Revenge"><span class="toc-text">Revoked Revenge</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#solution1"><span class="toc-text">solution1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#solution2"><span class="toc-text">solution2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomwhat"><span class="toc-text">Tomwhat</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>Scroll to Top</span></a></div></widget>
-</div></aside><div class='float-panel'>
-  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HeroCTF-v7-WEB"><span class="toc-text">HeroCTF v7-WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Revoked"><span class="toc-text">Revoked</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Revoked-Revenge"><span class="toc-text">Revoked Revenge</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#solution1"><span class="toc-text">solution1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#solution2"><span class="toc-text">solution2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomwhat"><span class="toc-text">Tomwhat</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"></path><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"></path></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class="float-panel">
+  <button type="button" style="display:none" class="laptop-only rightbar-toggle mobile" onclick="sidebar.rightbar()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>
   </button>
-  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  <button type="button" style="display:none" class="mobile-only leftbar-toggle mobile" onclick="sidebar.leftbar()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"></path><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"></path></g></svg>
   </button>
 </div>
 </div><div class="scripts">
 
 
 <script type="text/javascript">
-  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  window.canonical = {"originalHost":"sauy.top","officialHosts":["localhost","127.0.0.1"],"encoded":"c2F1eS50b3A="};
   const ctx = {
     date_suffix: {
-      just: `Just`,
-      min: `minutes ago`,
-      hour: `hours ago`,
-      day: `days ago`,
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
     },
     root : `/`,
     tag_plugins: {
@@ -298,6 +297,8 @@
     }
   }
 
+  const scriptLoads = new Map();
+
   const utils = {
     // 懒加载 css https://github.com/filamentgroup/loadCSS
     css: (href, before, media, attributes) => {
@@ -358,29 +359,40 @@
       return ss;
     },
 
-    js: (src, opt) => new Promise((resolve, reject) => {
-      var script = document.createElement('script');
+    js: (src, opt) => {
       if (src.startsWith('/')) {
         src = ctx.root + src.substring(1);
       }
-      script.src = src;
-      if (opt) {
-        for (let key of Object.keys(opt)) {
-          script[key] = opt[key]
+      const key = new URL(src, document.baseURI).href;
+      if (scriptLoads.has(key)) return scriptLoads.get(key);
+
+      const promise = new Promise((resolve, reject) => {
+        var script = document.createElement('script');
+        script.src = key;
+        if (opt) {
+          for (let key of Object.keys(opt)) {
+            script[key] = opt[key]
+          }
+        } else {
+          // 默认异步，如果需要同步，第二个参数传入 {} 即可
+          script.async = true
         }
-      } else {
-        // 默认异步，如果需要同步，第二个参数传入 {} 即可
-        script.async = true
-      }
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function () {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    }),
+        script.onerror = () => {
+          scriptLoads.delete(key);
+          script.remove();
+          reject(new Error(`脚本加载失败: ${key}`));
+        };
+        script.onload = script.onreadystatechange = function () {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(script)
+      });
+      scriptLoads.set(key, promise);
+      return promise;
+    },
 
     jq: (fn) => {
       if (typeof jQuery === 'undefined') {
@@ -507,6 +519,7 @@
     push: utils.dark.method.toggle.push,
   });
 </script>
+
 <script>
   const sidebar = {
     leftbar: () => {
@@ -560,7 +573,7 @@
   })()
 </script>
 
-<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script async="" src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
 <script>
   // https://www.npmjs.com/package/vanilla-lazyload
   // Set the options globally
@@ -629,7 +642,7 @@
 </script>
 
 <!-- required -->
-<script src="/js/main.js?v=1.33.1" defer></script>
+<script src="/js/main.js?v=1.33.1" defer=""></script>
 
 <script type="text/javascript">
   const applyTheme = (theme) => {
@@ -680,9 +693,9 @@
     utils.dark.method.toggle.start();
 
     const messages = {
-      light: `Switched to Light Mode`,
-      dark: `Switched to Dark Mode`,
-      auto: `Switched to Auto Mode`,
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
     }
     hud?.toast?.(messages[newTheme])
   }
@@ -704,7 +717,7 @@
 
 
 
-<script defer>
+<script defer="">
   window.addEventListener('DOMContentLoaded', (event) => {
     ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
     for (let id of Object.keys(ctx.services)) {
@@ -840,7 +853,7 @@
     hoverDelay: 25
   };
 </script>
-<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+<script defer="" src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
   ctx.fancybox = {
     selector: `.timenode p>img`,
     css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
@@ -919,4 +932,5 @@
 
 <!-- inject -->
 
-</div></body></html>
+</div>
+</body></html>

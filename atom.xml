@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <author>
+    <name>Sauy</name>
+  </author>
+  <generator uri="https://hexo.io/">Hexo</generator>
+  <id>https://sauy.top/</id>
+  <link href="https://sauy.top/" rel="alternate"/>
+  <link href="https://sauy.top/atom.xml" rel="self"/>
+  <rights>All rights reserved 2026, Sauy</rights>
+  <subtitle>Die With A Smile</subtitle>
+  <title>Sauy's corner</title>
+  <updated>2026-09-18T10:58:14.381Z</updated>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="Web3" scheme="https://sauy.top/categories/Web3/"/>
+    <category term="WEB3" scheme="https://sauy.top/tags/WEB3/"/>
+    <category term="区块链" scheme="https://sauy.top/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
+    <id>https://sauy.top/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/</id>
+    <link href="https://sauy.top/2026/09/18/BTC%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90/"/>
+    <published>2026-09-18T09:26:58.000Z</published>
+    <summary>从全节点与轻节点出发，梳理比特币的交易验证、Merkle Proof、UTXO 和区块确认流程，理解比特币系统如何运转。</summary>
+    <title>BTC系统基础</title>
+    <updated>2026-09-18T10:58:14.381Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="Web3" scheme="https://sauy.top/categories/Web3/"/>
+    <category term="WEB3" scheme="https://sauy.top/tags/WEB3/"/>
+    <category term="区块链" scheme="https://sauy.top/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
+    <id>https://sauy.top/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/</id>
+    <link href="https://sauy.top/2026/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80/"/>
+    <published>2026-09-15T09:26:58.000Z</published>
+    <summary>整理区块链的定义、类型、分层架构、交易流程与钱包基础，区分私有链、公有链、联盟链以及冷钱包和热钱包。</summary>
+    <title>区块链基础知识</title>
+    <updated>2026-09-18T08:28:40.464Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="渗透笔记" scheme="https://sauy.top/categories/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/"/>
+    <category term="渗透学习" scheme="https://sauy.top/tags/%E6%B8%97%E9%80%8F%E5%AD%A6%E4%B9%A0/"/>
+    <category term="fscan" scheme="https://sauy.top/tags/fscan/"/>
+    <category term="nmap" scheme="https://sauy.top/tags/nmap/"/>
+    <category term="cve" scheme="https://sauy.top/tags/cve/"/>
+    <id>https://sauy.top/2026/09/15/HTB-Practice/</id>
+    <link href="https://sauy.top/2026/09/15/HTB-Practice/"/>
+    <published>2026-09-15T09:20:58.000Z</published>
+    <summary>持续记录 Hack The Box 等靶机的练习过程，覆盖端口与服务枚举、Web 入口分析、凭据发现、权限提升和域环境学习。</summary>
+    <title>渗透靶机-wp-长期更新</title>
+    <updated>2026-09-18T08:28:08.359Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="开发笔记" scheme="https://sauy.top/categories/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
+    <category term="java" scheme="https://sauy.top/tags/java/"/>
+    <category term="CC" scheme="https://sauy.top/tags/CC/"/>
+    <id>https://sauy.top/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
+    <link href="https://sauy.top/2026/04/28/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <published>2026-04-28T15:30:58.000Z</published>
+    <summary>从 Class 对象、Field、Method 和构造方法入手梳理 Java 反射机制，并记录与 Commons Collections 链相关的学习笔记。</summary>
+    <title>反射机制解析</title>
+    <updated>2026-09-18T08:20:00.965Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="渗透笔记" scheme="https://sauy.top/categories/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/"/>
+    <category term="域渗透" scheme="https://sauy.top/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/"/>
+    <id>https://sauy.top/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/</id>
+    <link href="https://sauy.top/2026/04/06/Kerberos%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/"/>
+    <published>2026-04-06T13:10:58.000Z</published>
+    <summary>梳理 Kerberos 中 AS、TGS 与服务端的认证流程，结合域环境学习 Kerberoasting、Targeted Kerberoasting 和 AS-REP Roasting。</summary>
+    <title>Kerberos协议及其攻击手法</title>
+    <updated>2026-05-13T04:12:20.450Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="漏洞研究" scheme="https://sauy.top/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    <category term="CTF-wp" scheme="https://sauy.top/tags/CTF-wp/"/>
+    <id>https://sauy.top/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/</id>
+    <link href="https://sauy.top/2026/04/01/order%20by%E6%B3%A8%E5%85%A5/"/>
+    <published>2026-04-01T13:10:58.000Z</published>
+    <summary>分析 ORDER BY 参数可控时的 SQL 注入问题，整理基于 IF、时间、RAND 和报错的不同判断方式及实验示例。</summary>
+    <title>ORDER by 注入</title>
+    <updated>2026-04-02T12:12:16.456Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="CTF" scheme="https://sauy.top/categories/CTF/"/>
+    <category term="CTF-wp" scheme="https://sauy.top/tags/CTF-wp/"/>
+    <id>https://sauy.top/2026/02/06/UniCTF2026/</id>
+    <link href="https://sauy.top/2026/02/06/UniCTF2026/"/>
+    <published>2026-02-06T13:50:58.000Z</published>
+    <summary>整理 UniCTF 2026 Web 题解，记录上传限制、SSRF、WAF、文档处理及 Joomla 等题目的源码分析与赛后复现过程。</summary>
+    <title>UniCTF-WEB WP</title>
+    <updated>2026-02-07T13:36:49.521Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="漏洞研究" scheme="https://sauy.top/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    <category term="代码审计" scheme="https://sauy.top/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <id>https://sauy.top/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</id>
+    <link href="https://sauy.top/2026/02/04/next.js%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <published>2026-02-04T13:10:58.000Z</published>
+    <summary>记录 CVE-2025-55182 的学习与复现过程，整理 React Server Components 和 Next.js 相关背景、影响版本与实验环境配置。</summary>
+    <title>施工ing-next.js之CVE-2025-55182代码审计</title>
+    <updated>2026-02-07T13:39:08.200Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="CTF" scheme="https://sauy.top/categories/CTF/"/>
+    <category term="CTF-wp" scheme="https://sauy.top/tags/CTF-wp/"/>
+    <id>https://sauy.top/2025/12/18/SECCON%20CTF%2014%20Quals-%E5%A4%8D%E7%8E%B0/</id>
+    <link href="https://sauy.top/2025/12/18/SECCON%20CTF%2014%20Quals-%E5%A4%8D%E7%8E%B0/"/>
+    <published>2025-12-18T09:20:58.000Z</published>
+    <summary>复现 SECCON CTF 14 Quals 的 broken-challenge，学习 Signed Exchange（SXG）机制及题目中的浏览器信任与 Cookie 问题。</summary>
+    <title>SECCON CTF 14 Quals-broken-challenge</title>
+    <updated>2026-02-12T09:24:13.401Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="CTF" scheme="https://sauy.top/categories/CTF/"/>
+    <category term="CTF-wp" scheme="https://sauy.top/tags/CTF-wp/"/>
+    <id>https://sauy.top/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/</id>
+    <link href="https://sauy.top/2025/12/08/xpath-%E6%B3%A8%E5%85%A5/"/>
+    <published>2025-12-08T14:50:58.000Z</published>
+    <summary>通过 BackdoorCTF 2025 的 Trust Issues 题目学习 XPath 注入，记录登录逻辑、管理员权限与查询语句的源码分析过程。</summary>
+    <title>BackdoorCTF2025之Trust Issues</title>
+    <updated>2025-12-10T08:15:07.298Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="CTF" scheme="https://sauy.top/categories/CTF/"/>
+    <category term="CTF-wp" scheme="https://sauy.top/tags/CTF-wp/"/>
+    <id>https://sauy.top/2025/12/04/HeroCTF%20v7-WEB/</id>
+    <link href="https://sauy.top/2025/12/04/HeroCTF%20v7-WEB/"/>
+    <published>2025-12-04T04:20:58.000Z</published>
+    <summary>整理 HeroCTF v7 的 Web 复现笔记，记录 Revoked、Revoked Revenge 与 Tomwhat 的源码分析、问题定位和解题过程。</summary>
+    <title>HeroCTF v7-web</title>
+    <updated>2025-12-04T06:00:32.906Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="漏洞研究" scheme="https://sauy.top/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    <category term="CTF学习" scheme="https://sauy.top/tags/CTF%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://sauy.top/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/</id>
+    <link href="https://sauy.top/2025/11/14/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE/"/>
+    <published>2025-11-14T06:00:58.000Z</published>
+    <summary>从 Redis 主从复制机制入手，梳理相关命令执行问题的成因、利用条件和靶场复现过程，理解配置与暴露面的关系。</summary>
+    <title>Redis主从复制RCE</title>
+    <updated>2026-04-03T03:45:40.879Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="CTF" scheme="https://sauy.top/categories/CTF/"/>
+    <category term="CTF-wp" scheme="https://sauy.top/tags/CTF-wp/"/>
+    <id>https://sauy.top/2025/11/11/%5B2025%5DN1CTF%20WP/</id>
+    <link href="https://sauy.top/2025/11/11/%5B2025%5DN1CTF%20WP/"/>
+    <published>2025-11-11T12:00:58.000Z</published>
+    <summary>分析 N1CTF 2025 的 eezzjs，梳理 JWT 身份校验、路径处理与 EJS 文件渲染之间的关系，记录完整解题思路。</summary>
+    <title>N1CTF2025-eezzjs</title>
+    <updated>2025-11-11T12:32:02.127Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="漏洞研究" scheme="https://sauy.top/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    <category term="CTF学习" scheme="https://sauy.top/tags/CTF%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://sauy.top/2025/11/06/python%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/</id>
+    <link href="https://sauy.top/2025/11/06/python%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"/>
+    <published>2025-11-06T14:30:30.000Z</published>
+    <summary>梳理 Python 类属性污染的机制，分析对象、类、全局变量与函数默认参数之间的访问关系，并整理常见题型的学习笔记。</summary>
+    <title>浅谈python原型链污染</title>
+    <updated>2025-11-07T10:21:18.758Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="CTF" scheme="https://sauy.top/categories/CTF/"/>
+    <category term="CTF-wp" scheme="https://sauy.top/tags/CTF-wp/"/>
+    <id>https://sauy.top/2025/09/22/WMCTF2025/</id>
+    <link href="https://sauy.top/2025/09/22/WMCTF2025/"/>
+    <published>2025-09-21T16:00:00.000Z</published>
+    <summary>记录 WMCTF 2025 的 pdf2text 与 guess 题目分析，学习 PDF 处理依赖中的反序列化问题及 MT19937 状态恢复。</summary>
+    <title>WMCTF2025-WEB WP</title>
+    <updated>2025-09-22T13:24:45.673Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="漏洞研究" scheme="https://sauy.top/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    <category term="Study-Note" scheme="https://sauy.top/tags/Study-Note/"/>
+    <id>https://sauy.top/2025/09/01/bypass-disablefunction/</id>
+    <link href="https://sauy.top/2025/09/01/bypass-disablefunction/"/>
+    <published>2025-09-01T08:10:58.000Z</published>
+    <summary>结合本地靶场整理 PHP disable_functions 的常见绕过原理，记录环境变量、FFI、扩展组件及相关漏洞的实验笔记。</summary>
+    <title>Bypass disablefunction</title>
+    <updated>2025-09-02T11:21:38.817Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="漏洞研究" scheme="https://sauy.top/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    <category term="CTF学习" scheme="https://sauy.top/tags/CTF%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://sauy.top/2025/08/29/SSRF/</id>
+    <link href="https://sauy.top/2025/08/29/SSRF/"/>
+    <published>2025-08-29T08:30:30.000Z</published>
+    <summary>梳理 SSRF 的基本原理、常见服务端请求函数与协议支持，结合示例分析地址校验、重定向及过滤规则带来的边界问题。</summary>
+    <title>SSRF</title>
+    <updated>2026-05-05T11:13:29.917Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="CTF" scheme="https://sauy.top/categories/CTF/"/>
+    <category term="CTF-wp" scheme="https://sauy.top/tags/CTF-wp/"/>
+    <id>https://sauy.top/2025/08/24/NSS4th/</id>
+    <link href="https://sauy.top/2025/08/24/NSS4th/"/>
+    <published>2025-08-24T11:10:58.000Z</published>
+    <summary>记录 NSSCTF 四周年赛的 Web 题解，围绕 MongoDB 注入、文件上传、CRC 校验与文件系统题目整理关键分析过程。</summary>
+    <title>NSS4th-wp</title>
+    <updated>2025-08-29T08:24:32.486Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="CTF" scheme="https://sauy.top/categories/CTF/"/>
+    <category term="CTF-wp" scheme="https://sauy.top/tags/CTF-wp/"/>
+    <id>https://sauy.top/2025/08/19/LilCTF2025/</id>
+    <link href="https://sauy.top/2025/08/19/LilCTF2025/"/>
+    <published>2025-08-19T13:10:58.000Z</published>
+    <summary>整理 LILCTF 2025 Web 题解，记录 Flask 会话、Bottle、反序列化与 PHP Jail 等题目的源码审计和解题思路。</summary>
+    <title>LILCTF 2025</title>
+    <updated>2025-08-22T04:10:31.048Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Sauy</name>
+    </author>
+    <category term="漏洞研究" scheme="https://sauy.top/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    <category term="CTF学习" scheme="https://sauy.top/tags/CTF%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://sauy.top/2025/08/04/SSRF%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/</id>
+    <link href="https://sauy.top/2025/08/04/SSRF%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/"/>
+    <published>2025-08-04T14:50:58.000Z</published>
+    <summary>比较 PHP 中 cURL、file_get_contents 等 URL 获取方式，结合代码分析 filter_var 校验、URL 解析与 SSRF 过滤之间的差异。</summary>
+    <title>SSRF技巧总结</title>
+    <updated>2025-08-21T11:05:56.075Z</updated>
+  </entry>
+</feed>
