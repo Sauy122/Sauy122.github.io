@@ -405,20 +405,6 @@
   </url>
   
   <url>
-    <loc>https://sauy.top/tags/WEB3/</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://sauy.top/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://sauy.top/tags/AWD/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -433,13 +419,6 @@
   </url>
   
   <url>
-    <loc>https://sauy.top/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://sauy.top/tags/java/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -448,6 +427,27 @@
   
   <url>
     <loc>https://sauy.top/tags/CC/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://sauy.top/tags/WEB3/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://sauy.top/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://sauy.top/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -505,13 +505,6 @@
   </url>
   
   <url>
-    <loc>https://sauy.top/categories/Web3/</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://sauy.top/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -519,14 +512,21 @@
   </url>
   
   <url>
-    <loc>https://sauy.top/categories/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://sauy.top/categories/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://sauy.top/categories/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://sauy.top/categories/Web3/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://sauy.top/categories/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
