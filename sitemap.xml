@@ -407,14 +407,14 @@
 
   
   <url>
-    <loc>https://sauy.top/tags/CTF-wp/</loc>
+    <loc>https://sauy.top/tags/AWD/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://sauy.top/tags/AWD/</loc>
+    <loc>https://sauy.top/tags/CTF-wp/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -470,13 +470,6 @@
   </url>
   
   <url>
-    <loc>https://sauy.top/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/</loc>
-    <lastmod>2026-11-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://sauy.top/tags/java/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
@@ -485,6 +478,13 @@
   
   <url>
     <loc>https://sauy.top/tags/CC/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://sauy.top/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
