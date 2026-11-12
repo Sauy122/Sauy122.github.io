@@ -5,7 +5,7 @@
   
   <meta name="generator" content="Hexo 7.3.0">
   <meta http-equiv="x-dns-prefetch-control" content="on">
-  
+  <link rel="preconnect" href="https://giscus.app" crossorigin="">
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -181,7 +181,7 @@
 
 <svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
 
-<div id="giscus" src="https://giscus.app/client.js" data-repo="Sauy122/Sauy122.github.io" data-repo-id="R_kgDOOU0_tg" data-category="Announcements" data-category-id="DIC_kwDOOU0_ts4DK-zf" data-mapping="pathname" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" crossorigin="anonymous"></div>
+<div id="giscus" src="https://giscus.app/client.js" data-repo="Sauy122/Sauy122.github.io" data-repo-id="R_kgDOOU0_tg" data-category="Announcements" data-category-id="DIC_kwDOOU0_ts4DK-zf" data-mapping="pathname" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="eager" crossorigin="anonymous"></div>
 
     </section>
   </div>
@@ -707,7 +707,7 @@
 
   <script type="module">
   const el = document.querySelector('#comments #giscus');
-  util.viewportLazyload(el, load_discus, true);
+  util.viewportLazyload(el, load_discus, false);
 
   function load_discus() {
     if (!el) return;
