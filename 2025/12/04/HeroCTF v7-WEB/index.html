@@ -168,7 +168,7 @@
 <p>改为</p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNfYWRtaW4iOjEsImlzc3VlZCI6MTc2NDY2NjY4NS4zMjk5MTgxfQ.T_VUBWxtF0krNyTFYX7mgteeTfGcgqh-jVuhs8VMunY=</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/image-20251202172432287.png" alt="image-20251202172432287" loading="lazy" decoding="async" width="1474" height="849"></p>
+<p><a class="article-image" href="/images/image-20251202172432287.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20251202172432287.png" alt="image-20251202172432287" loading="lazy" decoding="async" width="1474" height="849"></a></p>
 <h2 id="Tomwhat"><a href="#Tomwhat" class="headerlink" title="Tomwhat"></a>Tomwhat</h2><p>进去就是tomwaht的面板 虽然我们不知道帐号密码</p>
 <p>run.sh里面也写了</p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">files="$(grep -Rl 'RemoteCIDRValve' $CATALINA_HOME/conf $CATALINA_HOME/webapps || true)" &amp;&amp; \</span><br><span class="line">    for f in $files; do \</span><br><span class="line">      sed -i 's/allow="127.0.0.0\/8,::1\/128"/allow="0.0.0.0\/0,::\/0"/' "$f"; \</span><br><span class="line">    done</span><br></pre></td></tr></tbody></table></figure>

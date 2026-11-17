@@ -9270,6 +9270,7 @@ body>.sitebg .siteblur:hover {
   height: auto;
 }
 .md-text.content p>img,
+.md-text.content p>a.article-image>img,
 .md-text.content .tag-plugin.image .image-bg {
   border-radius: 16px;
 }

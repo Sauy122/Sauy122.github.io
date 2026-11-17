@@ -93,7 +93,7 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="CBC加密和解密过程"><a href="#CBC加密和解密过程" class="headerlink" title="CBC加密和解密过程"></a>CBC加密和解密过程</h2><p><img src="/images/f215609f354300598724de6ef2aeb364.png" alt="f215609f354300598724de6ef2aeb364" loading="lazy" decoding="async" width="1106" height="937"></p>
+  </div><article class="md-text content"><h2 id="CBC加密和解密过程"><a href="#CBC加密和解密过程" class="headerlink" title="CBC加密和解密过程"></a>CBC加密和解密过程</h2><p><a class="article-image" href="/images/f215609f354300598724de6ef2aeb364.png" data-fancybox="article" aria-label="查看原图"><img src="/images/f215609f354300598724de6ef2aeb364.png" alt="f215609f354300598724de6ef2aeb364" loading="lazy" decoding="async" width="1106" height="937"></a></p>
 <h3 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h3><p><strong>CBC加密流程：</strong></p>
 <ol>
 <li><p><strong>准备</strong></p>
@@ -122,9 +122,9 @@
 <h3 id="解密过程"><a href="#解密过程" class="headerlink" title="解密过程"></a>解密过程</h3><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">解密过程刚好相反，第一组密文在解密之后与初始向量IV异或得到第一组明文。第二组密文解密之后和第一组密文异或得到第二组明文。也就是说，解密一组明文需要本组和前一组的密文。</span><br></pre></td></tr></tbody></table></figure>
 
 <h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>加密算法的输入是上一个密文分组和下一个明文分组的异或</p>
-<h3 id="EXB模式和CBC模式"><a href="#EXB模式和CBC模式" class="headerlink" title="EXB模式和CBC模式"></a>EXB模式和CBC模式</h3><p><img src="/images/image-20250426204537824.png" alt="image-20250426204537824" loading="lazy" decoding="async" width="1290" height="867"></p>
+<h3 id="EXB模式和CBC模式"><a href="#EXB模式和CBC模式" class="headerlink" title="EXB模式和CBC模式"></a>EXB模式和CBC模式</h3><p><a class="article-image" href="/images/image-20250426204537824.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20250426204537824.png" alt="image-20250426204537824" loading="lazy" decoding="async" width="1290" height="867"></a></p>
 <h3 id="CBC字节翻转攻击"><a href="#CBC字节翻转攻击" class="headerlink" title="CBC字节翻转攻击"></a>CBC字节翻转攻击</h3><p>CBC字节翻转攻击的核心原理是通过破坏一个比特的密文来篡改一个比特的明文。</p>
-<p><img src="/images/erwerwerwerwe.png" alt="erwerwerwerwe" loading="lazy" decoding="async" width="1106" height="504"><br>$$<br>由题目得 A⊕B=C<br>$$<br>如果我们想要改变输出的明文C 那我们只需要改变秘钥A</p>
+<p><a class="article-image" href="/images/erwerwerwerwe.png" data-fancybox="article" aria-label="查看原图"><img src="/images/erwerwerwerwe.png" alt="erwerwerwerwe" loading="lazy" decoding="async" width="1106" height="504"></a><br>$$<br>由题目得 A⊕B=C<br>$$<br>如果我们想要改变输出的明文C 那我们只需要改变秘钥A</p>
 <p>令改变后的A为A’ C为C’，于是：</p>
 <figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C'=C⊕C⊕C'</span><br><span class="line">  =A⊕B⊕C⊕C'</span><br><span class="line">  =B⊕A⊕C⊕C'</span><br><span class="line">令A'=A⊕C⊕C'</span><br><span class="line">--&gt;C'=B⊕A'--&gt;A'⊕B=C' 翻转成功啦！</span><br></pre></td></tr></tbody></table></figure>
 

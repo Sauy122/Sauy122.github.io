@@ -98,7 +98,7 @@
 <blockquote>
 <p>Python 对象通过 <code>__class__</code> 指向类，类通过 <code>__bases__</code> 指向父类；属性查找会根据 MRO（方法解析顺序）沿类继承链向上查找。</p>
 </blockquote>
-<p><img src="/images/da429a72-fb9c-4f98-97c1-69d539f11490.png" alt="da429a72-fb9c-4f98-97c1-69d539f11490" loading="lazy" decoding="async" width="1536" height="1024"></p>
+<p><a class="article-image" href="/images/da429a72-fb9c-4f98-97c1-69d539f11490.png" data-fancybox="article" aria-label="查看原图"><img src="/images/da429a72-fb9c-4f98-97c1-69d539f11490.png" alt="da429a72-fb9c-4f98-97c1-69d539f11490" loading="lazy" decoding="async" width="1536" height="1024"></a></p>
 <p>Nodejs是对键值对的控制来进行污染，而Python则是对类属性值的污染，且只能对类的属性来进行污染不能够污染类的方法。</p>
 <p>和js原型链污染一样，需要一个merge操作或者说需要一个函数进行合并这样我们才能进行原型链污染，所以当我们看到merge相关操作我们就可以联想原型链污染。</p>
 <h3 id="污染过程"><a href="#污染过程" class="headerlink" title="污染过程"></a>污染过程</h3><p>常见merge函数长这个样子</p>
@@ -112,16 +112,16 @@
 
 <p>跟着别人博客调试大概就懂这个过程了</p>
 <p>刚进入for循环 dst值还是son_b() src是<code>{"__class__" : {"__base__" : {"secret" : "world"}}}</code></p>
-<p><img src="/images/image-20251103202453882.png" alt="image-20251103202453882" loading="lazy" decoding="async" width="1217" height="1059"></p>
+<p><a class="article-image" href="/images/image-20251103202453882.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20251103202453882.png" alt="image-20251103202453882" loading="lazy" decoding="async" width="1217" height="1059"></a></p>
 <p>经过了merge(v, getattr(dst, k))后 dst变为了<code>son_b.__class__</code></p>
-<p><img src="/images/image-20251103202519251.png" alt="image-20251103202519251" loading="lazy" decoding="async" width="1010" height="1205"></p>
+<p><a class="article-image" href="/images/image-20251103202519251.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20251103202519251.png" alt="image-20251103202519251" loading="lazy" decoding="async" width="1010" height="1205"></a></p>
 <p>在经过一次merge(v, getattr(dst, k)) dst变为了father类也就是<code>son_b.__class__.__base__</code></p>
-<p><img src="/images/image-20251103202603294.png" alt="image-20251103202603294" loading="lazy" decoding="async" width="1022" height="1092"></p>
+<p><a class="article-image" href="/images/image-20251103202603294.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20251103202603294.png" alt="image-20251103202603294" loading="lazy" decoding="async" width="1022" height="1092"></a></p>
 <p>然后因为v不是字典而是world 于是进入了这个else分支</p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setattr</span>(dst, k, v)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>此时 dst为<code>son_b.__class__.__base__</code>也就是father类 k为secret v 为world</p>
-<p><img src="/images/QQ_1762172550271.png" alt="QQ_1762172550271" loading="lazy" decoding="async" width="1377" height="1307"></p>
+<p><a class="article-image" href="/images/QQ_1762172550271.png" data-fancybox="article" aria-label="查看原图"><img src="/images/QQ_1762172550271.png" alt="QQ_1762172550271" loading="lazy" decoding="async" width="1377" height="1307"></a></p>
 <p>那么就成功污染father类的secret属性，将其从hello污染成了world 自然son_b()作为father的子类同样收到影响。这就是污染的具体流程，自己跟着调试一遍会很清晰。我自己理解就是污染<code>instance.__class__.__base</code>__也就是代码里的father类的secret属性，把它的值变为world。</p>
 <h3 id="！注意"><a href="#！注意" class="headerlink" title="！注意"></a>！注意</h3><p>上述我们污染的是secret属性，并不是什么都能被污染，object类就不行。</p>
 <p>而且我们污染的是father类secret属性并不是son_b()的，father是son_b()的父类，father类受到影响，sob_b()随之也会受到影响。</p>
@@ -135,18 +135,18 @@
 
 <p>仿照上面的调试你也可以详细看到这个污染的过程。</p>
 <p>最开始dst是A()</p>
-<p><img src="/images/QQ_1762223158749.png" alt="QQ_1762223158749" loading="lazy" decoding="async" width="2560" height="1392"></p>
+<p><a class="article-image" href="/images/QQ_1762223158749.png" data-fancybox="article" aria-label="查看原图"><img src="/images/QQ_1762223158749.png" alt="QQ_1762223158749" loading="lazy" decoding="async" width="2560" height="1392"></a></p>
 <p>经过merge后变成了 <code>A.__init</code></p>
-<p><img src="/images/image-20251104102812992.png" alt="image-20251104102812992" loading="lazy" decoding="async" width="1402" height="1093"></p>
+<p><a class="article-image" href="/images/image-20251104102812992.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20251104102812992.png" alt="image-20251104102812992" loading="lazy" decoding="async" width="1402" height="1093"></a></p>
 <p>然后再经过一次merge变成了 <code>A.__class__.init.__globals__</code>看到了全局变量</p>
-<p><img src="/images/image-20251104104445497.png" alt="image-20251104104445497" loading="lazy" decoding="async" width="2425" height="1103"></p>
+<p><a class="article-image" href="/images/image-20251104104445497.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20251104104445497.png" alt="image-20251104104445497" loading="lazy" decoding="async" width="2425" height="1103"></a></p>
 <p>然后因为dst当前是字典，因为不满足<code>if dst.get(k) and type(v) == dict:</code>进入else分支 将dst即全局变量里的a赋值为了4 v变成字典<code>{'classa':5}</code></p>
-<p><img src="/images/image-20251104124554162.png" alt="image-20251104124554162" loading="lazy" decoding="async" width="2204" height="1190"></p>
+<p><a class="article-image" href="/images/image-20251104124554162.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20251104124554162.png" alt="image-20251104124554162" loading="lazy" decoding="async" width="2204" height="1190"></a></p>
 <p>接下来因为满足if分支 代码运行到merge(v, dst.get(k))</p>
-<p>此时<img src="/images/image-20251106214813320.png" alt="image-20251106214813320" loading="lazy" decoding="async" width="1970" height="1171"></p>
+<p>此时<a class="article-image" href="/images/image-20251106214813320.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20251106214813320.png" alt="image-20251106214813320" loading="lazy" decoding="async" width="1970" height="1171"></a></p>
 <p>merge(v, dst.get(k)) 然后src=v，dst=B()</p>
 <p>经过判断直接进入了setattr(dst, k, v)</p>
-<p><img src="/images/image-20251106215105005.png" alt="image-20251106215105005" loading="lazy" decoding="async" width="862" height="1162"></p>
+<p><a class="article-image" href="/images/image-20251106215105005.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20251106215105005.png" alt="image-20251106215105005" loading="lazy" decoding="async" width="862" height="1162"></a></p>
 <p>于是就把B里的classa的属性成功污染成了5</p>
 <h4 id="获取其他模块"><a href="#获取其他模块" class="headerlink" title="获取其他模块:"></a>获取其他模块:</h4><p>在全局变量的前提下，是我们都在入口文件中的类对象或者属性来进行操作的，但是如果我们操作的位置在入口文件中，而目标对象并不在入口文件当中，这时候我们就需要对其他加载过的模块来获取了</p>
 <h5 id="import："><a href="#import：" class="headerlink" title="import："></a>import：</h5><p>在简单的关系情况下，我们可以直接通过import来进行加载，在payload中我们只需要对对应的模块重新定位就可以：</p>

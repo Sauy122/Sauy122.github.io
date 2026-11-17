@@ -107,7 +107,7 @@
 <li>身份验证服务AS：验证Client的身份，验证通过之后，AS就会发放TGT票据给Client。</li>
 <li>票据授予服务TGS：当Client获取的TGT票据后，TGS会给Clinet换取访问Server端的ST服务票据。</li>
 </ul>
-<p><img src="https://img2024.cnblogs.com/blog/3222269/202405/3222269-20240511223106237-1053628627.png" loading="lazy" decoding="async"></p>
+<p><a class="article-image" href="https://img2024.cnblogs.com/blog/3222269/202405/3222269-20240511223106237-1053628627.png" data-fancybox="article" aria-label="查看原图"><img src="https://img2024.cnblogs.com/blog/3222269/202405/3222269-20240511223106237-1053628627.png" loading="lazy" decoding="async"></a></p>
 <h2 id="Client和AS-Authentication-Service-交互"><a href="#Client和AS-Authentication-Service-交互" class="headerlink" title="Client和AS(Authentication Service)交互"></a>Client和AS(Authentication Service)交互</h2><p><strong>step1:</strong> client向KDC的AS认证服务请求TGT票据</p>
 <p>**step2:**客户端通过AS认证后，KDC会给client发放TGT票据</p>
 <h2 id="Client-与-TGS-的交互"><a href="#Client-与-TGS-的交互" class="headerlink" title="Client 与 TGS 的交互"></a>Client 与 TGS 的交互</h2><p>**step3:**client带上TGT票据，向TGS服务请求ST服务票据</p>
@@ -115,18 +115,18 @@
 <h2 id="Client-与-Server-的交互"><a href="#Client-与-Server-的交互" class="headerlink" title="Client 与 Server 的交互"></a>Client 与 Server 的交互</h2><p>**step5:**client使用ST服务票据向appliacation server请求服务</p>
 <p>**step6:**PAC校验，服务端拿到PAC询问KDC客户端是否有权限，KDC将客户端的权限信息返回给服务端，判断客户端是否有权限访问该服务，并把结果返回给客户端</p>
 <p>流程图：</p>
-<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe55513881.webp" alt="image-20260318222855551" loading="lazy" decoding="async"> </p>
+<p><a class="article-image" href="https://picui.ogmua.cn/s1/2026/03/19/69bbe55513881.webp" data-fancybox="article" aria-label="查看原图"><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe55513881.webp" alt="image-20260318222855551" loading="lazy" decoding="async"></a> </p>
 <p>关键名词</p>
-<p><img src="https://image.3001.net/images/20230707/1688740789_64a823b58c501523cd85f.png" alt="img" loading="lazy" decoding="async"></p>
+<p><a class="article-image" href="https://image.3001.net/images/20230707/1688740789_64a823b58c501523cd85f.png" data-fancybox="article" aria-label="查看原图"><img src="https://image.3001.net/images/20230707/1688740789_64a823b58c501523cd85f.png" alt="img" loading="lazy" decoding="async"></a></p>
 <h2 id="kerberoasting攻击"><a href="#kerberoasting攻击" class="headerlink" title="kerberoasting攻击"></a>kerberoasting攻击</h2><h3 id="SPN（service-principal-name）服务主体名称"><a href="#SPN（service-principal-name）服务主体名称" class="headerlink" title="SPN（service principal name）服务主体名称"></a>SPN（service principal name）服务主体名称</h3><p>Windows域环境中用于标识服务或应用程序的唯一标识符，kerberos认证使用SPN来关联服务和运行的应用程序</p>
 <p>格式</p>
-<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe553b3e90.webp" alt="image-20260318211348104" loading="lazy" decoding="async"></p>
+<p><a class="article-image" href="https://picui.ogmua.cn/s1/2026/03/19/69bbe553b3e90.webp" data-fancybox="article" aria-label="查看原图"><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe553b3e90.webp" alt="image-20260318211348104" loading="lazy" decoding="async"></a></p>
 <h3 id="kerberoasting攻击-1"><a href="#kerberoasting攻击-1" class="headerlink" title="kerberoasting攻击"></a>kerberoasting攻击</h3><p><code>Kerberoasting的前提：服务SPN必须注册在域用户账户下，因为机器账户的密码是随机生成的，基本爆破不了</code></p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">服务票据会使用服务账户的哈希进行加密，这样一来，Windows域中任何经过身份验证的用户都可以从 TGS 处请求 ST 服务票据。由于服务票证是用链接到请求 SPN 的帐户的哈希加密的，所以攻击者可以离线破解这个加密块，恢复帐户的明文密码</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="https://picui.ogmua.cn/s1/2026/03/20/69bcdc3bb174f.webp" alt="image-20260320133447236.png" loading="lazy" decoding="async"></p>
+<p><a class="article-image" href="https://picui.ogmua.cn/s1/2026/03/20/69bcdc3bb174f.webp" data-fancybox="article" aria-label="查看原图"><img src="https://picui.ogmua.cn/s1/2026/03/20/69bcdc3bb174f.webp" alt="image-20260320133447236.png" loading="lazy" decoding="async"></a></p>
 <p>客户端请求一个服务票据并离线破解服务账户的密码hash</p>
-<p><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe554d39a2.webp" alt="image-20260318215315260" loading="lazy" decoding="async"></p>
+<p><a class="article-image" href="https://picui.ogmua.cn/s1/2026/03/19/69bbe554d39a2.webp" data-fancybox="article" aria-label="查看原图"><img src="https://picui.ogmua.cn/s1/2026/03/19/69bbe554d39a2.webp" alt="image-20260318215315260" loading="lazy" decoding="async"></a></p>
 <h4 id="攻击步骤"><a href="#攻击步骤" class="headerlink" title="攻击步骤"></a>攻击步骤</h4><h3 id="枚举SPN"><a href="#枚举SPN" class="headerlink" title="枚举SPN"></a><strong>枚举SPN</strong></h3><p>SetSPN</p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn -Q */*    # 查看当前域内所有的 SPNsetspn -T whoamianony.org -Q */*    # 查看指定域 whoamianony.org 注册的SPN, 如果指定域不存在, 则默认切换到查找本域的 SPNsetspn -L &lt;username&gt;/&lt;hostname&gt;    # 查找指定用户/主机名注册的 SPN</span><br></pre></td></tr></tbody></table></figure>
 
@@ -233,7 +233,7 @@
 </tbody></table>
 <p><strong>默认首选：Targeted Kerberoasting</strong>。因为它在攻击链中更隐蔽，且对域环境的侵入性相对较小。</p>
 <p><strong>备选方案：Targeted AS-REP Roasting</strong>。仅当你发现无法为该用户设置 SPN（例如 SPN 冲突）或者由于某些 EDR 规则对 TGS 请求监控极严，而对 AS-REQ 监控较松时使用。</p>
-<p><img src="https://picui.ogmua.cn/s1/2026/03/25/69c39b6b90708.webp" alt="03109a2bb3ab737c5a49e631bdace0ba.png" loading="lazy" decoding="async"></p>
+<p><a class="article-image" href="https://picui.ogmua.cn/s1/2026/03/25/69c39b6b90708.webp" data-fancybox="article" aria-label="查看原图"><img src="https://picui.ogmua.cn/s1/2026/03/25/69c39b6b90708.webp" alt="03109a2bb3ab737c5a49e631bdace0ba.png" loading="lazy" decoding="async"></a></p>
 <h2 id="Kerberos-Delegation"><a href="#Kerberos-Delegation" class="headerlink" title="Kerberos Delegation"></a>Kerberos Delegation</h2><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">委派（Delegation） 是一种允许服务代表用户去访问其他资源的功能。攻击者一旦滥用这些机制，往往可以实现权限提升或横向移动</span><br></pre></td></tr></tbody></table></figure>
 
 <p>委派相关的攻击全都存在Kerberos协议认证的step 4</p>

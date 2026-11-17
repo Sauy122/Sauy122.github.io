@@ -96,7 +96,7 @@
   </div>
   </div><article class="md-text content"><h1 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a>反射机制</h1><h3 id="概念"><a href="#概念" class="headerlink" title="概念:"></a>概念:</h3><p>反射是Java的特征之一，是一种间接操作目标对象的机制，核心是JVM在运行状态的时候才<strong>动态加载类</strong>，对于任意一个类都能够知道这个类所有的属性和方法，并且对于任意一个对象，都能够调用它的方法/访问属性。这种<strong>动态获取信息以及动态调用对象方法</strong>的功能成为Java语言的反射机制。通过使用反射我们不仅可以获取到任何类的成员方法(Methods)、成员变量(Fields)、构造方法(Constructors)等信息，还可以动态创建Java类实例、调用任意的类方法、修改任意的类成员变量值等。</p>
 <h3 id="解释"><a href="#解释" class="headerlink" title="解释:"></a>解释:</h3><p>下图是java运行的一个流程图：</p>
-<p><img src="/images/20210122163639-f253b862-5c8c-1.png" alt="图片预览" loading="lazy" decoding="async" width="2094" height="1167"></p>
+<p><a class="article-image" href="/images/20210122163639-f253b862-5c8c-1.png" data-fancybox="article" aria-label="查看原图"><img src="/images/20210122163639-f253b862-5c8c-1.png" alt="图片预览" loading="lazy" decoding="async" width="2094" height="1167"></a></p>
 <p>类文件会被javac编译成class文件 不过值得注意的是class文件还会自动生成一个Class对象 里面有各种变量和方法</p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fields[]：存了你定义的各种变量。</span><br><span class="line">methods[]：存了你写的各种方法。</span><br><span class="line">constructors[]：存了构造函数。</span><br></pre></td></tr></tbody></table></figure>
 
